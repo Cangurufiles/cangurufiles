@@ -1,0 +1,23 @@
+[
+    {
+        "data": "2026-04-22",
+        "brent": 105.4,
+        "cambio": 1.172,
+        "mimitDiesel": 1.835,
+        "mimitBenzina": 1.925
+    },
+    {
+        "data": "2026-04-23",
+        "brent": 106.8,
+        "cambio": 1.17,
+        "mimitDiesel": 1.84,
+        "mimitBenzina": 1.93
+    },
+    {
+        "data": "2026-04-24",
+        "brent": 100.08,
+        "cambio": 1.1725,
+        "mimitDiesel": 2.01,
+        "mimitBenzina": 2.08
+    }
+]

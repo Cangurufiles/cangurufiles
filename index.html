@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>CanGuru - Dashboard Audit Carburanti</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: white; padding: 20px; margin: 0; }
+        .container { width: 95%; max-width: 1200px; margin: auto; }
+        .nav-bar { text-align: center; margin-bottom: 20px; }
+        .btn {
+            padding: 12px 25px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 2px solid #c0392b;
+            display: inline-block;
+        }
+        .chart-box {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            height: 320px; /* Altezza contenuta per vederli entrambi */
+            border: 1px solid #444;
+        }
+        h2, h3 { text-align: center; color: #f1c40f; margin: 10px 0; text-transform: uppercase; font-size: 1.1rem; }
+        .footer-info { text-align: center; color: #666; font-size: 0.8rem; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-bar">
+        <a href="bilancio_sdr.html" class="btn">VAI AL RAPPORTO DETTAGLIATO SDR →</a>
+    </div>
+
+    <h2>Monitoraggio S.D.R. (Prezzi alla Pompa)</h2>
+    <div class="chart-box">
+        <canvas id="chartPompaEquo"></canvas>
+    </div>
+
+    <h3>Mercato Internazionale (Petrolio Brent)</h3>
+    <div class="chart-box">
+        <canvas id="chartBrent"></canvas>
+    </div>
+
+    <div class="footer-info">
+        Sistema di Audit CanGuru - Davide & Arturo Lab.
+    </div>
+</div>
+
+<script>
+    // --- ARTURO SCRIVE QUI SOTTO - NON TOCCARE ---
+    const DATABASE_STORICO = [{"data": "2026-04-22", "brent": 105.4, "cambio": 1.172, "mimitDiesel": 1.835, "mimitBenzina": 1.925}, {"data": "2026-04-23", "brent": 106.8, "cambio": 1.17, "mimitDiesel": 1.84, "mimitBenzina": 1.93}, {"data": "2026-04-24", "brent": 100.08, "cambio": 1.1725, "mimitDiesel": 2.01, "mimitBenzina": 2.08}];
+
+    // Se l'array è vuoto, mostriamo un avviso in console
+    if (DATABASE_STORICO.length === 0) {
+        console.warn("Arturo: Database vuoto. Lancia lo script python per iniettare i dati!");
+    }
+
+    const labels = DATABASE_STORICO.map(item => item.data);
+
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#ccc' } } },
+        scales: {
+            y: { ticks: { color: '#888' }, grid: { color: '#3d3d3d' } },
+            x: { ticks: { color: '#888' }, grid: { color: '#3d3d3d' } }
+        }
+    };
+
+    // GRAFICO 1: POMPA VS EQUO
+    new Chart(document.getElementById('chartPompaEquo'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Prezzo Pompa (€/Lt)',
+                    data: DATABASE_STORICO.map(item => item.mimitDiesel),
+                    borderColor: '#e74c3c',
+                    borderWidth: 3,
+                    tension: 0.2
+                },
+                {
+                    label: 'Obiettivo Arturo (Equo)',
+                    data: DATABASE_STORICO.map(item => ((item.brent / item.cambio) * 0.0075 + 1.15).toFixed(3)),
+                    borderColor: '#2ecc71',
+                    borderDash: [5, 5],
+                    fill: false
+                }
+            ]
+        },
+        options: commonOptions
+    });
+
+    // GRAFICO 2: BRENT
+    new Chart(document.getElementById('chartBrent'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Brent ($/Barile)',
+                data: DATABASE_STORICO.map(item => item.brent),
+                borderColor: '#f39c12',
+                backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: commonOptions
+    });
+</script>
+</body>
+</html>
