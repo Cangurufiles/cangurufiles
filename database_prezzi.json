@@ -1,23 +1,66 @@
-[
-    {
-        "data": "2026-04-22",
-        "brent": 105.4,
-        "cambio": 1.172,
-        "mimitDiesel": 1.835,
-        "mimitBenzina": 1.925
+{
+    "config": {
+        "accisa_benzina": 0.4729,
+        "scadenza_benzina": "01-03-2026",
+        "accisa_diesel": 0.4729,
+        "scadenza_diesel": "01-03-2026"
     },
-    {
-        "data": "2026-04-23",
-        "brent": 106.8,
-        "cambio": 1.17,
-        "mimitDiesel": 1.84,
-        "mimitBenzina": 1.93
-    },
-    {
-        "data": "2026-04-24",
-        "brent": 100.08,
-        "cambio": 1.1725,
-        "mimitDiesel": 2.01,
-        "mimitBenzina": 2.08
-    }
-]
+    "storico": [
+        {
+            "data": "2026-04-21",
+            "brent": 105.33,
+            "cambio": 1.1726,
+            "mimitDiesel": 2.064,
+            "mimitBenzina": 1.743
+        },
+        {
+            "data": "2026-04-22",
+            "brent": 105.4,
+            "cambio": 1.172,
+            "mimitDiesel": 2.055,
+            "mimitBenzina": 1.735
+        },
+        {
+            "data": "2026-04-23",
+            "brent": 106.8,
+            "cambio": 1.17,
+            "mimitDiesel": 2.062,
+            "mimitBenzina": 1.74
+        },
+        {
+            "data": "2026-04-24",
+            "brent": 99.3,
+            "cambio": 1.171,
+            "mimitDiesel": 2.058,
+            "mimitBenzina": 1.732
+        },
+        {
+            "data": "2026-04-25",
+            "brent": 105.33,
+            "cambio": 1.1726,
+            "mimitDiesel": 2.064,
+            "mimitBenzina": 1.743
+        },
+        {
+            "data": "2026-04-26",
+            "brent": 105.4,
+            "cambio": 1.172,
+            "mimitDiesel": 2.064,
+            "mimitBenzina": 1.743
+        },
+        {
+            "data": "2026-04-27",
+            "brent": 101.91,
+            "cambio": 1.1725,
+            "mimitDiesel": 2.063,
+            "mimitBenzina": 1.743
+        },
+        {
+            "data": "2026-04-28",
+            "brent": 104.19,
+            "cambio": 1.17,
+            "mimitDiesel": 2.062,
+            "mimitBenzina": 1.745
+        }
+    ]
+}

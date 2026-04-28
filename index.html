@@ -2,119 +2,250 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>CanGuru - Dashboard Audit Carburanti</title>
+    <title>CanGuru - Audit Arturo Professional</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #1a1a1a; color: white; padding: 20px; margin: 0; }
-        .container { width: 95%; max-width: 1200px; margin: auto; }
-        .nav-bar { text-align: center; margin-bottom: 20px; }
-        .btn { padding: 12px 25px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; border: 2px solid #c0392b; display: inline-block; }
-        .chart-box { background: #2d2d2d; padding: 15px; border-radius: 10px; margin-bottom: 20px; position: relative; height: 320px; border: 1px solid #444; }
-        h2, h3 { text-align: center; color: #f1c40f; margin: 10px 0; text-transform: uppercase; font-size: 1.1rem; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; }
+        /* 2 - LARGHEZZA DINAMICA */
+        .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 20px; }
 
-        /* STILE TABELLA */
-        .table-container { margin-top: 30px; overflow-x: auto; background: #2d2d2d; padding: 20px; border-radius: 10px; border: 1px solid #444; }
-        table { width: 100%; border-collapse: collapse; color: #cfcfd8; font-size: 0.9rem; }
-        th { background: #252529; color: #00ff41; padding: 12px; text-align: left; border-bottom: 2px solid #444; }
-        td { padding: 10px; border-bottom: 1px solid #3d3d3d; }
-        tr:hover { background: #35353a; }
-        .footer-info { text-align: center; color: #666; font-size: 0.8rem; margin-top: 20px; padding-bottom: 40px; }
+        /* Header */
+        .header-audit { display: flex; justify-content: space-between; gap: 15px; }
+        .info-box { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; flex: 1; }
+        .info-box h4 { margin: 0 0 10px 0; color: #888; text-transform: uppercase; font-size: 0.7rem; }
+        .valore-evidenziato { color: #00ff00; font-size: 1.8rem; font-weight: bold; font-family: 'JetBrains Mono', monospace; }
+        .sdr-link-btn { background: #e74c3c; color: white; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-transform: uppercase; display: inline-block; }
+        .comp-item { display: flex; justify-content: space-between; border-bottom: 1px solid #3d3d42; padding: 4px 0; font-size: 0.8rem; }
+
+        /* Controlli Navigazione */
+        .nav-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33;
+        }
+        .arrow-btn {
+            background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f;
+            padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px;
+            transition: 0.2s;
+        }
+        .arrow-btn:hover { background: #f1c40f; color: #000; }
+
+        .super-scroll {
+            width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px;
+            scroll-behavior: smooth;
+        }
+        .super-scroll::-webkit-scrollbar { height: 12px; }
+        .super-scroll::-webkit-scrollbar-track { background: #1a1a1d; border-radius: 10px; }
+        .super-scroll::-webkit-scrollbar-thumb { background: #f1c40f; border-radius: 10px; border: 2px solid #1a1a1d; }
+
+        .scroll-content { min-width: 2000px; padding: 20px; }
+        .chart-section { margin-bottom: 40px; }
+        .chart-section h3 { color: #f1c40f; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        .chart-wrapper { height: 350px; width: 100%; }
+
+        .nav-bar { text-align: center; margin: 10px 0; }
+        .sel-btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; background: #3d3d42; color: #888; margin: 0 5px; font-weight: bold; }
+        .sel-btn.active { background: #f1c40f; color: #000; }
+
+        /* Tabella con Badge Colorati */
+        table { width: 100%; border-collapse: collapse; background: #2c2c31; margin-top: 20px; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #3d3d42; font-family: 'JetBrains Mono'; font-size: 0.85rem; }
+        th { background: #3d3d42; color: #f1c40f; font-size: 0.7rem; text-transform: uppercase; }
+        .date-badge { padding: 4px 8px; border-radius: 4px; color: #1a1a1d; font-weight: bold; }
+        .date-badge-yellow { background-color: #f1c40f; }
+        .date-badge-green { background-color: #2ecc71; }
     </style>
 </head>
 <body>
-
 <div class="container">
+    <div class="header-audit">
+        <div class="info-box">
+            <h4>Valore Attuale Accise</h4>
+            <div id="displayAccisa" class="valore-evidenziato">--</div>
+            <div id="displayScadenza" style="color:#aaa; font-size: 0.8rem; margin-top:5px;">--</div>
+        </div>
+        <div class="info-box" style="background:transparent; border:none; text-align:center; display: flex; align-items: center; justify-content: center;">
+            <a href="bilancio_sdr.html" class="sdr-link-btn">Bilancio S.D.R.</a>
+        </div>
+        <!-- 1 - CASELLA SCOMPOSIZIONE RIPRISTINATA -->
+        <div class="info-box">
+            <h4>Scomposizione Prezzo (€/L)</h4>
+            <div id="composizioneDettaglio"></div>
+        </div>
+    </div>
+
     <div class="nav-bar">
-        <a href="bilancio_sdr.html" class="btn">VAI AL RAPPORTO DETTAGLIATO SDR →</a>
+        <button id="btnGasolio" class="sel-btn active" onclick="switchFuel('diesel')">GASOLIO</button>
+        <button id="btnBenzina" class="sel-btn" onclick="switchFuel('benzina')">BENZINA</button>
     </div>
 
-    <h2>Monitoraggio S.D.R. (Prezzi alla Pompa)</h2>
-    <div class="chart-box">
-        <canvas id="chartPompaEquo"></canvas>
+    <div class="nav-controls">
+        <button class="arrow-btn" onclick="scrollCharts(-400)">◀ STORICO</button>
+        <button class="arrow-btn" style="background: transparent;" onclick="scrollToToday()">OGGI (VAI AL PRESENTE) ▼</button>
+        <button class="arrow-btn" onclick="scrollCharts(400)">AVANTI ▶</button>
     </div>
 
-    <h3>Mercato Internazionale (Petrolio Brent)</h3>
-    <div class="chart-box">
-        <canvas id="chartBrent"></canvas>
+    <div class="super-scroll" id="scrollMaster">
+        <div class="scroll-content">
+            <div class="chart-section">
+                <h3>Monitoraggio Prezzi (Mimit vs Arturo)</h3>
+                <div class="chart-wrapper"><canvas id="chartMain"></canvas></div>
+            </div>
+            <div class="chart-section">
+                <h3>Analisi della Cresta (Divergenza in Euro)</h3>
+                <div class="chart-wrapper"><canvas id="chartCresta"></canvas></div>
+            </div>
+            <div class="chart-section">
+                <h3>Materia Prima (Brent in €/Barile)</h3>
+                <div class="chart-wrapper"><canvas id="chartBarile"></canvas></div>
+            </div>
+        </div>
     </div>
 
-    <h3>Registro Analitico Dati</h3>
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Brent ($/b)</th>
-                    <th>Cambio (€/$)</th>
-                    <th>Pompa Reale (€)</th>
-                    <th>Obiettivo Arturo (€)</th>
-                </tr>
-            </thead>
-            <tbody id="tabellaDati">
-                </tbody>
-        </table>
-    </div>
-
-    <div class="footer-info">
-        Sistema di Audit CanGuru - Davide & Arturo Lab.
-    </div>
+    <table>
+        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>POMPA</th><th>ARTURO</th><th>CRESTA</th></tr></thead>
+        <tbody id="tabellaDati"></tbody>
+    </table>
 </div>
 
 <script>
-    // --- ARTURO SCRIVE QUI SOTTO ---
-    const DATABASE_STORICO = [{"data": "2026-04-22", "brent": 105.4, "cambio": 1.172, "mimitDiesel": 1.835, "mimitBenzina": 1.925}, {"data": "2026-04-23", "brent": 106.8, "cambio": 1.17, "mimitDiesel": 1.84, "mimitBenzina": 1.93}, {"data": "2026-04-24", "brent": 99.78, "cambio": 1.1726, "mimitDiesel": 2.01, "mimitBenzina": 2.08}];
+Chart.register(ChartDataLabels);
 
-    const labels = DATABASE_STORICO.map(item => item.data);
+// --- DATA START ---
+const DATABASE_STORICO = {"config": {"accisa_benzina": 0.4729, "scadenza_benzina": "01-03-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "01-03-2026"}, "storico": [{"data": "2026-04-21", "brent": 105.33, "cambio": 1.1726, "mimitDiesel": 2.064, "mimitBenzina": 1.743}, {"data": "2026-04-22", "brent": 105.4, "cambio": 1.172, "mimitDiesel": 2.055, "mimitBenzina": 1.735}, {"data": "2026-04-23", "brent": 106.8, "cambio": 1.17, "mimitDiesel": 2.062, "mimitBenzina": 1.74}, {"data": "2026-04-24", "brent": 99.3, "cambio": 1.171, "mimitDiesel": 2.058, "mimitBenzina": 1.732}, {"data": "2026-04-25", "brent": 105.33, "cambio": 1.1726, "mimitDiesel": 2.064, "mimitBenzina": 1.743}, {"data": "2026-04-26", "brent": 105.4, "cambio": 1.172, "mimitDiesel": 2.064, "mimitBenzina": 1.743}, {"data": "2026-04-27", "brent": 101.91, "cambio": 1.1725, "mimitDiesel": 2.063, "mimitBenzina": 1.743}, {"data": "2026-04-28", "brent": 104.19, "cambio": 1.17, "mimitDiesel": 2.062, "mimitBenzina": 1.745}]};
+// --- DATA END ---
 
-    // Funzione per calcolare il Prezzo Equo (stessa formula del grafico)
-    function calcolaEquo(brent, cambio) {
-        return ((brent / cambio) * 0.0075 + 1.15).toFixed(3);
+let currentFuel = 'diesel';
+const P = { raff: 0.080, dist: 0.130, iva: 1.22 };
+
+function getGiornoData(dateStr) {
+    const d = new Date(dateStr);
+    const day = d.getDay();
+    const md = (d.getMonth() + 1) + "-" + d.getDate();
+    const festivi = ["1-1", "1-6", "4-25", "5-1", "6-2", "8-15", "11-1", "12-8", "12-25", "12-26"];
+    if (day === 0 || day === 6 || festivi.includes(md)) return { color: '#f1c40f', class: 'date-badge-yellow' };
+    return { color: '#2ecc71', class: 'date-badge-green' };
+}
+
+function scrollCharts(amount) {
+    document.getElementById('scrollMaster').scrollBy({ left: amount, behavior: 'smooth' });
+}
+
+function scrollToToday() {
+    const el = document.getElementById('scrollMaster');
+    el.scrollLeft = el.scrollWidth;
+}
+
+function updateUI() {
+    const list = DATABASE_STORICO.storico || [];
+    const config = DATABASE_STORICO.config || {};
+    const acc = currentFuel === 'diesel' ? config.accisa_diesel : config.accisa_benzina;
+    const scad = currentFuel === 'diesel' ? config.scadenza_diesel : config.scadenza_benzina;
+
+    document.getElementById('displayAccisa').innerText = `€ ${acc.toFixed(4)}`;
+    document.getElementById('displayScadenza').innerText = `Scadenza: ${scad}`;
+
+    if (list.length > 0) {
+        const u = list[list.length - 1];
+        const mat = (u.brent / u.cambio / 159);
+        const ebitda = (mat + P.raff + P.dist + acc) * 0.03;
+        const ivaT = (mat + P.raff + P.dist + acc + ebitda) * 0.22;
+
+        // 1 - SCOMPOSIZIONE COMPLETA COME DA IMMAGINE
+        document.getElementById('composizioneDettaglio').innerHTML = `
+            <div class="comp-item"><span>Materia Prima</span><span>€ ${mat.toFixed(3)}</span></div>
+            <div class="comp-item"><span>Raffinazione</span><span>€ ${P.raff.toFixed(3)}</span></div>
+            <div class="comp-item"><span>Distribuzione</span><span>€ ${P.dist.toFixed(3)}</span></div>
+            <div class="comp-item"><span>Accise</span><span>€ ${acc.toFixed(3)}</span></div>
+            <div class="comp-item"><span>EBITDA Arturo (3%)</span><span style="color:#00ff00">€ ${ebitda.toFixed(3)}</span></div>
+            <div class="comp-item"><span>IVA (22%)</span><span>€ ${ivaT.toFixed(3)}</span></div>
+        `;
+
+        const labels = list.map(d => d.data);
+        const dReal = list.map(d => currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina);
+        const dEquo = list.map(d => ((( (d.brent/d.cambio/159) + P.raff + P.dist + acc) * 1.03) * 1.22).toFixed(3));
+
+        chartMain.data.labels = labels;
+        chartMain.data.datasets[0].data = dReal;
+        chartMain.data.datasets[1].data = dEquo;
+        chartMain.update();
+
+        chartCresta.data.labels = labels;
+        chartCresta.data.datasets[0].data = dReal.map((r, i) => (r - dEquo[i]).toFixed(3));
+        chartCresta.update();
+
+        chartBarile.data.labels = labels;
+        chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
+        chartBarile.update();
+
+        document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map(d => {
+            const r = currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina;
+            const e = ((( (d.brent/d.cambio/159) + P.raff + P.dist + acc) * 1.03) * 1.22).toFixed(3);
+            const info = getGiornoData(d.data);
+            return `<tr>
+                <td><span class="date-badge ${info.class}">${d.data.split('-').reverse().join('/')}</span></td>
+                <td>${d.brent}</td><td>${d.cambio}</td><td>${r}</td>
+                <td style="color:#00ff00">${e}</td><td>${(r-e).toFixed(3)}</td>
+            </tr>`;
+        }).join('');
     }
+}
 
-    // RIEMPIMENTO TABELLA
-    const corpoTabella = document.getElementById('tabellaDati');
-    DATABASE_STORICO.slice().reverse().forEach(item => {
-        const riga = `<tr>
-            <td>${item.data}</td>
-            <td>${item.brent.toFixed(2)}</td>
-            <td>${item.cambio.toFixed(4)}</td>
-            <td style="color:#e74c3c; font-weight:bold;">${item.mimitDiesel.toFixed(3)}</td>
-            <td style="color:#2ecc71; font-weight:bold;">${calcolaEquo(item.brent, item.cambio)}</td>
-        </tr>`;
-        corpoTabella.innerHTML += riga;
-    });
-
-    // CONFIGURAZIONE GRAFICI (identica a prima)
-    const commonOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#ccc' } } },
-        scales: {
-            y: { ticks: { color: '#888' }, grid: { color: '#3d3d3d' } },
-            x: { ticks: { color: '#888' }, grid: { color: '#3d3d3d' } }
+// 3 - CONFIGURAZIONE NUMERI SUI PUNTI (DATALABELS)
+const commonOpt = {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+        x: { grid: { color: '#3d3d42' }, ticks: {
+            color: '#1a1a1d', font: { weight: 'bold' },
+            showLabelBackdrop: true, backdropPadding: 4,
+            backdropColor: (ctx) => getGiornoData(ctx.tick.label).color
+        }},
+        y: { display: false } // Nasconde scala a sinistra come richiesto
+    },
+    plugins: {
+        legend: { labels: { color: '#eee' } },
+        datalabels: {
+            display: true,
+            align: 'top',
+            color: '#fff',
+            font: { weight: 'bold', size: 10 },
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            borderRadius: 4,
+            padding: 4,
+            formatter: (value) => value
         }
-    };
+    }
+};
 
-    new Chart(document.getElementById('chartPompaEquo'), {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: 'Pompa Reale', data: DATABASE_STORICO.map(item => item.mimitDiesel), borderColor: '#e74c3c', borderWidth: 3, tension: 0.2 },
-                { label: 'Obiettivo Arturo', data: DATABASE_STORICO.map(item => calcolaEquo(item.brent, item.cambio)), borderColor: '#2ecc71', borderDash: [5, 5], fill: false }
-            ]
-        },
-        options: commonOptions
-    });
+const chartMain = new Chart(document.getElementById('chartMain'), {
+    type: 'line',
+    data: { datasets: [{ label: 'Pompa Reale', borderColor: '#e74c3c', data: [] }, { label: 'Obiettivo Arturo', borderColor: '#2ecc71', borderDash: [5,5], data: [] }] },
+    options: commonOpt
+});
 
-    new Chart(document.getElementById('chartBrent'), {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{ label: 'Brent ($)', data: DATABASE_STORICO.map(item => item.brent), borderColor: '#f39c12', backgroundColor: 'rgba(243, 156, 18, 0.1)', fill: true, tension: 0.3 }]
-        },
-        options: commonOptions
-    });
+const chartCresta = new Chart(document.getElementById('chartCresta'), {
+    type: 'line',
+    data: { datasets: [{ label: 'Cresta (€)', borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,0.1)', fill: true, data: [] }] },
+    options: { ...commonOpt, plugins: { ...commonOpt.plugins, datalabels: { ...commonOpt.plugins.datalabels, color: '#f1c40f' } } }
+});
+
+const chartBarile = new Chart(document.getElementById('chartBarile'), {
+    type: 'line',
+    data: { datasets: [{ label: 'Brent (€/Barile)', borderColor: '#3498db', data: [] }] },
+    options: commonOpt
+});
+
+function switchFuel(f) {
+    currentFuel = f;
+    document.getElementById('btnGasolio').classList.toggle('active', f === 'diesel');
+    document.getElementById('btnBenzina').classList.toggle('active', f === 'benzina');
+    updateUI();
+}
+
+window.onload = () => {
+    updateUI();
+    setTimeout(scrollToToday, 500);
+};
 </script>
 </body>
 </html>

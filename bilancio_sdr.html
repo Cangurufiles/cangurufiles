@@ -2,26 +2,44 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Rapporto S.D.R. 2025 - Analisi Strategica</title>
+    <title>CanGuru - Bilancio S.D.R. Strategico</title>
     <style>
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0e0e10; color: #cfcfd8; max-width: 1000px; margin: 0 auto; padding: 40px 20px; line-height: 1.7; }
-        .container { background: #1a1a1d; border: 1px solid #333; border-radius: 8px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        /* Stile Tasto Navigazione */
+        .container { background: #1a1a1d; border: 1px solid #333; border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        /* Navigazione */
         .nav-btn { display: inline-block; margin-bottom: 20px; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 5px; font-size: 0.9rem; border: 1px solid #444; transition: 0.3s; }
-        .nav-btn:hover { background: #444; }
+        .nav-btn:hover { background: #444; border-color: #00ff41; }
+
+        /* Header */
         .header { text-align: center; border-bottom: 1px solid #444; margin-bottom: 40px; padding-bottom: 20px; }
         h1 { color: #fff; font-size: 2.2rem; margin-bottom: 10px; letter-spacing: 2px; }
         .acronym { color: #00ff41; font-weight: 800; }
-        .summary-box { background: #252529; border-left: 5px solid #00ff41; padding: 20px; margin: 30px 0; }
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
-        .stat-card { background: #212124; padding: 25px; border-radius: 12px; border: 1px solid #333; text-align: center; }
-        .stat-value { display: block; font-size: 2.5rem; font-weight: 800; color: #00ff41; margin: 10px 0; }
-        .stat-label { text-transform: uppercase; font-size: 0.75rem; color: #888; letter-spacing: 1.5px; }
-        .sdr-indicator { grid-column: span 2; background: #2a1b1b; border: 1px solid #ff5252; padding: 30px; border-radius: 12px; text-align: center; }
-        .sdr-value { color: #ff5252; font-size: 3.5rem; font-weight: 900; }
-        .explanation { font-size: 0.95rem; color: #aaa; margin-top: 30px; }
-        .footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #555; }
-        .highlight { color: #00ff41; font-weight: bold; }
+
+        .summary-box { background: #252529; border-left: 5px solid #00ff41; padding: 20px; margin: 30px 0; font-size: 0.95rem; }
+
+        /* Sezione Superiore (Griglia Moderna) */
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .stat-card { background: #212124; padding: 25px; border-radius: 12px; border: 1px solid #333; text-align: center; position: relative; }
+        .stat-label { text-transform: uppercase; font-size: 0.75rem; color: #888; letter-spacing: 1.5px; display: block; margin-bottom: 10px; }
+        .stat-value { font-size: 2.2rem; font-weight: 800; color: #fff; }
+
+        /* Sezione Inferiore (Logica e Confronto) */
+        .logic-section { background: #212124; border-radius: 15px; padding: 30px; border: 1px solid #2d2d33; margin-top: 20px; }
+        .formula { background: #000; padding: 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; color: #00ff41; margin: 25px 0; border-left: 4px solid #00ff41; text-align: center; font-size: 1.2rem; }
+
+        .confronto { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+        .confronto-box { padding: 25px; border-radius: 10px; text-align: center; }
+        .bg-red { background: rgba(255, 82, 82, 0.1); border: 1px solid #ff5252; }
+        .bg-green { background: rgba(0, 255, 65, 0.1); border: 1px solid #00ff41; }
+
+        .huge-value { display: block; font-size: 2.5rem; font-weight: 900; margin: 10px 0; }
+        .red-text { color: #ff5252; }
+        .green-text { color: #00ff41; }
+
+        .alert-banner { background: #2a1b1b; border: 1px solid #ff5252; color: #ff5252; padding: 20px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 1.3rem; margin-top: 30px; }
+
+        .footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #555; border-top: 1px solid #333; padding-top: 20px; }
     </style>
 </head>
 <body>
@@ -31,41 +49,64 @@
 
     <div class="header">
         <h1>RAPPORTO <span class="acronym">S.D.R.</span> 2025</h1>
-        <p>Analisi sullo <strong>S</strong>quilibrio di <strong>D</strong>i <strong>R</strong>emunerazione del settore Energy</p>
+        <p>Analisi Globale sui Flussi Finanziari - Esercizio Strategico</p>
     </div>
 
     <div class="summary-box">
-        <strong>Abstract Tecnico:</strong> L'indice S.D.R. misura la divergenza tra i capitali estratti dall'operatività industriale e la soglia di rendimento etico per gli azionisti. Un valore elevato indica un drenaggio di liquidità dal mercato al dettaglio verso i mercati finanziari.
+        <strong>Abstract Tecnico:</strong> L'indice <strong>S.D.R.</strong> (Squilibrio Di Remunerazione) isola la quota di profitto netto estratta da ogni singolo litro venduto e destinata esclusivamente alla remunerazione del capitale (Dividendi e Buyback), separandola dai costi industriali.
     </div>
 
+    <!-- PARTE SUPERIORE ATTUALE -->
     <div class="data-grid">
         <div class="stat-card">
-            <span class="stat-label">Capitale Distribuito (Dividendi + Buyback)</span>
-            <span class="stat-value">€ 5,00 Mld</span>
-            <p class="explanation">Cassa netta erogata oltre i costi operativi e gli investimenti.</p>
+            <span class="stat-label">Capitale Estratto (Cash Return)</span>
+            <span class="stat-value" style="color: #00ff41;">€ 5,00 Mld</span>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Dividendi erogati + Acquisto Azioni Proprie</p>
         </div>
 
         <div class="stat-card">
             <span class="stat-label">Volume Erogato Globalmente</span>
             <span class="stat-value">41,25 Mld / Lt</span>
-            <p class="explanation">Totale litri commercializzati nell'esercizio 2025.</p>
-        </div>
-
-        <div class="sdr-indicator">
-            <span class="stat-label" style="color: #ff5252;">Indice S.D.R. (Profitto Netto per Litro)</span>
-            <span class="sdr-value">€ 0,121</span>
-            <p style="font-size: 1.2rem; margin-top: 10px;">Margine di profitto puro prelevato su ogni litro.</p>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Totale litri commercializzati nel 2025</p>
         </div>
     </div>
 
-    <div class="explanation">
-        <h3>Analisi della Divergenza</h3>
-        <p>Considerando un rendimento del capitale <span class="highlight">Target 3%</span>, il ricarico necessario per soddisfare le aspettative di mercato sarebbe pari a <span class="highlight">€ 0,045/litro</span>. L'attuale configurazione S.D.R. evidenzia un surplus del <strong>168%</strong> rispetto alla soglia di equilibrio.</p>
-        <p>Questo squilibrio si traduce in un trasferimento di ricchezza forzato dall'utente finale verso il comparto dei detentori di quote capitali, non giustificato da costi di produzione o raffinazione.</p>
+    <!-- PARTE INFERIORE PRECEDENTE (LOGICA E SQUILIBRIO) -->
+    <div class="logic-section">
+        <span class="stat-label">La Verità al Litro</span>
+        <p>Dividendo il capitale estratto per i volumi totali, otteniamo il prelievo finanziario netto su ogni singolo rifornimento effettuato dai cittadini.</p>
+
+        <div class="formula">
+            € 5.000.000.000 / 41.250.000.000 Litri = € 0,121 / Litro
+        </div>
+
+        <span class="stat-label" style="margin-top: 40px;">Analisi Etica (Soglia Arturo 3%)</span>
+        <p>Confronto tra il prelievo reale e il ricarico necessario per garantire un rendimento del capitale equo (Target 3%).</p>
+
+        <div class="confronto">
+            <div class="confronto-box bg-green">
+                <span class="stat-label green-text">Margine Etico Arturo</span>
+                <span class="huge-value green-text">€ 0,045</span>
+                <span class="stat-label">per litro</span>
+            </div>
+            <div class="confronto-box bg-red">
+                <span class="stat-label red-text">Prelievo Reale S.D.R.</span>
+                <span class="huge-value red-text">€ 0,121</span>
+                <span class="stat-label">per litro</span>
+            </div>
+        </div>
+
+        <div class="alert-banner">
+            SQUILIBRIO RILEVATO: +168% (€ 0,076 eccedenti per litro)
+        </div>
+
+        <p style="margin-top: 25px; font-size: 0.95rem; color: #aaa;">
+            L'attuale configurazione evidenzia un trasferimento di ricchezza forzato: ogni litro venduto genera un surplus di <strong>7,6 centesimi</strong> oltre la soglia di equilibrio etico. Questa liquidità viene drenata direttamente dall'economia reale verso i mercati finanziari.
+        </p>
     </div>
 
     <div class="footer">
-        Documentazione ad uso interno - Protocollo CanGuru Auditor - Davide & Arturo Lab.
+        Documentazione ad uso interno - Protocollo CanGuru Auditor - A cura di Arturo e Davide Lab.
     </div>
 </div>
 
