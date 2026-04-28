@@ -1,0 +1,35 @@
+name: Arturo Engine Autopilot
+
+on:
+  schedule:
+    # Esegue lo script ogni giorno alle 18:30 UTC (circa le 20:30 italiane)
+    - cron: '30 18 * * *'
+  workflow_dispatch: # Permette di lanciarlo manualmente con un tasto
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        pip install yfinance requests
+
+    - name: Run Arturo Engine
+      run: python arturo_engine.py
+
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "Arturo-Bot"
+        git config --global user.email "arturo@canguru.lab"
+        git add .
+        git commit -m "Aggiornamento automatico prezzi e bilancio SDR [Skip CI]" || exit 0
+        git push
