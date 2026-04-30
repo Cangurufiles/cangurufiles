@@ -2,22 +2,22 @@ name: Arturo Engine Autopilot
 
 on:
   schedule:
-    # Gira alle 07:00 UTC (9:00 del mattino in Italia)
+    # QUESTO È L'ORARIO: 07:00 UTC = 09:00 Italiane
     - cron: '0 7 * * *'
-  workflow_dispatch: 
+  workflow_dispatch: # Questo è il tasto per lanciarlo a mano
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Forza i permessi di scrittura
+      contents: write
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4 # Versione aggiornata
+      uses: actions/checkout@v4
 
     - name: Setup Python
-      uses: actions/setup-python@v5 # Versione aggiornata
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
@@ -25,14 +25,20 @@ jobs:
       run: |
         pip install yfinance requests
 
+    # AGGIUNTO QUESTO BLOCCO PRIMA DI ARTURO
+    # Serve a evitare l'errore 128: Arturo si sincronizza con le tue modifiche
+    # PRIMA di iniziare a calcolare i prezzi.
+    - name: Prepare Git and Sync
+      run: |
+        git config --global user.name "Arturo-Bot"
+        git config --global user.email "arturo@canguru.lab"
+        git pull origin main --rebase
+
     - name: Run Arturo Engine
       run: python arturo_engine.py
 
     - name: Commit and Push changes
       run: |
-        git config --global user.name "Arturo-Bot"
-        git config --global user.email "arturo@canguru.lab"
-        git pull --rebase # Fondamentale: scarica le tue modifiche manuali prima di caricare le sue
         git add .
         git commit -m "Aggiornamento automatico [Skip CI]" || exit 0
         git push
