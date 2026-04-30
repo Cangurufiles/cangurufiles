@@ -36,4 +36,3 @@ jobs:
         git add .
         git commit -m "Aggiornamento automatico [Skip CI]" || exit 0
         git push
-        
