@@ -1,9 +1,9 @@
 {
     "config": {
-        "accisa_benzina": 0.4729,
-        "scadenza_benzina": "01-03-2026",
+        "accisa_benzina": 0.6229,
+        "scadenza_benzina": "10-03-2026",
         "accisa_diesel": 0.4729,
-        "scadenza_diesel": "01-03-2026"
+        "scadenza_diesel": "10-03-2026"
     },
     "storico": [
         {
@@ -82,6 +82,13 @@
             "cambio": 1.1729,
             "mimitDiesel": 2.055,
             "mimitBenzina": 1.758
+        },
+        {
+            "data": "2026-05-02",
+            "brent": 108.17,
+            "cambio": 1.1723,
+            "mimitDiesel": 2.053,
+            "mimitBenzina": 1.817
         }
     ]
 }
