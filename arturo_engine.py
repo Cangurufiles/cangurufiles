@@ -15,11 +15,11 @@ FILE_CSV = os.path.join(BASE_DIR, "registro_can_guru.csv")
 URL_MIMIT_CSV = "https://www.mimit.gov.it/images/stories/carburanti/MediaRegionaleStradale.csv"
 
 # --- PARAMETRI MANIFESTO ---
-ACCISA_BENZINA = 0.6784
-SCADENZA_BENZINA = "21-03-2026"
+ACCISA_BENZINA = 0.6229
+SCADENZA_BENZINA = "10-03-2026"
 
-ACCISA_DIESEL = 0.4174
-SCADENZA_DIESEL = "21-03-2026"
+ACCISA_DIESEL = 0.4729
+SCADENZA_DIESEL = "10-03-2026"
 
 P_RAFF = 0.080
 P_DIST = 0.130
