@@ -96,6 +96,13 @@
             "cambio": 1.1705,
             "mimitDiesel": 2.052,
             "mimitBenzina": 1.902
+        },
+        {
+            "data": "2026-05-05",
+            "brent": 112.73,
+            "cambio": 1.1693,
+            "mimitDiesel": 2.049,
+            "mimitBenzina": 1.929
         }
     ]
 }
