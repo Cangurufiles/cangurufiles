@@ -13,91 +13,29 @@
             --accent: #00ff00;
             --mancia-color: #ffa500;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-        }
-
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 20px; }
         .container { max-width: 1200px; margin: auto; }
-
-        .card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        h3 { margin-top: 0; font-weight: 600; text-transform: uppercase; }
-
-        .header-grid {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .banner-centrale {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border: 1px solid #444;
-            background: rgba(255,165,0,0.05);
-            padding: 15px;
-        }
-
-        .mancia-row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .mancia-card {
-            flex: 1;
-            text-align: center;
-            border-bottom: 5px solid var(--mancia-color);
-        }
-
-        .btn-sdr {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 12px;
-            cursor: pointer;
-            margin-top: 15px;
-            border-radius: 6px;
-            width: 100%;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-sdr:hover { background: #c0392b; }
-
-        canvas { background: #252525; border-radius: 8px; margin-top: 10px; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        h3 { margin-top: 0; font-weight: 600; text-transform: uppercase; color: white !important; }
+        .header-grid { display: flex; justify-content: space-between; align-items: stretch; gap: 20px; margin-bottom: 20px; }
+        .banner-centrale { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; border: 1px solid #444; background: rgba(255,165,0,0.05); padding: 15px; }
+        .mancia-row { display: flex; gap: 20px; margin-bottom: 20px; }
+        .mancia-card { flex: 1; text-align: center; border-bottom: 5px solid var(--mancia-color); }
+        .btn-sdr { background: #e74c3c; color: white; border: none; padding: 12px; cursor: pointer; margin-top: 15px; border-radius: 6px; width: 100%; font-weight: bold; }
+        canvas { background: #252525; border-radius: 8px; margin-top: 10px; width: 100% !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-
     <div class="header-grid">
-        <!-- COLONNA ACCISE -->
         <div class="card" style="flex: 0 1 250px;">
-            <h3 style="color: white; font-size: 1.2rem;">VALORE ATTUALE ACCISE</h3>
+            <h3 style="font-size: 1.2rem;">VALORE ATTUALE ACCISE</h3>
             <div id="accisa-valore" style="color: var(--accent); font-size: 2.2rem; font-weight: bold;">--</div>
             <p id="accisa-scadenza" style="font-size: 0.85rem; color: #aaa; margin-bottom: 10px;">Scadenza: --</p>
-            <button class="btn-sdr" onclick="window.location.href='sdr.html'">
-                VEDI EXTRAPROFITTI ENI 2025
-            </button>
+            <button class="btn-sdr" onclick="window.location.href='bilancio_sdr.html'">VEDI EXTRAPROFITTI ENI 2025</button>
         </div>
 
-        <!-- BANNER POLITICO -->
         <div class="card banner-centrale">
             <p style="font-size: 1.05rem; line-height: 1.6; margin: 0;">
                 "Un rendimento sulle azioni del <b>3% annuo</b> sembra un buon risultato.<br>
@@ -106,9 +44,8 @@
             </p>
         </div>
 
-        <!-- COLONNA SCOMPOSIZIONE -->
         <div class="card" style="flex: 0 1 300px;">
-            <h3 style="color: white; font-size: 1.2rem;">SCOMPOSIZIONE PREZZO (€/L)</h3>
+            <h3 style="font-size: 1.2rem;">SCOMPOSIZIONE PREZZO (€/L)</h3>
             <div id="scomposizione-content" style="font-size: 0.95rem; line-height: 1.4;"></div>
         </div>
     </div>
@@ -125,104 +62,87 @@
     </div>
 
     <div class="card">
-        <h3 style="color: white;">Monitoraggio Prezzi e Impatto Fiscale</h3>
-        <canvas id="chartPrezzi" height="100"></canvas>
+        <h3>Monitoraggio Prezzi e Impatto Fiscale</h3>
+        <canvas id="chartPrezzi" height="300"></canvas>
     </div>
     
     <div style="margin-top: 20px;" class="card">
-        <h3 style="color: white;">Analisi della Mancia (Divergenza in Euro)</h3>
-        <canvas id="chartMancia" height="80"></canvas>
+        <h3>Analisi della Mancia (Divergenza in Euro)</h3>
+        <canvas id="chartMancia" height="200"></canvas>
     </div>
-
 </div>
 
 <script>
 // --- DATA START ---
-const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
+const DATABASE_STORICO = {"config": {"accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": []};
 // --- DATA END ---
 
 function initDashboard() {
-    if (!DATABASE_STORICO.storico || !DATABASE_STORICO.storico.length) return;
+    const list = DATABASE_STORICO.storico;
+    if (!list || list.length === 0) return;
 
-    const ultimo = DATABASE_STORICO.storico[DATABASE_STORICO.storico.length - 1];
+    const ultimo = list[list.length - 1];
+    const P = { raff: 0.080, dist: 0.130, iva: 1.22, margine: 1.03 };
     
-    // Aggiorna box Accise con l'ultimo dato
+    // 1. Update Accise
     document.getElementById('accisa-valore').innerText = `€ ${ultimo.accisa_d.toFixed(4)}`;
     document.getElementById('accisa-scadenza').innerText = `Scadenza: ${DATABASE_STORICO.config.scadenza_diesel}`;
 
-    // Calcolo Mancia Media Storica usando l'accisa corretta di ogni giorno
-    let sommaMancia = 0;
-    DATABASE_STORICO.storico.forEach(g => {
-        const pArturo = (g.brent / g.cambio * 0.00628) + 0.21 + g.accisa_d;
-        const pEquo = pArturo * 1.03 * 1.22;
-        sommaMancia += (g.mimitDiesel - pEquo);
+    // 2. Calcolo Mancia Media
+    let totaleMancia = 0;
+    list.forEach(d => {
+        const mat = (d.brent / d.cambio / 159);
+        const equo = (mat + P.raff + P.dist + d.accisa_d) * P.margine * P.iva;
+        totaleMancia += (d.mimitDiesel - equo);
     });
-
-    const mediaMancia = sommaMancia / DATABASE_STORICO.storico.length;
+    const mediaMancia = totaleMancia / list.length;
     document.getElementById('mancia-pieno').innerText = `€ ${(mediaMancia * 50).toFixed(2)}`;
     document.getElementById('mancia-anno').innerText = `€ ${(mediaMancia * 50 * 24).toFixed(2)}`;
 
-    // Scomposizione Prezzo (Ultimo dato)
-    const costMat = (ultimo.brent / ultimo.cambio * 0.00628);
-    const pEquoUltimo = (costMat + 0.21 + ultimo.accisa_d) * 1.03 * 1.22;
+    // 3. Scomposizione
+    const matU = (ultimo.brent / ultimo.cambio / 159);
+    const equoU = (matU + P.raff + P.dist + ultimo.accisa_d) * P.margine * P.iva;
     document.getElementById('scomposizione-content').innerHTML = `
-        Materia Prima: € ${costMat.toFixed(3)}<br>
+        Materia Prima: € ${matU.toFixed(3)}<br>
         Raffinazione/Distr: € 0.210<br>
         Accisa: € ${ultimo.accisa_d.toFixed(3)}<br>
         IVA (22%): € ${(ultimo.mimitDiesel * 0.1803).toFixed(3)}<br>
-        <b style="color:orange">Mancia del giorno: € ${(ultimo.mimitDiesel - pEquoUltimo).toFixed(3)}</b>
+        <b style="color:orange">Mancia oggi: € ${(ultimo.mimitDiesel - equoU).toFixed(3)}</b>
     `;
 
-    renderCharts();
+    renderCharts(list, P);
 }
 
-function renderCharts() {
-    const labels = DATABASE_STORICO.storico.map(d => d.data);
+function renderCharts(list, P) {
+    const labels = list.map(d => d.data);
     
-    // Grafico Prezzi
     new Chart(document.getElementById('chartPrezzi'), {
         type: 'line',
         data: {
             labels: labels,
             datasets: [
-                {
-                    label: 'Pompa Reale',
-                    data: DATABASE_STORICO.storico.map(d => d.mimitDiesel),
-                    borderColor: '#e74c3c',
-                    tension: 0.1
-                },
-                {
-                    label: 'Obiettivo Arturo (Equo)',
-                    data: DATABASE_STORICO.storico.map(d => {
-                        // CORREZIONE: Usa d.accisa_d del giorno specifico
-                        return ((d.brent / d.cambio * 0.00628) + 0.21 + d.accisa_d) * 1.03 * 1.22;
-                    }),
-                    borderColor: '#00ff00',
-                    borderDash: [5, 5],
-                    tension: 0.1
+                { label: 'Pompa Reale', data: list.map(d => d.mimitDiesel), borderColor: '#e74c3c', tension: 0.1 },
+                { 
+                    label: 'Obiettivo Arturo (Equo)', 
+                    data: list.map(d => ((d.brent / d.cambio / 159) + 0.21 + d.accisa_d) * 1.03 * 1.22),
+                    borderColor: '#00ff00', borderDash: [5, 5], tension: 0.1 
                 }
             ]
         },
-        options: { responsive: true }
+        options: { responsive: true, maintainAspectRatio: false }
     });
 
-    // Grafico Mancia
     new Chart(document.getElementById('chartMancia'), {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
                 label: 'Mancia (€)',
-                data: DATABASE_STORICO.storico.map(d => {
-                    // CORREZIONE: Usa d.accisa_d del giorno specifico
-                    const equo = ((d.brent / d.cambio * 0.00628) + 0.21 + d.accisa_d) * 1.03 * 1.22;
-                    return d.mimitDiesel - equo;
-                }),
-                backgroundColor: 'rgba(255, 165, 0, 0.2)',
-                borderColor: '#ffa500',
-                fill: true
+                data: list.map(d => d.mimitDiesel - (((d.brent / d.cambio / 159) + 0.21 + d.accisa_d) * 1.03 * 1.22)),
+                backgroundColor: 'rgba(255, 165, 0, 0.2)', borderColor: '#ffa500', fill: true
             }]
-        }
+        },
+        options: { responsive: true, maintainAspectRatio: false }
     });
 }
 
