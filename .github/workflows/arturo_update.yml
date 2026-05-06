@@ -2,7 +2,7 @@ name: Arturo Engine Autopilot
 
 on:
   schedule:
-    # QUESTO È L'ORARIO: 07:00 UTC = 09:00 Italiane
+    # QUESTO È L'ORARIO: 07:05 UTC = 09:05 Italiane
     - cron: '05 7 * * *'
   workflow_dispatch: # Questo è il tasto per lanciarlo a mano
 
@@ -11,10 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-env:
+    env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-    steps:
-    - name: Checkout repository
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
