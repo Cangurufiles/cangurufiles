@@ -16,10 +16,10 @@ URL_MIMIT_CSV = "https://www.mimit.gov.it/images/stories/carburanti/MediaRegiona
 
 # --- PARAMETRI MANIFESTO ---
 ACCISA_BENZINA = 0.6229
-SCADENZA_BENZINA = "10-03-2026"
+SCADENZA_BENZINA = "10-05-2026" # Corretto: Maggio
 
 ACCISA_DIESEL = 0.4729
-SCADENZA_DIESEL = "10-03-2026"
+SCADENZA_DIESEL = "10-05-2026" # Corretto: Maggio
 
 P_RAFF = 0.080
 P_DIST = 0.130
@@ -72,17 +72,18 @@ def aggiorna_sistema():
 
     oggi_str = datetime.now().strftime("%Y-%m-%d")
 
-    # 1. PREPARAZIONE DATI
+    # 1. PREPARAZIONE DATI (Ora includiamo le accise nello storico JSON)
     nuovi_dati = {
         "data": oggi_str,
         "brent": round(float(brent), 2),
         "cambio": round(float(cambio), 4),
         "mimitDiesel": diesel,
-        "mimitBenzina": benzina
+        "mimitBenzina": benzina,
+        "accisa_d": ACCISA_DIESEL,
+        "accisa_b": ACCISA_BENZINA
     }
 
     # 2. AGGIORNAMENTO CSV (STORICO FISCALE)
-    # Controlliamo se la data esiste già per evitare duplicati
     gia_presente = False
     with open(FILE_CSV, 'r', encoding='utf-8') as f:
         if oggi_str in f.read():
@@ -115,15 +116,22 @@ def aggiorna_sistema():
         "storico": []
     }
 
-    if os.path.exists(FILE_DATABASE):
-        with open(FILE_DATABASE, 'r', encoding='utf-8') as f:
-            try:
-                caricato = json.load(f)
-                db_full["storico"] = caricato.get("storico", [])
-            except: pass
-
-    db_full["storico"] = [e for e in db_full["storico"] if e.get('data') != oggi_str]
-    db_full["storico"].append(nuovi_dati)
+    # RECUPERO DATI DAL CSV PER SINCRONIZZARE IL JSON (Ripara lo storico mancante)
+    if os.path.exists(FILE_CSV):
+        with open(FILE_CSV, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for riga in reader:
+                db_full["storico"].append({
+                    "data": riga["data"],
+                    "brent": float(riga["brent_usd"]),
+                    "cambio": float(riga["cambio_eurusd"]),
+                    "mimitDiesel": float(riga["diesel_mimit"]),
+                    "mimitBenzina": float(riga["benzina_mimit"]),
+                    "accisa_d": float(riga["accisa_d"]),
+                    "accisa_b": float(riga["accisa_b"])
+                })
+    
+    # Ordiniamo e salviamo
     db_full["storico"].sort(key=lambda x: x['data'])
 
     with open(FILE_DATABASE, 'w', encoding='utf-8') as f:
