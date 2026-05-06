@@ -4,59 +4,153 @@
     <meta charset="UTF-8">
     <title>CanGuru - Bilancio S.D.R. Strategico</title>
     <style>
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0e0e10; color: #cfcfd8; max-width: 1000px; margin: 0 auto; padding: 40px 20px; line-height: 1.7; }
-        .container { background: #1a1a1d; border: 1px solid #333; border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* BASE & LAYOUT */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0e0e10;
+            color: #cfcfd8;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+        }
 
-        /* Navigazione */
-        .nav-btn { display: inline-block; margin-bottom: 20px; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 5px; font-size: 0.9rem; border: 1px solid #444; transition: 0.3s; }
-        .nav-btn:hover { background: #444; border-color: #00ff41; }
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-        /* Header */
-        .header { text-align: center; border-bottom: 1px solid #444; margin-bottom: 40px; padding-bottom: 20px; }
-        h1 { color: #fff; font-size: 2.2rem; margin-bottom: 10px; letter-spacing: 2px; }
+        /* HEADER CON TITOLO CENTRATO */
+        .header-top {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr; /* Tre colonne per centratura assoluta */
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .nav-btn {
+            justify-self: start;
+            padding: 8px 18px;
+            background: #252529;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid #444;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .nav-btn:hover { background: #333; border-color: #00ff41; }
+
+        .header-text { text-align: center; }
+        h1 { color: #fff; font-size: 2rem; margin: 0; letter-spacing: 1px; line-height: 1; }
         .acronym { color: #00ff41; font-weight: 800; }
+        .sub-header { color: #888; font-size: 0.85rem; margin-top: 5px; }
 
-        .summary-box { background: #252529; border-left: 5px solid #00ff41; padding: 20px; margin: 30px 0; font-size: 0.95rem; }
+        /* ABSTRACT COMPATTO E GIUSTIFICATO */
+        .summary-box {
+            background: #1a1a1d;
+            border-left: 4px solid #00ff41;
+            border-top: 1px solid #333;
+            border-right: 1px solid #333;
+            border-bottom: 1px solid #333;
+            padding: 20px 30px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.15rem;
+            text-align: justify;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
-        /* Sezione Superiore (Griglia Moderna) */
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-        .stat-card { background: #212124; padding: 25px; border-radius: 12px; border: 1px solid #333; text-align: center; position: relative; }
-        .stat-label { text-transform: uppercase; font-size: 0.75rem; color: #888; letter-spacing: 1.5px; display: block; margin-bottom: 10px; }
-        .stat-value { font-size: 2.2rem; font-weight: 800; color: #fff; }
+        /* GRIGLIA DATI */
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-card {
+            background: #1a1a1d;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        .stat-label {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: #888;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .stat-value { font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1; }
 
-        /* Sezione Inferiore (Logica e Confronto) */
-        .logic-section { background: #212124; border-radius: 15px; padding: 30px; border: 1px solid #2d2d33; margin-top: 20px; }
-        .formula { background: #000; padding: 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; color: #00ff41; margin: 25px 0; border-left: 4px solid #00ff41; text-align: center; font-size: 1.2rem; }
+        /* SEZIONE LOGICA */
+        .logic-section {
+            background: #1a1a1d;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #333;
+        }
+        .formula {
+            background: #000;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00ff41;
+            margin: 20px 0;
+            border-left: 5px solid #00ff41;
+            text-align: center;
+            font-size: 1.2rem;
+        }
 
-        .confronto { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
-        .confronto-box { padding: 25px; border-radius: 10px; text-align: center; }
-        .bg-red { background: rgba(255, 82, 82, 0.1); border: 1px solid #ff5252; }
-        .bg-green { background: rgba(0, 255, 65, 0.1); border: 1px solid #00ff41; }
+        .confronto { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0; }
+        .confronto-box { padding: 20px; border-radius: 10px; text-align: center; }
+        .bg-red { background: rgba(255, 82, 82, 0.08); border: 1px solid #ff5252; }
+        .bg-green { background: rgba(0, 255, 65, 0.08); border: 1px solid #00ff41; }
 
-        .huge-value { display: block; font-size: 2.5rem; font-weight: 900; margin: 10px 0; }
+        .huge-value { display: block; font-size: 2.5rem; font-weight: 900; margin: 8px 0; }
         .red-text { color: #ff5252; }
         .green-text { color: #00ff41; }
 
-        .alert-banner { background: #2a1b1b; border: 1px solid #ff5252; color: #ff5252; padding: 20px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 1.3rem; margin-top: 30px; }
+        .alert-banner {
+            background: #2a1b1b;
+            border: 1px solid #ff5252;
+            color: #ff5252;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-top: 10px;
+        }
 
-        .footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: #555; border-top: 1px solid #333; padding-top: 20px; }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="index.html" class="nav-btn">← Torna alla Dashboard</a>
-
-    <div class="header">
-        <h1>RAPPORTO <span class="acronym">S.D.R.</span> 2025</h1>
-        <p>Analisi Globale sui Flussi Finanziari - Esercizio Strategico</p>
+    <div class="header-top">
+        <a href="index.html" class="nav-btn">← Dashboard</a>
+        <div class="header-text">
+            <h1>RAPPORTO <span class="acronym">S.D.R.</span> 2025</h1>
+            <p class="sub-header">Analisi sui Flussi Finanziari - CanGuru Auditor</p>
+        </div>
+        <div></div>
     </div>
 
     <div class="summary-box">
         <strong>Abstract Tecnico:</strong> L'indice <strong>S.D.R.</strong> (Squilibrio Di Remunerazione) isola la quota di profitto netto estratta da ogni singolo litro venduto e destinata esclusivamente alla remunerazione del capitale (Dividendi e Buyback), separandola dai costi industriali.
+        L'attuale configurazione evidenzia un trasferimento di ricchezza forzato: ogni litro venduto genera un surplus di <strong>7,6 centesimi</strong> oltre la soglia di equilibrio etico. Questa liquidità viene drenata direttamente dall'economia reale verso i mercati finanziari globali.
     </div>
 
-    <!-- PARTE SUPERIORE ATTUALE -->
     <div class="data-grid">
         <div class="stat-card">
             <span class="stat-label">Capitale Estratto (Cash Return)</span>
@@ -67,25 +161,24 @@
         <div class="stat-card">
             <span class="stat-label">Volume Erogato Globalmente</span>
             <span class="stat-value">41,25 Mld / Lt</span>
-            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Totale litri commercializzati nel 2025</p>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Totale litri commercializzati nell'esercizio</p>
         </div>
     </div>
 
-    <!-- PARTE INFERIORE PRECEDENTE (LOGICA E SQUILIBRIO) -->
     <div class="logic-section">
-        <span class="stat-label">La Verità al Litro</span>
-        <p>Dividendo il capitale estratto per i volumi totali, otteniamo il prelievo finanziario netto su ogni singolo rifornimento effettuato dai cittadini.</p>
+        <span class="stat-label">Metodologia di Calcolo</span>
+        <p style="font-size: 1rem; margin: 10px 0;">Dividendo il capitale estratto per i volumi totali, otteniamo l'incidenza finanziaria netta applicata su ogni singolo rifornimento.</p>
 
         <div class="formula">
             € 5.000.000.000 / 41.250.000.000 Litri = € 0,121 / Litro
         </div>
 
-        <span class="stat-label" style="margin-top: 40px;">Analisi Etica (Soglia Arturo 3%)</span>
-        <p>Confronto tra il prelievo reale e il ricarico necessario per garantire un rendimento del capitale equo (Target 3%).</p>
+        <span class="stat-label" style="margin-top: 30px;">Audit di Equità (Soglia Arturo 3%)</span>
+        <p style="font-size: 1rem; margin: 10px 0;">Confronto tra il prelievo reale e il ricarico ottimale per garantire un rendimento industriale equo.</p>
 
         <div class="confronto">
             <div class="confronto-box bg-green">
-                <span class="stat-label green-text">Margine Etico Arturo</span>
+                <span class="stat-label green-text">Margine Etico Target</span>
                 <span class="huge-value green-text">€ 0,045</span>
                 <span class="stat-label">per litro</span>
             </div>
@@ -99,14 +192,10 @@
         <div class="alert-banner">
             SQUILIBRIO RILEVATO: +168% (€ 0,076 eccedenti per litro)
         </div>
-
-        <p style="margin-top: 25px; font-size: 0.95rem; color: #aaa;">
-            L'attuale configurazione evidenzia un trasferimento di ricchezza forzato: ogni litro venduto genera un surplus di <strong>7,6 centesimi</strong> oltre la soglia di equilibrio etico. Questa liquidità viene drenata direttamente dall'economia reale verso i mercati finanziari.
-        </p>
     </div>
 
     <div class="footer">
-        Documentazione ad uso interno - Protocollo CanGuru Auditor - A cura di Arturo e Davide Lab.
+        Documentazione riservata - Protocollo CanGuru Auditor - Sviluppato da Arturo e Davide Lab.
     </div>
 </div>
 

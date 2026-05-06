@@ -2,162 +2,263 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arturo - Monitoraggio Mancia Petrolifera</title>
+    <title>Arturo - Audit Verità Petrolifera</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
-        :root {
-            --bg-dark: #1a1a1a;
-            --card-bg: #2d2d2d;
-            --text-main: #e0e0e0;
-            --accent: #00ff00;
-            --mancia-color: #ffa500;
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; }
+        .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 20px; }
+
+        .header-audit { display: flex; justify-content: space-between; gap: 15px; align-items: stretch; }
+        .info-box { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .info-box h4 { margin: 0 0 10px 0; color: #888; text-transform: uppercase; font-size: 0.75rem; }
+
+        .banner-centrale {
+            flex: 1.8; background: #4a0000; border: 2px solid #ff4d4d; border-radius: 12px;
+            padding: 25px; display: flex; flex-direction: column; justify-content: center; text-align: center;
         }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: var(--text-main); margin: 0; padding: 20px; }
-        .container { max-width: 1200px; margin: auto; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        h3 { margin-top: 0; font-weight: 600; text-transform: uppercase; color: white !important; }
-        .header-grid { display: flex; justify-content: space-between; align-items: stretch; gap: 20px; margin-bottom: 20px; }
-        .banner-centrale { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; border: 1px solid #444; background: rgba(255,165,0,0.05); padding: 15px; }
-        .mancia-row { display: flex; gap: 20px; margin-bottom: 20px; }
-        .mancia-card { flex: 1; text-align: center; border-bottom: 5px solid var(--mancia-color); }
-        .btn-sdr { background: #e74c3c; color: white; border: none; padding: 12px; cursor: pointer; margin-top: 15px; border-radius: 6px; width: 100%; font-weight: bold; }
-        
-        /* FIX: Altezza fissa per i contenitori dei grafici */
-        .chart-container { position: relative; height: 350px; width: 100%; margin-top: 10px; }
-        canvas { background: #252525; border-radius: 8px; }
+        .banner-centrale p { margin: 0; line-height: 1.2; }
+        .p-max { font-size: 1.5rem; font-weight: bold; }
+        .p-spaziato { margin: 15px 0 !important; font-size: 1.3rem; }
+
+        .valore-evidenziato { color: #00ff00; font-size: 1.8rem; font-weight: bold; font-family: 'JetBrains Mono', monospace; }
+
+        .extraprofitti-btn {
+            background: #e74c3c; color: white; text-decoration: none; padding: 8px 15px;
+            border-radius: 6px; font-weight: bold; text-transform: uppercase;
+            text-align: center; font-size: 0.7rem; border: none; cursor: pointer;
+            box-shadow: 0 3px 0 #c0392b; transition: 0.1s; align-self: center; display: inline-block; margin-top: 10px;
+        }
+
+        .comp-item { display: flex; justify-content: space-between; border-bottom: 1px solid #3d3d42; padding: 6px 0; font-size: 1rem; }
+
+        .mancia-row { display: flex; gap: 15px; margin-top: 10px; }
+        .mancia-box { flex: 1; background: #2c2c31; border-radius: 12px; padding: 15px; text-align: center; border-bottom: 5px solid #ffffff; }
+        .mancia-valore { color: #ffffff; font-size: 2.2rem; font-weight: bold; }
+
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33; }
+        .arrow-btn { background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px; }
+
+        .super-scroll { width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px; scroll-behavior: smooth; }
+        .scroll-content { min-width: 2000px; padding: 20px; }
+        .chart-section { margin-bottom: 40px; }
+        .chart-section h3 { color: #f1c40f; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
+        .chart-wrapper { height: 350px; width: 100%; }
+
+        .nav-bar { text-align: center; margin: 10px 0; }
+        .sel-btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; background: #3d3d42; color: #888; margin: 0 5px; font-weight: bold; }
+        .sel-btn.active { background: #f1c40f; color: #000; }
+
+        table { width: 100%; border-collapse: collapse; background: #2c2c31; margin-top: 20px; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #3d3d42; font-family: 'JetBrains Mono'; font-size: 0.85rem; }
+        th { background: #3d3d42; color: #f1c40f; font-size: 0.7rem; text-transform: uppercase; }
+        .date-badge { padding: 4px 8px; border-radius: 4px; color: #1a1a1d; font-weight: bold; }
+        .date-badge-yellow { background-color: #f1c40f; }
+        .date-badge-green { background-color: #2ecc71; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="header-grid">
-        <div class="card" style="flex: 0 1 250px;">
-            <h3 style="font-size: 1.2rem;">VALORE ATTUALE ACCISE</h3>
-            <div id="accisa-valore" style="color: var(--accent); font-size: 2.2rem; font-weight: bold;">--</div>
-            <p id="accisa-scadenza" style="font-size: 0.85rem; color: #aaa; margin-bottom: 10px;">Scadenza: --</p>
-            <button class="btn-sdr" onclick="window.location.href='bilancio_sdr.html'">VEDI EXTRAPROFITTI ENI 2025</button>
+    <div class="header-audit">
+        <div class="info-box">
+            <div>
+                <h4>Valore Attuale Accise</h4>
+                <div id="displayAccisa" class="valore-evidenziato">--</div>
+                <div id="displayScadenza" style="color:#aaa; font-size: 0.8rem; margin-top:5px;">--</div>
+            </div>
+            <button class="extraprofitti-btn" onclick="window.location.href='bilancio_sdr.html'">Vedi analisi extraprofitti Eni 2025</button>
         </div>
 
-        <div class="card banner-centrale">
-            <p style="font-size: 1.05rem; line-height: 1.6; margin: 0;">
-                "Un rendimento sulle azioni del <b>3% annuo</b> sembra un buon risultato.<br>
-                La <b>'mancia'</b> è quello che gli diamo in più.<br>
-                Ecco quanto diamo di mancia agli azionisti delle compagnie petrolifere dopo avere pagato il conto."
-            </p>
+        <div class="banner-centrale">
+            <p class="p-max">Un rendimento del 3% annuo sulle azioni sembra già un buon risultato.</p>
+            <p class="p-spaziato">La <b>'mancia'</b> è quello che gli diamo in più.</p>
+            <p class="p-max">Ecco quanto regaliamo agli azionisti delle compagnie petrolifere dopo avere pagato il conto.</p>
         </div>
 
-        <div class="card" style="flex: 0 1 300px;">
-            <h3 style="font-size: 1.2rem;">SCOMPOSIZIONE PREZZO (€/L)</h3>
-            <div id="scomposizione-content" style="font-size: 0.95rem; line-height: 1.4;"></div>
+        <div class="info-box">
+            <h4>Scomposizione Prezzo (€/L)</h4>
+            <div id="composizioneDettaglio"></div>
         </div>
     </div>
 
     <div class="mancia-row">
-        <div class="card mancia-card">
-            <p style="color: #aaa; margin-bottom: 5px;">Mancia ad ogni pieno (50 litri su media storica)</p>
-            <div id="mancia-pieno" style="font-size: 2.5rem; color: var(--mancia-color); font-weight: bold;">--</div>
+        <div class="mancia-box">
+            <h4 style="margin:0; color:#888; font-size:0.7rem; text-transform:uppercase;">Mancia media a pieno (50 litri)</h4>
+            <div id="manciaPieno" class="mancia-valore">--</div>
         </div>
-        <div class="card mancia-card">
-            <p style="color: #aaa; margin-bottom: 5px;">Mancia ogni anno (24 pieni su media storica)</p>
-            <div id="mancia-anno" style="font-size: 2.5rem; color: var(--mancia-color); font-weight: bold;">--</div>
+        <div class="mancia-box">
+            <h4 style="margin:0; color:#888; font-size:0.7rem; text-transform:uppercase;">Mancia media all'anno (24 pieni)</h4>
+            <div id="manciaAnno" class="mancia-valore">--</div>
         </div>
     </div>
 
-    <div class="card">
-        <h3>Monitoraggio Prezzi e Impatto Fiscale</h3>
-        <div class="chart-container">
-            <canvas id="chartPrezzi"></canvas>
+    <div class="nav-bar">
+        <button id="btnGasolio" class="sel-btn active" onclick="switchFuel('diesel')">GASOLIO</button>
+        <button id="btnBenzina" class="sel-btn" onclick="switchFuel('benzina')">BENZINA</button>
+    </div>
+
+    <div class="nav-controls">
+        <button class="arrow-btn" onclick="scrollCharts(-400)">◀ STORICO</button>
+        <button class="arrow-btn" style="background: transparent; border:none;" onclick="scrollToToday()">OGGI (VAI AL PRESENTE) ▼</button>
+        <button class="arrow-btn" onclick="scrollCharts(400)">AVANTI ▶</button>
+    </div>
+
+    <div class="super-scroll" id="scrollMaster">
+        <div class="scroll-content">
+            <div class="chart-section">
+                <h3>Monitoraggio Prezzi e Impatto Fiscale (Mimit vs Arturo)</h3>
+                <div class="chart-wrapper"><canvas id="chartMain"></canvas></div>
+            </div>
+            <div class="chart-section">
+                <h3>Analisi della Mancia (Divergenza in Euro)</h3>
+                <div class="chart-wrapper"><canvas id="chartMancia"></canvas></div>
+            </div>
+            <div class="chart-section">
+                <h3>Materia Prima (Brent in €/Barile)</h3>
+                <div class="chart-wrapper"><canvas id="chartBarile"></canvas></div>
+            </div>
         </div>
     </div>
-    
-    <div style="margin-top: 20px;" class="card">
-        <h3>Analisi della Mancia (Divergenza in Euro)</h3>
-        <div class="chart-container">
-            <canvas id="chartMancia"></canvas>
-        </div>
-    </div>
+
+    <table>
+        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>POMPA</th><th>ARTURO</th><th>MANCIA</th><th>ACCISA</th></tr></thead>
+        <tbody id="tabellaDati"></tbody>
+    </table>
 </div>
 
 <script>
-// --- DATA START ---
+Chart.register(ChartDataLabels);
+
+// --- DATA START (Gestito da Python) ---
 const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
 // --- DATA END ---
 
-function initDashboard() {
-    const list = DATABASE_STORICO.storico;
-    if (!list || list.length === 0) return;
+let currentFuel = 'diesel';
+const P = { raffDist: 0.210, iva: 1.22 };
 
-    const ultimo = list[list.length - 1];
-    const P = { raff: 0.080, dist: 0.130, iva: 1.22, margine: 1.03 };
-    
-    // 1. Update Accise
-    document.getElementById('accisa-valore').innerText = `€ ${ultimo.accisa_d.toFixed(4)}`;
-    document.getElementById('accisa-scadenza').innerText = `Scadenza: ${DATABASE_STORICO.config.scadenza_diesel}`;
-
-    // 2. Calcolo Mancia Media
-    let totaleMancia = 0;
-    list.forEach(d => {
-        const mat = (d.brent / d.cambio / 159);
-        const equo = (mat + P.raff + P.dist + d.accisa_d) * P.margine * P.iva;
-        totaleMancia += (d.mimitDiesel - equo);
-    });
-    const mediaMancia = totaleMancia / list.length;
-    document.getElementById('mancia-pieno').innerText = `€ ${(mediaMancia * 50).toFixed(2)}`;
-    document.getElementById('mancia-anno').innerText = `€ ${(mediaMancia * 50 * 24).toFixed(2)}`;
-
-    // 3. Scomposizione con VOCE REMUNERAZIONE
-    const matU = (ultimo.brent / ultimo.cambio / 159);
-    const imponibile = matU + P.raff + P.dist + ultimo.accisa_d;
-    const quotaRemunerazione = imponibile * 0.03; // Il 3% del margine Arturo
-    const equoU = imponibile * P.margine * P.iva;
-    
-    document.getElementById('scomposizione-content').innerHTML = `
-        Materia Prima: € ${matU.toFixed(3)}<br>
-        Raffinazione/Distr: € 0.210<br>
-        Accisa: € ${ultimo.accisa_d.toFixed(3)}<br>
-        IVA (22%): € ${(ultimo.mimitDiesel * 0.1803).toFixed(3)}<br>
-        Equa Remunerazione (3%): € ${quotaRemunerazione.toFixed(3)}<br>
-        <b style="color:orange">Mancia oggi: € ${(ultimo.mimitDiesel - equoU).toFixed(3)}</b>
-    `;
-
-    renderCharts(list);
+function getGiornoData(dateStr) {
+    const d = new Date(dateStr);
+    const day = d.getDay();
+    const md = (d.getMonth() + 1) + "-" + d.getDate();
+    const festivi = ["1-1", "1-6", "4-25", "5-1", "6-2", "8-15", "11-1", "12-8", "12-25", "12-26"];
+    if (day === 0 || day === 6 || festivi.includes(md)) return { color: '#f1c40f', class: 'date-badge-yellow' };
+    return { color: '#2ecc71', class: 'date-badge-green' };
 }
 
-function renderCharts(list) {
-    const labels = list.map(d => d.data);
-    
-    new Chart(document.getElementById('chartPrezzi'), {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: 'Pompa Reale', data: list.map(d => d.mimitDiesel), borderColor: '#e74c3c', tension: 0.1 },
-                { 
-                    label: 'Obiettivo Arturo (Equo)', 
-                    data: list.map(d => ((d.brent / d.cambio / 159) + 0.21 + d.accisa_d) * 1.03 * 1.22),
-                    borderColor: '#00ff00', borderDash: [5, 5], tension: 0.1 
-                }
-            ]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
+function scrollCharts(amount) { document.getElementById('scrollMaster').scrollBy({ left: amount, behavior: 'smooth' }); }
+function scrollToToday() { const el = document.getElementById('scrollMaster'); el.scrollLeft = el.scrollWidth; }
 
-    new Chart(document.getElementById('chartMancia'), {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Mancia (€)',
-                data: list.map(d => d.mimitDiesel - (((d.brent / d.cambio / 159) + 0.21 + d.accisa_d) * 1.03 * 1.22)),
-                backgroundColor: 'rgba(255, 165, 0, 0.2)', borderColor: '#ffa500', fill: true
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
+function updateUI() {
+    const list = DATABASE_STORICO.storico || [];
+    const config = DATABASE_STORICO.config || {};
+    const scad = currentFuel === 'diesel' ? config.scadenza_diesel : config.scadenza_benzina;
+
+    if (list.length > 0) {
+        const u = list[list.length - 1];
+        const dayAccU = currentFuel === 'diesel' ? u.accisa_d : u.accisa_b; // Accisa reale dell'ultimo giorno
+
+        document.getElementById('displayAccisa').innerText = `€ ${dayAccU.toFixed(4)} per litro`;
+        document.getElementById('displayScadenza').innerText = `Scadenza: ${scad}`;
+
+        const matU = (u.brent / u.cambio / 159);
+        const ebitdaU = (matU + P.raffDist + dayAccU) * 0.03;
+        const equoU = (matU + P.raffDist + dayAccU + ebitdaU) * 1.22;
+        const pompaU = currentFuel === 'diesel' ? u.mimitDiesel : u.mimitBenzina;
+
+        document.getElementById('composizioneDettaglio').innerHTML = `
+            <div class="comp-item"><span>Materia Prima</span><span>€ ${matU.toFixed(4)}</span></div>
+            <div class="comp-item"><span>Raffinazione/Distr.</span><span>€ ${P.raffDist.toFixed(4)}</span></div>
+            <div class="comp-item"><span>Accise</span><span>€ ${dayAccU.toFixed(4)}</span></div>
+            <div class="comp-item"><span>Equa Remunerazione (3%)</span><span style="color:#00ff00">€ ${ebitdaU.toFixed(4)}</span></div>
+            <div class="comp-item"><span>IVA (22%)</span><span>€ ${(equoU - (matU + P.raffDist + dayAccU + ebitdaU)).toFixed(4)}</span></div>
+            <div class="comp-item"><b style="color:orange">Mancia oggi</b><b style="color:orange">€ ${(pompaU - equoU).toFixed(4)}</b></div>
+        `;
+
+        const labels = list.map(d => d.data);
+        const dReal = list.map(d => currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina);
+        const dAccise = list.map(d => currentFuel === 'diesel' ? d.accisa_d : d.accisa_b);
+        const dEquo = list.map((d, i) => (((d.brent/d.cambio/159) + 0.21 + dAccise[i]) * 1.03 * 1.22).toFixed(4));
+
+        let sommaMancia = 0;
+        dReal.forEach((r, i) => { sommaMancia += (r - dEquo[i]); });
+        const mediaM = sommaMancia / list.length;
+        document.getElementById('manciaPieno').innerText = `€ ${(mediaM * 50).toFixed(2)}`;
+        document.getElementById('manciaAnno').innerText = `€ ${(mediaM * 1200).toFixed(2)}`;
+
+        chartMain.data.labels = labels;
+        chartMain.data.datasets[0].data = dReal;
+        chartMain.data.datasets[1].data = dEquo;
+        chartMain.data.datasets[2].data = dAccise; // DINAMICHE
+        chartMain.update();
+
+        chartMancia.data.labels = labels;
+        chartMancia.data.datasets[0].data = dReal.map((r, i) => (r - dEquo[i]).toFixed(3));
+        chartMancia.update();
+
+        chartBarile.data.labels = labels;
+        chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
+        chartBarile.update();
+
+        document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map((d, i) => {
+            const idx = list.length - 1 - i;
+            const r = dReal[idx];
+            const e = parseFloat(dEquo[idx]);
+            const dayAcc = dAccise[idx]; // DINAMICA PER RIGA
+            const info = getGiornoData(d.data);
+            return `<tr>
+                <td><span class="date-badge ${info.class}">${d.data.split('-').reverse().join('/')}</span></td>
+                <td>${d.brent.toFixed(2)}</td><td>${d.cambio.toFixed(4)}</td><td>${r.toFixed(3)}</td>
+                <td style="color:#00ff00">${e.toFixed(3)}</td><td style="color:#9b59b6; font-weight:bold;">${(r-e).toFixed(3)}</td>
+                <td style="color:#aaa">${dayAcc.toFixed(4)}</td>
+            </tr>`;
+        }).join('');
+    }
 }
 
-window.onload = initDashboard;
+const commonOpt = {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+        x: { ticks: { color: '#1a1a1d', font: { weight: 'bold' }, showLabelBackdrop: true, backdropPadding: 4,
+             backdropColor: (ctx) => getGiornoData(ctx.tick.label).color }},
+        y: { grid: { color: '#333' }, ticks: { color: '#888' } }
+    },
+    plugins: {
+        legend: { labels: { color: '#eee', font: { size: 10 } } },
+        datalabels: { display: true, align: 'top', color: '#fff', font: { weight: 'bold', size: 9 },
+                      backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 4, padding: 2 }
+    }
+};
+
+const chartMain = new Chart(document.getElementById('chartMain'), {
+    type: 'line',
+    data: { datasets: [
+        { label: 'Pompa Reale', borderColor: '#e74c3c', data: [], tension: 0.1 },
+        { label: 'Obiettivo Arturo', borderColor: '#2ecc71', borderDash: [5,5], data: [], tension: 0.1 },
+        { label: 'Accisa Vigente', borderColor: '#f1c40f', backgroundColor: 'rgba(241, 196, 15, 0.1)', fill: true, pointRadius: 0, tension: 0, data: [] }
+    ]},
+    options: commonOpt
+});
+
+const chartMancia = new Chart(document.getElementById('chartMancia'), {
+    type: 'line',
+    data: { datasets: [{ label: 'Mancia (€)', borderColor: '#9b59b6', backgroundColor: 'rgba(155, 89, 182, 0.1)', fill: true, data: [], tension: 0.1 }] },
+    options: { ...commonOpt, plugins: { ...commonOpt.plugins, datalabels: { ...commonOpt.plugins.datalabels, color: '#ffffff' } } }
+});
+
+const chartBarile = new Chart(document.getElementById('chartBarile'), {
+    type: 'line',
+    data: { datasets: [{ label: 'Brent (€/Barile)', borderColor: '#3498db', data: [], tension: 0.1 }] },
+    options: commonOpt
+});
+
+function switchFuel(f) {
+    currentFuel = f;
+    document.getElementById('btnGasolio').classList.toggle('active', f === 'diesel');
+    document.getElementById('btnBenzina').classList.toggle('active', f === 'benzina');
+    updateUI();
+}
+
+window.onload = () => { updateUI(); setTimeout(scrollToToday, 500); };
 </script>
 </body>
 </html>

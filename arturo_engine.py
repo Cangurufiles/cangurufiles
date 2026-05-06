@@ -130,7 +130,7 @@ def aggiorna_sistema():
                     "accisa_d": float(riga["accisa_d"]),
                     "accisa_b": float(riga["accisa_b"])
                 })
-    
+
     # Ordiniamo e salviamo
     db_full["storico"].sort(key=lambda x: x['data'])
 
