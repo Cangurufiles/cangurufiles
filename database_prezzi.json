@@ -1,9 +1,9 @@
 {
     "config": {
         "accisa_benzina": 0.6229,
-        "scadenza_benzina": "10-03-2026",
+        "scadenza_benzina": "10-05-2026",
         "accisa_diesel": 0.4729,
-        "scadenza_diesel": "10-03-2026"
+        "scadenza_diesel": "10-05-2026"
     },
     "storico": [
         {
