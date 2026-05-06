@@ -22,7 +22,10 @@
         .mancia-row { display: flex; gap: 20px; margin-bottom: 20px; }
         .mancia-card { flex: 1; text-align: center; border-bottom: 5px solid var(--mancia-color); }
         .btn-sdr { background: #e74c3c; color: white; border: none; padding: 12px; cursor: pointer; margin-top: 15px; border-radius: 6px; width: 100%; font-weight: bold; }
-        canvas { background: #252525; border-radius: 8px; margin-top: 10px; width: 100% !important; }
+        
+        /* FIX: Altezza fissa per i contenitori dei grafici */
+        .chart-container { position: relative; height: 350px; width: 100%; margin-top: 10px; }
+        canvas { background: #252525; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -63,18 +66,22 @@
 
     <div class="card">
         <h3>Monitoraggio Prezzi e Impatto Fiscale</h3>
-        <canvas id="chartPrezzi" height="300"></canvas>
+        <div class="chart-container">
+            <canvas id="chartPrezzi"></canvas>
+        </div>
     </div>
     
     <div style="margin-top: 20px;" class="card">
         <h3>Analisi della Mancia (Divergenza in Euro)</h3>
-        <canvas id="chartMancia" height="200"></canvas>
+        <div class="chart-container">
+            <canvas id="chartMancia"></canvas>
+        </div>
     </div>
 </div>
 
 <script>
 // --- DATA START ---
-const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
+const DATABASE_STORICO = {"config": {"accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": []};
 // --- DATA END ---
 
 function initDashboard() {
@@ -99,21 +106,25 @@ function initDashboard() {
     document.getElementById('mancia-pieno').innerText = `€ ${(mediaMancia * 50).toFixed(2)}`;
     document.getElementById('mancia-anno').innerText = `€ ${(mediaMancia * 50 * 24).toFixed(2)}`;
 
-    // 3. Scomposizione
+    // 3. Scomposizione con VOCE REMUNERAZIONE
     const matU = (ultimo.brent / ultimo.cambio / 159);
-    const equoU = (matU + P.raff + P.dist + ultimo.accisa_d) * P.margine * P.iva;
+    const imponibile = matU + P.raff + P.dist + ultimo.accisa_d;
+    const quotaRemunerazione = imponibile * 0.03; // Il 3% del margine Arturo
+    const equoU = imponibile * P.margine * P.iva;
+    
     document.getElementById('scomposizione-content').innerHTML = `
         Materia Prima: € ${matU.toFixed(3)}<br>
         Raffinazione/Distr: € 0.210<br>
         Accisa: € ${ultimo.accisa_d.toFixed(3)}<br>
         IVA (22%): € ${(ultimo.mimitDiesel * 0.1803).toFixed(3)}<br>
+        Equa Remunerazione (3%): € ${quotaRemunerazione.toFixed(3)}<br>
         <b style="color:orange">Mancia oggi: € ${(ultimo.mimitDiesel - equoU).toFixed(3)}</b>
     `;
 
-    renderCharts(list, P);
+    renderCharts(list);
 }
 
-function renderCharts(list, P) {
+function renderCharts(list) {
     const labels = list.map(d => d.data);
     
     new Chart(document.getElementById('chartPrezzi'), {
