@@ -7,47 +7,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; }
-        /* 2 - LARGHEZZA DINAMICA */
         .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 20px; }
-
-        /* Header */
         .header-audit { display: flex; justify-content: space-between; gap: 15px; }
         .info-box { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; flex: 1; }
         .info-box h4 { margin: 0 0 10px 0; color: #888; text-transform: uppercase; font-size: 0.7rem; }
         .valore-evidenziato { color: #00ff00; font-size: 1.8rem; font-weight: bold; font-family: 'JetBrains Mono', monospace; }
         .sdr-link-btn { background: #e74c3c; color: white; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-transform: uppercase; display: inline-block; }
         .comp-item { display: flex; justify-content: space-between; border-bottom: 1px solid #3d3d42; padding: 4px 0; font-size: 0.8rem; }
-
-        /* Controlli Navigazione */
-        .nav-controls {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33;
-        }
-        .arrow-btn {
-            background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f;
-            padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px;
-            transition: 0.2s;
-        }
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33; }
+        .arrow-btn { background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px; transition: 0.2s; }
         .arrow-btn:hover { background: #f1c40f; color: #000; }
-
-        .super-scroll {
-            width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px;
-            scroll-behavior: smooth;
-        }
+        .super-scroll { width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px; scroll-behavior: smooth; }
         .super-scroll::-webkit-scrollbar { height: 12px; }
         .super-scroll::-webkit-scrollbar-track { background: #1a1a1d; border-radius: 10px; }
         .super-scroll::-webkit-scrollbar-thumb { background: #f1c40f; border-radius: 10px; border: 2px solid #1a1a1d; }
-
         .scroll-content { min-width: 2000px; padding: 20px; }
         .chart-section { margin-bottom: 40px; }
         .chart-section h3 { color: #f1c40f; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
         .chart-wrapper { height: 350px; width: 100%; }
-
         .nav-bar { text-align: center; margin: 10px 0; }
         .sel-btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; background: #3d3d42; color: #888; margin: 0 5px; font-weight: bold; }
         .sel-btn.active { background: #f1c40f; color: #000; }
-
-        /* Tabella con Badge Colorati */
         table { width: 100%; border-collapse: collapse; background: #2c2c31; margin-top: 20px; border-radius: 12px; overflow: hidden; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #3d3d42; font-family: 'JetBrains Mono'; font-size: 0.85rem; }
         th { background: #3d3d42; color: #f1c40f; font-size: 0.7rem; text-transform: uppercase; }
@@ -67,7 +47,6 @@
         <div class="info-box" style="background:transparent; border:none; text-align:center; display: flex; align-items: center; justify-content: center;">
             <a href="bilancio_sdr.html" class="sdr-link-btn">Bilancio S.D.R.</a>
         </div>
-        <!-- 1 - CASELLA SCOMPOSIZIONE RIPRISTINATA -->
         <div class="info-box">
             <h4>Scomposizione Prezzo (€/L)</h4>
             <div id="composizioneDettaglio"></div>
@@ -88,7 +67,7 @@
     <div class="super-scroll" id="scrollMaster">
         <div class="scroll-content">
             <div class="chart-section">
-                <h3>Monitoraggio Prezzi (Mimit vs Arturo)</h3>
+                <h3>Monitoraggio Prezzi e Impatto Fiscale (Mimit vs Arturo)</h3>
                 <div class="chart-wrapper"><canvas id="chartMain"></canvas></div>
             </div>
             <div class="chart-section">
@@ -103,7 +82,7 @@
     </div>
 
     <table>
-        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>POMPA</th><th>ARTURO</th><th>CRESTA</th></tr></thead>
+        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>POMPA</th><th>ARTURO</th><th>CRESTA</th><th>ACCISA</th></tr></thead>
         <tbody id="tabellaDati"></tbody>
     </table>
 </div>
@@ -112,7 +91,7 @@
 Chart.register(ChartDataLabels);
 
 // --- DATA START ---
-const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
+const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": []};
 // --- DATA END ---
 
 let currentFuel = 'diesel';
@@ -139,35 +118,45 @@ function scrollToToday() {
 function updateUI() {
     const list = DATABASE_STORICO.storico || [];
     const config = DATABASE_STORICO.config || {};
-    const acc = currentFuel === 'diesel' ? config.accisa_diesel : config.accisa_benzina;
+    const currentAcc = currentFuel === 'diesel' ? config.accisa_diesel : config.accisa_benzina;
     const scad = currentFuel === 'diesel' ? config.scadenza_diesel : config.scadenza_benzina;
 
-    document.getElementById('displayAccisa').innerText = `€ ${acc.toFixed(4)}`;
+    document.getElementById('displayAccisa').innerText = `€ ${currentAcc.toFixed(4)}`;
     document.getElementById('displayScadenza').innerText = `Scadenza: ${scad}`;
 
     if (list.length > 0) {
         const u = list[list.length - 1];
-        const mat = (u.brent / u.cambio / 159);
-        const ebitda = (mat + P.raff + P.dist + acc) * 0.03;
-        const ivaT = (mat + P.raff + P.dist + acc + ebitda) * 0.22;
+        const matU = (u.brent / u.cambio / 159);
+        const ebitdaU = (matU + P.raff + P.dist + currentAcc) * 0.03;
+        const ivaU = (matU + P.raff + P.dist + currentAcc + ebitdaU) * 0.22;
 
-        // 1 - SCOMPOSIZIONE COMPLETA COME DA IMMAGINE
         document.getElementById('composizioneDettaglio').innerHTML = `
-            <div class="comp-item"><span>Materia Prima</span><span>€ ${mat.toFixed(3)}</span></div>
+            <div class="comp-item"><span>Materia Prima</span><span>€ ${matU.toFixed(3)}</span></div>
             <div class="comp-item"><span>Raffinazione</span><span>€ ${P.raff.toFixed(3)}</span></div>
             <div class="comp-item"><span>Distribuzione</span><span>€ ${P.dist.toFixed(3)}</span></div>
-            <div class="comp-item"><span>Accise</span><span>€ ${acc.toFixed(3)}</span></div>
-            <div class="comp-item"><span>Equo ricarico (3%)</span><span style="color:#00ff00">€ ${ebitda.toFixed(3)}</span></div>
-            <div class="comp-item"><span>IVA (22%)</span><span>€ ${ivaT.toFixed(3)}</span></div>
+            <div class="comp-item"><span>Accise</span><span>€ ${currentAcc.toFixed(3)}</span></div>
+            <div class="comp-item"><span>Equo ricarico (3%)</span><span style="color:#00ff00">€ ${ebitdaU.toFixed(3)}</span></div>
+            <div class="comp-item"><span>IVA (22%)</span><span>€ ${ivaU.toFixed(3)}</span></div>
         `;
 
         const labels = list.map(d => d.data);
         const dReal = list.map(d => currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina);
-        const dEquo = list.map(d => ((( (d.brent/d.cambio/159) + P.raff + P.dist + acc) * 1.03) * 1.22).toFixed(3));
+        
+        // CALCOLO DINAMICO ACCISA STORICA
+        const dAccise = list.map(d => currentFuel === 'diesel' ? d.accisa_d : d.accisa_b);
+        
+        // CALCOLO OBIETTIVO ARTURO PUNTO PER PUNTO
+        const dEquo = list.map((d, index) => {
+            const accGiorno = dAccise[index];
+            const matGiorno = (d.brent / d.cambio / 159);
+            return (((matGiorno + P.raff + P.dist + accGiorno) * 1.03) * 1.22).toFixed(3);
+        });
 
+        // Update Charts
         chartMain.data.labels = labels;
         chartMain.data.datasets[0].data = dReal;
         chartMain.data.datasets[1].data = dEquo;
+        chartMain.data.datasets[2].data = dAccise; // Nuova linea accisa
         chartMain.update();
 
         chartCresta.data.labels = labels;
@@ -178,20 +167,22 @@ function updateUI() {
         chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
         chartBarile.update();
 
-        document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map(d => {
-            const r = currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina;
-            const e = ((( (d.brent/d.cambio/159) + P.raff + P.dist + acc) * 1.03) * 1.22).toFixed(3);
+        document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map((d, i) => {
+            const idx = list.length - 1 - i;
+            const r = dReal[idx];
+            const e = dEquo[idx];
+            const a = dAccise[idx];
             const info = getGiornoData(d.data);
             return `<tr>
                 <td><span class="date-badge ${info.class}">${d.data.split('-').reverse().join('/')}</span></td>
-                <td>${d.brent}</td><td>${d.cambio}</td><td>${r}</td>
+                <td>${d.brent}</td><td>${d.cambio}</td><td>${r.toFixed(3)}</td>
                 <td style="color:#00ff00">${e}</td><td>${(r-e).toFixed(3)}</td>
+                <td style="color:#aaa">${a.toFixed(4)}</td>
             </tr>`;
         }).join('');
     }
 }
 
-// 3 - CONFIGURAZIONE NUMERI SUI PUNTI (DATALABELS)
 const commonOpt = {
     responsive: true, maintainAspectRatio: false,
     scales: {
@@ -200,18 +191,14 @@ const commonOpt = {
             showLabelBackdrop: true, backdropPadding: 4,
             backdropColor: (ctx) => getGiornoData(ctx.tick.label).color
         }},
-        y: { display: false } // Nasconde scala a sinistra come richiesto
+        y: { grid: { color: '#333' }, ticks: { color: '#888' } }
     },
     plugins: {
         legend: { labels: { color: '#eee' } },
         datalabels: {
-            display: true,
-            align: 'top',
-            color: '#fff',
+            display: true, align: 'top', color: '#fff',
             font: { weight: 'bold', size: 10 },
-            backgroundColor: 'rgba(0,0,0,0.4)',
-            borderRadius: 4,
-            padding: 4,
+            backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: 4, padding: 4,
             formatter: (value) => value
         }
     }
@@ -219,19 +206,23 @@ const commonOpt = {
 
 const chartMain = new Chart(document.getElementById('chartMain'), {
     type: 'line',
-    data: { datasets: [{ label: 'Pompa Reale', borderColor: '#e74c3c', data: [] }, { label: 'Obiettivo Arturo', borderColor: '#2ecc71', borderDash: [5,5], data: [] }] },
+    data: { datasets: [
+        { label: 'Pompa Reale', borderColor: '#e74c3c', data: [], tension: 0.1 }, 
+        { label: 'Obiettivo Arturo', borderColor: '#2ecc71', borderDash: [5,5], data: [], tension: 0.1 },
+        { label: 'Accisa Vigente', borderColor: '#f1c40f', backgroundColor: 'rgba(241, 196, 15, 0.1)', fill: true, data: [], pointRadius: 0, tension: 0 }
+    ]},
     options: commonOpt
 });
 
 const chartCresta = new Chart(document.getElementById('chartCresta'), {
     type: 'line',
-    data: { datasets: [{ label: 'Cresta (€)', borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,0.1)', fill: true, data: [] }] },
+    data: { datasets: [{ label: 'Cresta (€)', borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,0.1)', fill: true, data: [], tension: 0.1 }] },
     options: { ...commonOpt, plugins: { ...commonOpt.plugins, datalabels: { ...commonOpt.plugins.datalabels, color: '#f1c40f' } } }
 });
 
 const chartBarile = new Chart(document.getElementById('chartBarile'), {
     type: 'line',
-    data: { datasets: [{ label: 'Brent (€/Barile)', borderColor: '#3498db', data: [] }] },
+    data: { datasets: [{ label: 'Brent (€/Barile)', borderColor: '#3498db', data: [], tension: 0.1 }] },
     options: commonOpt
 });
 
