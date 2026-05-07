@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; overflow-x: hidden; }
         .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 20px; }
 
         .header-audit { display: flex; justify-content: space-between; gap: 15px; align-items: stretch; }
@@ -39,10 +39,25 @@
         .nav-controls { display: flex; justify-content: space-between; align-items: center; background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33; }
         .arrow-btn { background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px; }
 
-        .super-scroll { width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px; scroll-behavior: smooth; }
+        /* LOGICA SCROLL E ETICHETTE STICKY */
+        .super-scroll { width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px; scroll-behavior: smooth; position: relative; }
         .scroll-content { min-width: 2000px; padding: 20px; }
-        .chart-section { margin-bottom: 40px; }
-        .chart-section h3 { color: #f1c40f; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
+
+        .chart-section { margin-bottom: 40px; position: relative; }
+        .chart-section h3 {
+            color: #f1c40f;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            position: sticky;
+            left: 0;
+            width: 100vw; /* Copre la larghezza visibile dello scroll */
+            text-align: center;
+            background: linear-gradient(90deg, transparent, rgba(44,44,49,0.95), transparent);
+            z-index: 10;
+            padding: 5px 0;
+        }
+
         .chart-wrapper { height: 350px; width: 100%; }
 
         .nav-bar { text-align: center; margin: 10px 0; }
@@ -117,6 +132,10 @@
                 <h3>Materia Prima (Brent in €/Barile)</h3>
                 <div class="chart-wrapper"><canvas id="chartBarile"></canvas></div>
             </div>
+            <div class="chart-section">
+                <h3>Rapporto di Cambio (EUR/USD)</h3>
+                <div class="chart-wrapper"><canvas id="chartCambio"></canvas></div>
+            </div>
         </div>
     </div>
 
@@ -129,22 +148,12 @@
 <script>
 Chart.register(ChartDataLabels);
 
-// Il database viene ora caricato dinamicamente dal file JSON esterno
-let DATABASE_STORICO = { config: {}, storico: [] };
+// --- DATA START ---
+const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-07", "brent": 99.33, "cambio": 1.1773, "mimitDiesel": 2.042, "mimitBenzina": 1.941, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
+// --- DATA END ---
+
 let currentFuel = 'diesel';
 const P = { raffDist: 0.210, iva: 1.22 };
-
-async function caricaDati() {
-    try {
-        // Aggiungiamo un timestamp per evitare che il browser legga una versione vecchia (cache)
-        const response = await fetch('database_storico.json?v=' + Date.now());
-        DATABASE_STORICO = await response.json();
-        updateUI();
-        setTimeout(scrollToToday, 500);
-    } catch (error) {
-        console.error("Errore nel caricamento del database JSON:", error);
-    }
-}
 
 function getGiornoData(dateStr) {
     const d = new Date(dateStr);
@@ -214,6 +223,10 @@ function updateUI() {
         chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
         chartBarile.update();
 
+        chartCambio.data.labels = labels;
+        chartCambio.data.datasets[0].data = list.map(d => d.cambio.toFixed(4));
+        chartCambio.update();
+
         document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map((d, i) => {
             const idx = list.length - 1 - i;
             const r = dReal[idx];
@@ -269,6 +282,12 @@ const chartBarile = new Chart(document.getElementById('chartBarile'), {
     options: commonOpt
 });
 
+const chartCambio = new Chart(document.getElementById('chartCambio'), {
+    type: 'line',
+    data: { datasets: [{ label: 'Cambio EUR/USD', borderColor: '#f39c12', backgroundColor: 'rgba(243, 156, 18, 0.1)', fill: true, data: [], tension: 0.1 }] },
+    options: commonOpt
+});
+
 function switchFuel(f) {
     currentFuel = f;
     document.getElementById('btnGasolio').classList.toggle('active', f === 'diesel');
@@ -276,8 +295,7 @@ function switchFuel(f) {
     updateUI();
 }
 
-// Avvio: carica i dati dal JSON invece di leggerli dal codice
-window.onload = () => { caricaDati(); };
+window.onload = () => { updateUI(); setTimeout(scrollToToday, 500); };
 </script>
 </body>
 </html>
