@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -129,9 +130,7 @@
 <script>
 Chart.register(ChartDataLabels);
 
-// --- DATA START (Gestito da Python) ---
 const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
-// --- DATA END ---
 
 let currentFuel = 'diesel';
 const P = { raffDist: 0.210, iva: 1.22 };
@@ -155,7 +154,7 @@ function updateUI() {
 
     if (list.length > 0) {
         const u = list[list.length - 1];
-        const dayAccU = currentFuel === 'diesel' ? u.accisa_d : u.accisa_b; // Accisa reale dell'ultimo giorno
+        const dayAccU = currentFuel === 'diesel' ? u.accisa_d : u.accisa_b;
 
         document.getElementById('displayAccisa').innerText = `€ ${dayAccU.toFixed(4)} per litro`;
         document.getElementById('displayScadenza').innerText = `Scadenza: ${scad}`;
@@ -165,19 +164,25 @@ function updateUI() {
         const equoU = (matU + P.raffDist + dayAccU + ebitdaU) * 1.22;
         const pompaU = currentFuel === 'diesel' ? u.mimitDiesel : u.mimitBenzina;
 
+        // Scomposizione: Tutti a 4 decimali
         document.getElementById('composizioneDettaglio').innerHTML = `
             <div class="comp-item"><span>Materia Prima</span><span>€ ${matU.toFixed(4)}</span></div>
             <div class="comp-item"><span>Raffinazione/Distr.</span><span>€ ${P.raffDist.toFixed(4)}</span></div>
             <div class="comp-item"><span>Accise</span><span>€ ${dayAccU.toFixed(4)}</span></div>
             <div class="comp-item"><span>Equa Remunerazione (3%)</span><span style="color:#00ff00">€ ${ebitdaU.toFixed(4)}</span></div>
             <div class="comp-item"><span>IVA (22%)</span><span>€ ${(equoU - (matU + P.raffDist + dayAccU + ebitdaU)).toFixed(4)}</span></div>
-            <div class="comp-item"><b style="color:orange">Mancia oggi</b><b style="color:orange">€ ${(pompaU - equoU).toFixed(4)}</b></div>
+            <div class="comp-item"><b style="color:orange">Mancia oggi</b><b style="color:orange">€ ${(pompaU - equoU).toFixed(3)}</b></div>
         `;
 
         const labels = list.map(d => d.data);
         const dReal = list.map(d => currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina);
         const dAccise = list.map(d => currentFuel === 'diesel' ? d.accisa_d : d.accisa_b);
-        const dEquo = list.map((d, i) => (((d.brent/d.cambio/159) + 0.21 + dAccise[i]) * 1.03 * 1.22).toFixed(4));
+        const dEquo = list.map((d, i) => {
+            const mat = d.brent / d.cambio / 159;
+            const acc = dAccise[i];
+            const ebitda = (mat + P.raffDist + acc) * 0.03;
+            return (mat + P.raffDist + acc + ebitda) * 1.22;
+        });
 
         let sommaMancia = 0;
         dReal.forEach((r, i) => { sommaMancia += (r - dEquo[i]); });
@@ -185,10 +190,11 @@ function updateUI() {
         document.getElementById('manciaPieno').innerText = `€ ${(mediaM * 50).toFixed(2)}`;
         document.getElementById('manciaAnno').innerText = `€ ${(mediaM * 1200).toFixed(2)}`;
 
+        // Grafici: Prezzi a 3, Accise a 4
         chartMain.data.labels = labels;
-        chartMain.data.datasets[0].data = dReal;
-        chartMain.data.datasets[1].data = dEquo;
-        chartMain.data.datasets[2].data = dAccise; // DINAMICHE
+        chartMain.data.datasets[0].data = dReal.map(v => v.toFixed(3));
+        chartMain.data.datasets[1].data = dEquo.map(v => v.toFixed(3));
+        chartMain.data.datasets[2].data = dAccise.map(v => v.toFixed(4));
         chartMain.update();
 
         chartMancia.data.labels = labels;
@@ -199,16 +205,20 @@ function updateUI() {
         chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
         chartBarile.update();
 
+        // Tabella: Mista (Cambio 4, Accisa 4, Prezzi 3)
         document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map((d, i) => {
             const idx = list.length - 1 - i;
             const r = dReal[idx];
-            const e = parseFloat(dEquo[idx]);
-            const dayAcc = dAccise[idx]; // DINAMICA PER RIGA
+            const e = dEquo[idx];
+            const dayAcc = dAccise[idx];
             const info = getGiornoData(d.data);
             return `<tr>
                 <td><span class="date-badge ${info.class}">${d.data.split('-').reverse().join('/')}</span></td>
-                <td>${d.brent.toFixed(2)}</td><td>${d.cambio.toFixed(4)}</td><td>${r.toFixed(3)}</td>
-                <td style="color:#00ff00">${e.toFixed(3)}</td><td style="color:#9b59b6; font-weight:bold;">${(r-e).toFixed(3)}</td>
+                <td>${d.brent.toFixed(2)}</td>
+                <td>${d.cambio.toFixed(4)}</td>
+                <td>${r.toFixed(3)}</td>
+                <td style="color:#00ff00">${e.toFixed(3)}</td>
+                <td style="color:#9b59b6; font-weight:bold;">${(r-e).toFixed(3)}</td>
                 <td style="color:#aaa">${dayAcc.toFixed(4)}</td>
             </tr>`;
         }).join('');
@@ -219,7 +229,7 @@ const commonOpt = {
     responsive: true, maintainAspectRatio: false,
     scales: {
         x: { ticks: { color: '#1a1a1d', font: { weight: 'bold' }, showLabelBackdrop: true, backdropPadding: 4,
-             backdropColor: (ctx) => getGiornoData(ctx.tick.label).color }},
+              backdropColor: (ctx) => getGiornoData(ctx.tick.label).color }},
         y: { grid: { color: '#333' }, ticks: { color: '#888' } }
     },
     plugins: {
