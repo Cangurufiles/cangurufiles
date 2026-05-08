@@ -86,6 +86,15 @@
             "mimitBenzina": 1.941,
             "accisa_d": 0.4729,
             "accisa_b": 0.6229
+        },
+        {
+            "data": "2026-05-08",
+            "brent": 100.67,
+            "cambio": 1.1747,
+            "mimitDiesel": 2.031,
+            "mimitBenzina": 1.938,
+            "accisa_d": 0.4729,
+            "accisa_b": 0.6229
         }
     ]
 }
