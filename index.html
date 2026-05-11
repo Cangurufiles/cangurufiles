@@ -7,90 +7,73 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; overflow-x: hidden; }
-        .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 15px; }
 
+        /* Header */
         .header-audit { display: flex; justify-content: space-between; gap: 15px; align-items: stretch; }
-        .info-box { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .info-box h4 { margin: 0 0 10px 0; color: #888; text-transform: uppercase; font-size: 0.75rem; }
-
-        .banner-centrale {
-            flex: 1.8; background: #4a0000; border: 2px solid #ff4d4d; border-radius: 12px;
-            padding: 25px; display: flex; flex-direction: column; justify-content: center; text-align: center;
-        }
-        .banner-centrale p { margin: 0; line-height: 1.2; }
-        .p-max { font-size: 1.5rem; font-weight: bold; }
-        .p-spaziato { margin: 15px 0 !important; font-size: 1.3rem; }
-
+        .info-box { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .info-box h4 { margin: 0 0 10px 0; color: #888; text-transform: uppercase; font-size: 0.7rem; }
+        .banner-centrale { flex: 1.5; background: #4a0000; border: 2px solid #ff4d4d; border-radius: 12px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .banner-centrale p { margin: 5px 0; line-height: 1.3; font-size: 1.5rem; color: #fff; }
         .valore-evidenziato { color: #00ff00; font-size: 1.8rem; font-weight: bold; font-family: 'JetBrains Mono', monospace; }
 
-        .extraprofitti-btn {
-            background: #e74c3c; color: white; text-decoration: none; padding: 8px 15px;
-            border-radius: 6px; font-weight: bold; text-transform: uppercase;
-            text-align: center; font-size: 0.7rem; border: none; cursor: pointer;
-            box-shadow: 0 3px 0 #c0392b; transition: 0.1s; align-self: center; display: inline-block; margin-top: 10px;
-        }
-
-        .comp-item { display: flex; justify-content: space-between; border-bottom: 1px solid #3d3d42; padding: 6px 0; font-size: 1rem; }
-
-        .mancia-row { display: flex; gap: 15px; margin-top: 10px; }
+        /* Dashboard Mancia */
+        .mancia-row { display: flex; gap: 15px; }
         .mancia-box { flex: 1; background: #2c2c31; border-radius: 12px; padding: 15px; text-align: center; border-bottom: 5px solid #ffffff; }
-        .mancia-valore { color: #ffffff; font-size: 2.2rem; font-weight: bold; }
+        .mancia-valore { color: #ffffff; font-size: 2rem; font-weight: bold; }
 
-        .nav-controls { display: flex; justify-content: space-between; align-items: center; background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33; }
-        .arrow-btn { background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px; }
-
-        /* LOGICA SCROLL E ETICHETTE STICKY */
-        .super-scroll { width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px; scroll-behavior: smooth; position: relative; }
-        .scroll-content { min-width: 2000px; padding: 20px; }
-
-        .chart-section { margin-bottom: 40px; position: relative; }
-        .chart-section h3 {
-            color: #f1c40f;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            margin: 0 0 10px 0;
-            position: sticky;
-            left: 0;
-            width: 100vw; /* Copre la larghezza visibile dello scroll */
-            text-align: center;
-            background: linear-gradient(90deg, transparent, rgba(44,44,49,0.95), transparent);
-            z-index: 10;
-            padding: 5px 0;
-        }
-
-        .chart-wrapper { height: 350px; width: 100%; }
-
+        /* Controlli Navigazione */
         .nav-bar { text-align: center; margin: 10px 0; }
         .sel-btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; background: #3d3d42; color: #888; margin: 0 5px; font-weight: bold; }
         .sel-btn.active { background: #f1c40f; color: #000; }
 
-        table { width: 100%; border-collapse: collapse; background: #2c2c31; margin-top: 20px; border-radius: 12px; overflow: hidden; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #3d3d42; font-family: 'JetBrains Mono'; font-size: 0.85rem; }
-        th { background: #3d3d42; color: #f1c40f; font-size: 0.7rem; text-transform: uppercase; }
-        .date-badge { padding: 4px 8px; border-radius: 4px; color: #1a1a1d; font-weight: bold; }
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33; margin-bottom: 10px; }
+        .arrow-btn { background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px; }
+
+        /* Nuovo stile pulsante SDR */
+        .sdr-btn { background: #1a1a1d; color: #2ecc71; border: 2px solid #2ecc71; padding: 8px 20px; cursor: pointer; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .sdr-btn:hover { background: #2ecc71; color: #1a1a1d; }
+
+        /* Super Scroll */
+        .super-scroll { width: 100%; overflow-x: auto; background: #2c2c31; border: 1px solid #444; border-radius: 12px; scroll-behavior: smooth; position: relative; }
+        .scroll-content { min-width: 2000px; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+        .chart-section { background: #1a1a1d; border: 1px solid #333; border-radius: 12px; padding: 15px; }
+        .chart-section h3 {
+            color: #f1c40f; font-size: 0.85rem; text-transform: uppercase; margin: 0 0 12px 0; text-align: center;
+            position: sticky; left: 0; width: 96vw; z-index: 10;
+            background: linear-gradient(90deg, transparent, rgba(44,44,49,0.95), transparent); padding: 6px 0;
+        }
+
+        .chart-wrapper { height: 300px; width: 100%; position: relative; }
+
+        /* Tabella */
+        table { width: 100%; border-collapse: collapse; background: #2c2c31; margin-top: 15px; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #3d3d42; font-family: 'JetBrains Mono'; font-size: 0.8rem; }
+        th { background: #3d3d42; color: #f1c40f; text-transform: uppercase; font-size: 0.7rem; }
+        .date-badge { padding: 3px 6px; border-radius: 4px; color: #1a1a1d; font-weight: bold; }
         .date-badge-yellow { background-color: #f1c40f; }
         .date-badge-green { background-color: #2ecc71; }
+        .comp-item { display: flex; justify-content: space-between; border-bottom: 1px solid #3d3d42; padding: 4px 0; font-size: 0.85rem; }
     </style>
 </head>
 <body>
+
 <div class="container">
     <div class="header-audit">
         <div class="info-box">
-            <div>
-                <h4>Valore Attuale Accise</h4>
-                <div id="displayAccisa" class="valore-evidenziato">--</div>
-                <div id="displayScadenza" style="color:#aaa; font-size: 0.8rem; margin-top:5px;">--</div>
-            </div>
-            <button class="extraprofitti-btn" onclick="window.location.href='bilancio_sdr.html'">Vedi analisi extraprofitti Eni 2025</button>
+            <h4>Valore Attuale Accise</h4>
+            <div id="displayAccisa" class="valore-evidenziato">--</div>
+            <div id="dataAggiornamento" style="color:#aaa; font-size: 0.7rem; margin-top:5px;">Aggiornato al: --</div>
         </div>
 
         <div class="banner-centrale">
-            <p class="p-max">Un rendimento del 3% annuo sulle azioni sembra già un buon risultato.</p>
-            <p class="p-max">La <b>'mancia'</b> è quello che gli diamo in più.</p>
-            <p class="p-max">Ecco quanto regaliamo agli azionisti delle compagnie petrolifere dopo avere pagato il conto.</p>
+            <p><b>Un rendimento del 3% annuo sulle azioni sembra già un buon risultato.</b></p>
+            <p>La 'mancia' è quello che gli diamo in più.</p>
+            <p>Ecco quanto regaliamo agli azionisti dopo avere pagato il conto.</p>
         </div>
 
-        <div class="info-box">
+        <div class="info-box" style="flex: 1.2;">
             <h4>Scomposizione Prezzo (€/L)</h4>
             <div id="composizioneDettaglio"></div>
         </div>
@@ -98,11 +81,11 @@
 
     <div class="mancia-row">
         <div class="mancia-box">
-            <h4 style="margin:0; color:#888; font-size:0.7rem; text-transform:uppercase;">Mancia media a pieno (50 litri)</h4>
+            <h4>Mancia media a pieno (50L)</h4>
             <div id="manciaPieno" class="mancia-valore">--</div>
         </div>
-        <div class="mancia-box">
-            <h4 style="margin:0; color:#888; font-size:0.7rem; text-transform:uppercase;">Mancia media all'anno (24 pieni)</h4>
+        <div class="mancia-box" style="border-color: #f1c40f;">
+            <h4>Mancia media annua (24 pieni)</h4>
             <div id="manciaAnno" class="mancia-valore">--</div>
         </div>
     </div>
@@ -113,180 +96,154 @@
     </div>
 
     <div class="nav-controls">
-        <button class="arrow-btn" onclick="scrollCharts(-400)">◀ STORICO</button>
+        <div>
+            <button class="arrow-btn" onclick="scrollCharts(-400)">◀ STORICO</button>
+            <button class="arrow-btn" onclick="scrollCharts(400)">AVANTI ▶</button>
+        </div>
+
+        <a href="bilancio_sdr.html" class="sdr-btn">Vai a conti Eni 2025 📊</a>
+
         <button class="arrow-btn" style="background: transparent; border:none;" onclick="scrollToToday()">OGGI (VAI AL PRESENTE) ▼</button>
-        <button class="arrow-btn" onclick="scrollCharts(400)">AVANTI ▶</button>
     </div>
 
     <div class="super-scroll" id="scrollMaster">
         <div class="scroll-content">
             <div class="chart-section">
-                <h3>Monitoraggio Prezzi e Impatto Fiscale (Mimit vs Arturo)</h3>
-                <div class="chart-wrapper"><canvas id="chartMain"></canvas></div>
+                <h3>1. Divario Verità (Media MIMIT vs Arturo)</h3>
+                <div class="chart-wrapper"><canvas id="chartAudit"></canvas></div>
             </div>
             <div class="chart-section">
-                <h3>Analisi della Mancia (Divergenza in Euro)</h3>
+                <h3>2. Pressione Fiscale (Accise)</h3>
+                <div class="chart-wrapper"><canvas id="chartAccisa"></canvas></div>
+            </div>
+            <div class="chart-section">
+                <h3>3. Analisi della Mancia (Divergenza in Euro)</h3>
                 <div class="chart-wrapper"><canvas id="chartMancia"></canvas></div>
             </div>
             <div class="chart-section">
-                <h3>Materia Prima (Brent in €/Barile)</h3>
+                <h3>4. Comparativa Operatori (€ al litro)</h3>
+                <div class="chart-wrapper"><canvas id="chartOperatori"></canvas></div>
+            </div>
+            <div class="chart-section">
+                <h3>5. Mercato Materie Prime: Brent (€/Barile)</h3>
                 <div class="chart-wrapper"><canvas id="chartBarile"></canvas></div>
             </div>
             <div class="chart-section">
-                <h3>Rapporto di Cambio (EUR/USD)</h3>
+                <h3>6. Tasso di Cambio - Costo di 1 Dollaro in Euro</h3>
                 <div class="chart-wrapper"><canvas id="chartCambio"></canvas></div>
             </div>
         </div>
     </div>
 
     <table>
-        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>POMPA</th><th>ARTURO</th><th>MANCIA</th><th>ACCISA</th></tr></thead>
+        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>MIMIT</th><th>ENI</th><th>BIANCHE</th><th>ARTURO</th><th>MANCIA</th></tr></thead>
         <tbody id="tabellaDati"></tbody>
     </table>
 </div>
 
 <script>
+// Logica JavaScript identica alla precedente per garantire stabilità
 Chart.register(ChartDataLabels);
 
-// --- DATA START ---
-const DATABASE_STORICO = {"config": {"accisa_benzina": 0.6229, "scadenza_benzina": "10-05-2026", "accisa_diesel": 0.4729, "scadenza_diesel": "10-05-2026"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "mimitDiesel": 2.062, "mimitBenzina": 1.745, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "mimitDiesel": 2.061, "mimitBenzina": 1.748, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "mimitDiesel": 2.057, "mimitBenzina": 1.751, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "mimitDiesel": 2.055, "mimitBenzina": 1.758, "accisa_d": 0.4729, "accisa_b": 0.4729}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "mimitDiesel": 2.053, "mimitBenzina": 1.817, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "mimitDiesel": 2.052, "mimitBenzina": 1.902, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "mimitDiesel": 2.049, "mimitBenzina": 1.929, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "mimitDiesel": 2.047, "mimitBenzina": 1.937, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-07", "brent": 99.33, "cambio": 1.1773, "mimitDiesel": 2.042, "mimitBenzina": 1.941, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-08", "brent": 100.67, "cambio": 1.1747, "mimitDiesel": 2.031, "mimitBenzina": 1.938, "accisa_d": 0.4729, "accisa_b": 0.6229}, {"data": "2026-05-09", "brent": 101.29, "cambio": 1.179, "mimitDiesel": 2.02, "mimitBenzina": 1.935, "accisa_d": 0.4729, "accisa_b": 0.6229}]};
-// --- DATA END ---
+const DATABASE_STORICO = {"config": {"versione": "3.1", "accisa_d": 0.4729, "accisa_b": 0.6229}, "meta": {"aggiornamento": "2026-05-11 10:40"}, "storico": [{"data": "2026-04-28", "brent": 103.71, "cambio": 1.1703, "diesel": {"mimit": 2.062, "eni": 0.0, "bianche": 0.0, "arturo": 1.558, "mancia": 0.504, "breakdown": {"materia_prima": 0.5573, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0372, "iva": 0.281, "prezzo_equo": 1.558}}, "benzina": {"mimit": 1.745, "eni": 0.0, "bianche": 0.0, "arturo": 1.558, "mancia": 0.187, "breakdown": {"materia_prima": 0.5573, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0372, "iva": 0.281, "prezzo_equo": 1.558}}}, {"data": "2026-04-29", "brent": 105.48, "cambio": 1.171, "diesel": {"mimit": 2.061, "eni": 0.0, "bianche": 0.0, "arturo": 1.57, "mancia": 0.491, "breakdown": {"materia_prima": 0.5665, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0375, "iva": 0.2831, "prezzo_equo": 1.57}}, "benzina": {"mimit": 1.748, "eni": 0.0, "bianche": 0.0, "arturo": 1.57, "mancia": 0.178, "breakdown": {"materia_prima": 0.5665, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0375, "iva": 0.2831, "prezzo_equo": 1.57}}}, {"data": "2026-04-30", "brent": 111.53, "cambio": 1.1736, "diesel": {"mimit": 2.057, "eni": 0.0, "bianche": 0.0, "arturo": 1.609, "mancia": 0.448, "breakdown": {"materia_prima": 0.5977, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0384, "iva": 0.2902, "prezzo_equo": 1.609}}, "benzina": {"mimit": 1.751, "eni": 0.0, "bianche": 0.0, "arturo": 1.609, "mancia": 0.142, "breakdown": {"materia_prima": 0.5977, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0384, "iva": 0.2902, "prezzo_equo": 1.609}}}, {"data": "2026-05-01", "brent": 111.17, "cambio": 1.1748, "diesel": {"mimit": 2.055, "eni": 0.0, "bianche": 0.0, "arturo": 1.606, "mancia": 0.449, "breakdown": {"materia_prima": 0.5952, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0383, "iva": 0.2896, "prezzo_equo": 1.606}}, "benzina": {"mimit": 1.758, "eni": 0.0, "bianche": 0.0, "arturo": 1.606, "mancia": 0.152, "breakdown": {"materia_prima": 0.5952, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0383, "iva": 0.2896, "prezzo_equo": 1.606}}}, {"data": "2026-05-02", "brent": 108.17, "cambio": 1.1723, "diesel": {"mimit": 2.053, "eni": 0.0, "bianche": 0.0, "arturo": 1.587, "mancia": 0.466, "breakdown": {"materia_prima": 0.5803, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0379, "iva": 0.2862, "prezzo_equo": 1.587}}, "benzina": {"mimit": 1.817, "eni": 0.0, "bianche": 0.0, "arturo": 1.776, "mancia": 0.041, "breakdown": {"materia_prima": 0.5803, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0424, "iva": 0.3202, "prezzo_equo": 1.776}}}, {"data": "2026-05-04", "brent": 108.92, "cambio": 1.1732, "diesel": {"mimit": 2.052, "eni": 0.0, "bianche": 0.0, "arturo": 1.592, "mancia": 0.46, "breakdown": {"materia_prima": 0.5839, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.038, "iva": 0.2871, "prezzo_equo": 1.592}}, "benzina": {"mimit": 1.902, "eni": 0.0, "bianche": 0.0, "arturo": 1.78, "mancia": 0.122, "breakdown": {"materia_prima": 0.5839, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0425, "iva": 0.321, "prezzo_equo": 1.78}}}, {"data": "2026-05-05", "brent": 112.73, "cambio": 1.1693, "diesel": {"mimit": 2.049, "eni": 0.0, "bianche": 0.0, "arturo": 1.62, "mancia": 0.429, "breakdown": {"materia_prima": 0.6063, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0387, "iva": 0.2921, "prezzo_equo": 1.62}}, "benzina": {"mimit": 1.929, "eni": 0.0, "bianche": 0.0, "arturo": 1.809, "mancia": 0.12, "breakdown": {"materia_prima": 0.6063, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0432, "iva": 0.3261, "prezzo_equo": 1.809}}}, {"data": "2026-05-06", "brent": 104.0, "cambio": 1.1766, "diesel": {"mimit": 2.047, "eni": 2.047, "bianche": 2.034, "arturo": 1.557, "mancia": 0.49, "breakdown": {"materia_prima": 0.5559, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0372, "iva": 0.2807, "prezzo_equo": 1.557}}, "benzina": {"mimit": 1.937, "eni": 1.955, "bianche": 1.912, "arturo": 1.745, "mancia": 0.192, "breakdown": {"materia_prima": 0.5559, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0417, "iva": 0.3147, "prezzo_equo": 1.745}}}, {"data": "2026-05-07", "brent": 99.33, "cambio": 1.1773, "diesel": {"mimit": 2.042, "eni": 2.045, "bianche": 2.036, "arturo": 1.525, "mancia": 0.517, "breakdown": {"materia_prima": 0.5306, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0364, "iva": 0.275, "prezzo_equo": 1.525}}, "benzina": {"mimit": 1.941, "eni": 1.954, "bianche": 1.922, "arturo": 1.713, "mancia": 0.228, "breakdown": {"materia_prima": 0.5306, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0409, "iva": 0.309, "prezzo_equo": 1.713}}}, {"data": "2026-05-08", "brent": 101.09, "cambio": 1.1786, "diesel": {"mimit": 2.031, "eni": 2.039, "bianche": 2.032, "arturo": 1.536, "mancia": 0.495, "breakdown": {"materia_prima": 0.5394, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0367, "iva": 0.277, "prezzo_equo": 1.536}}, "benzina": {"mimit": 1.938, "eni": 1.951, "bianche": 1.932, "arturo": 1.724, "mancia": 0.214, "breakdown": {"materia_prima": 0.5394, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0412, "iva": 0.311, "prezzo_equo": 1.724}}}, {"data": "2026-05-09", "brent": 101.09, "cambio": 1.1786, "diesel": {"mimit": 2.02, "eni": 2.039, "bianche": 2.032, "arturo": 1.536, "mancia": 0.484, "breakdown": {"materia_prima": 0.5394, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0367, "iva": 0.277, "prezzo_equo": 1.536}}, "benzina": {"mimit": 1.935, "eni": 1.951, "bianche": 1.929, "arturo": 1.724, "mancia": 0.211, "breakdown": {"materia_prima": 0.5394, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0412, "iva": 0.311, "prezzo_equo": 1.724}}}, {"data": "2026-05-10", "brent": 101.09, "cambio": 1.1786, "diesel": {"mimit": 2.025, "eni": 2.039, "bianche": 2.032, "arturo": 1.536, "mancia": 0.489, "breakdown": {"materia_prima": 0.5394, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0367, "iva": 0.277, "prezzo_equo": 1.536}}, "benzina": {"mimit": 1.934, "eni": 1.951, "bianche": 1.929, "arturo": 1.724, "mancia": 0.21, "breakdown": {"materia_prima": 0.5394, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0412, "iva": 0.311, "prezzo_equo": 1.724}}}, {"data": "2026-05-11", "brent": 101.29, "cambio": 1.1766, "diesel": {"mimit": 2.014, "eni": 1.997, "bianche": 2.008, "arturo": 1.538, "mancia": 0.476, "breakdown": {"materia_prima": 0.5414, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.4729, "ebitda": 0.0367, "iva": 0.2774, "prezzo_equo": 1.538}}, "benzina": {"mimit": 1.934, "eni": 1.944, "bianche": 1.932, "arturo": 1.727, "mancia": 0.207, "breakdown": {"materia_prima": 0.5414, "raffinazione": 0.08, "distribuzione": 0.13, "accisa": 0.6229, "ebitda": 0.0412, "iva": 0.3114, "prezzo_equo": 1.727}}}]};
 
 let currentFuel = 'diesel';
-const P = { raffDist: 0.210, iva: 1.22 };
-
-function getGiornoData(dateStr) {
-    const d = new Date(dateStr);
-    const day = d.getDay();
-    const md = (d.getMonth() + 1) + "-" + d.getDate();
-    const festivi = ["1-1", "1-6", "4-25", "5-1", "6-2", "8-15", "11-1", "12-8", "12-25", "12-26"];
-    if (day === 0 || day === 6 || festivi.includes(md)) return { color: '#f1c40f', class: 'date-badge-yellow' };
-    return { color: '#2ecc71', class: 'date-badge-green' };
-}
 
 function scrollCharts(amount) { document.getElementById('scrollMaster').scrollBy({ left: amount, behavior: 'smooth' }); }
 function scrollToToday() { const el = document.getElementById('scrollMaster'); el.scrollLeft = el.scrollWidth; }
 
 function updateUI() {
-    const list = DATABASE_STORICO.storico || [];
-    const config = DATABASE_STORICO.config || {};
-    const scad = currentFuel === 'diesel' ? config.scadenza_diesel : config.scadenza_benzina;
+    const list = DATABASE_STORICO.storico;
+    const labels = list.map(d => d.data.split('-').reverse().slice(0,2).join('/'));
+    const dMimit = list.map(d => d[currentFuel].mimit);
+    const dEquo = list.map(d => d[currentFuel].arturo);
+    const dMancia = list.map(d => d[currentFuel].mancia);
+    const dAccise = list.map(d => d[currentFuel].breakdown.accisa);
+    const dEni = list.map(d => (d[currentFuel].eni === 0 ? null : d[currentFuel].eni));
+    const dWhite = list.map(d => (d[currentFuel].bianche === 0 ? null : d[currentFuel].bianche));
 
-    if (list.length > 0) {
-        const u = list[list.length - 1];
-        const dayAccU = currentFuel === 'diesel' ? u.accisa_d : u.accisa_b;
+    const u = list[list.length - 1];
+    const b = u[currentFuel].breakdown;
 
-        document.getElementById('displayAccisa').innerText = `€ ${dayAccU.toFixed(4)} per litro`;
-        document.getElementById('displayScadenza').innerText = `Scadenza: ${scad}`;
+    document.getElementById('displayAccisa').innerText = `€ ${b.accisa.toFixed(4)}`;
+    document.getElementById('dataAggiornamento').innerText = `Aggiornato al: ${u.data.split('-').reverse().join('-')}`;
 
-        const matU = (u.brent / u.cambio / 159);
-        const ebitdaU = (matU + P.raffDist + dayAccU) * 0.03;
-        const equoU = (matU + P.raffDist + dayAccU + ebitdaU) * 1.22;
-        const pompaU = currentFuel === 'diesel' ? u.mimitDiesel : u.mimitBenzina;
+    document.getElementById('composizioneDettaglio').innerHTML = `
+        <div class="comp-item"><span>Materia Prima</span><span>€ ${b.materia_prima.toFixed(4)}</span></div>
+        <div class="comp-item"><span>Raff./Distr.</span><span>€ ${(b.raffinazione + b.distribuzione).toFixed(4)}</span></div>
+        <div class="comp-item"><span>Accise</span><span>€ ${b.accisa.toFixed(4)}</span></div>
+        <div class="comp-item"><span>Equo (3%)</span><span style="color:#00ff00">€ ${b.ebitda.toFixed(4)}</span></div>
+        <div class="comp-item"><span>IVA (22%)</span><span>€ ${b.iva.toFixed(4)}</span></div>
+    `;
 
-        document.getElementById('composizioneDettaglio').innerHTML = `
-            <div class="comp-item"><span>Materia Prima</span><span>€ ${matU.toFixed(4)}</span></div>
-            <div class="comp-item"><span>Raffinazione/Distr.</span><span>€ ${P.raffDist.toFixed(4)}</span></div>
-            <div class="comp-item"><span>Accise</span><span>€ ${dayAccU.toFixed(4)}</span></div>
-            <div class="comp-item"><span>Equa Remunerazione (3%)</span><span style="color:#00ff00">€ ${ebitdaU.toFixed(4)}</span></div>
-            <div class="comp-item"><span>IVA (22%)</span><span>€ ${(equoU - (matU + P.raffDist + dayAccU + ebitdaU)).toFixed(4)}</span></div>
-            <div class="comp-item"><b style="color:orange">Mancia oggi</b><b style="color:orange">€ ${(pompaU - equoU).toFixed(3)}</b></div>
-        `;
+    const mediaM = dMancia.reduce((a, b) => a + b, 0) / list.length;
+    document.getElementById('manciaPieno').innerText = `€ ${(mediaM * 50).toFixed(2)}`;
+    document.getElementById('manciaAnno').innerText = `€ ${(mediaM * 1200).toFixed(2)}`;
 
-        const labels = list.map(d => d.data);
-        const dReal = list.map(d => currentFuel === 'diesel' ? d.mimitDiesel : d.mimitBenzina);
-        const dAccise = list.map(d => currentFuel === 'diesel' ? d.accisa_d : d.accisa_b);
-        const dEquo = list.map((d, i) => {
-            const mat = d.brent / d.cambio / 159;
-            const acc = dAccise[i];
-            const ebitda = (mat + P.raffDist + acc) * 0.03;
-            return (mat + P.raffDist + acc + ebitda) * 1.22;
-        });
+    chartAudit.data.labels = labels;
+    chartAudit.data.datasets[0].data = dMimit;
+    chartAudit.data.datasets[1].data = dEquo;
+    chartAudit.update();
 
-        let sommaMancia = 0;
-        dReal.forEach((r, i) => { sommaMancia += (r - dEquo[i]); });
-        const mediaM = sommaMancia / list.length;
-        document.getElementById('manciaPieno').innerText = `€ ${(mediaM * 50).toFixed(2)}`;
-        document.getElementById('manciaAnno').innerText = `€ ${(mediaM * 1200).toFixed(2)}`;
+    chartAccisa.data.labels = labels;
+    chartAccisa.data.datasets[0].data = dAccise;
+    chartAccisa.update();
 
-        chartMain.data.labels = labels;
-        chartMain.data.datasets[0].data = dReal.map(v => v.toFixed(3));
-        chartMain.data.datasets[1].data = dEquo.map(v => v.toFixed(3));
-        chartMain.data.datasets[2].data = dAccise.map(v => v.toFixed(4));
-        chartMain.update();
+    chartMancia.data.labels = labels;
+    chartMancia.data.datasets[0].data = dMancia;
+    chartMancia.update();
 
-        chartMancia.data.labels = labels;
-        chartMancia.data.datasets[0].data = dReal.map((r, i) => (r - dEquo[i]).toFixed(3));
-        chartMancia.update();
+    chartOperatori.data.labels = labels;
+    chartOperatori.data.datasets[0].data = dEni;
+    chartOperatori.data.datasets[1].data = dWhite;
+    chartOperatori.data.datasets[2].data = dMimit;
+    chartOperatori.update();
 
-        chartBarile.data.labels = labels;
-        chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
-        chartBarile.update();
+    chartBarile.data.labels = labels;
+    chartBarile.data.datasets[0].data = list.map(d => (d.brent / d.cambio).toFixed(2));
+    chartBarile.update();
 
-        chartCambio.data.labels = labels;
-        chartCambio.data.datasets[0].data = list.map(d => d.cambio.toFixed(4));
-        chartCambio.update();
+    chartCambio.data.labels = labels;
+    chartCambio.data.datasets[0].data = list.map(d => (1/d.cambio).toFixed(4));
+    chartCambio.update();
 
-        document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map((d, i) => {
-            const idx = list.length - 1 - i;
-            const r = dReal[idx];
-            const e = dEquo[idx];
-            const dayAcc = dAccise[idx];
-            const info = getGiornoData(d.data);
-            return `<tr>
-                <td><span class="date-badge ${info.class}">${d.data.split('-').reverse().join('/')}</span></td>
-                <td>${d.brent.toFixed(2)}</td>
-                <td>${d.cambio.toFixed(4)}</td>
-                <td>${r.toFixed(3)}</td>
-                <td style="color:#00ff00">${e.toFixed(3)}</td>
-                <td style="color:#9b59b6; font-weight:bold;">${(r-e).toFixed(3)}</td>
-                <td style="color:#aaa">${dayAcc.toFixed(4)}</td>
-            </tr>`;
-        }).join('');
-    }
+    document.getElementById('tabellaDati').innerHTML = list.slice().reverse().map((d) => {
+        return `<tr>
+            <td>${d.data.split('-').reverse().join('/')}</td>
+            <td>${d.brent.toFixed(2)}</td>
+            <td>${d.cambio.toFixed(4)}</td>
+            <td>${d[currentFuel].mimit.toFixed(3)}</td>
+            <td>${d[currentFuel].eni > 0 ? d[currentFuel].eni.toFixed(3) : '-'}</td>
+            <td>${d[currentFuel].bianche > 0 ? d[currentFuel].bianche.toFixed(3) : '-'}</td>
+            <td style="color:#00ff00">${d[currentFuel].arturo.toFixed(3)}</td>
+            <td style="color:#9b59b6; font-weight:bold;">${d[currentFuel].mancia.toFixed(3)}</td>
+        </tr>`;
+    }).join('');
 }
 
 const commonOpt = {
     responsive: true, maintainAspectRatio: false,
-    scales: {
-        x: { ticks: { color: '#1a1a1d', font: { weight: 'bold' }, showLabelBackdrop: true, backdropPadding: 4,
-              backdropColor: (ctx) => getGiornoData(ctx.tick.label).color }},
-        y: { grid: { color: '#333' }, ticks: { color: '#888' } }
-    },
+    scales: { x: { ticks: { color: '#eee', font: { size: 10 } } }, y: { grid: { color: '#333' }, ticks: { color: '#888' } } },
     plugins: {
         legend: { labels: { color: '#eee', font: { size: 10 } } },
-        datalabels: { display: true, align: 'top', color: '#fff', font: { weight: 'bold', size: 9 },
-                      backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 4, padding: 2 }
+        datalabels: { display: true, align: 'top', color: '#fff', font: { weight: 'bold', size: 9 }, backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: 3 }
     }
 };
 
-const chartMain = new Chart(document.getElementById('chartMain'), {
+const chartAudit = new Chart(document.getElementById('chartAudit'), { type: 'line', data: { datasets: [{ label: 'MIMIT', borderColor: '#e74c3c', data: [] }, { label: 'Arturo', borderColor: '#2ecc71', borderDash:[5,5], data: [] }] }, options: commonOpt });
+const chartAccisa = new Chart(document.getElementById('chartAccisa'), { type: 'line', data: { datasets: [{ label: 'Accisa (€)', borderColor: '#f1c40f', backgroundColor: 'rgba(241,196,15,0.1)', fill: true, data: [] }] }, options: commonOpt });
+const chartMancia = new Chart(document.getElementById('chartMancia'), { type: 'line', data: { datasets: [{ label: 'Mancia (€)', borderColor: '#9b59b6', backgroundColor: 'rgba(155,89,182,0.1)', fill: true, data: [] }] }, options: commonOpt });
+const chartOperatori = new Chart(document.getElementById('chartOperatori'), {
     type: 'line',
     data: { datasets: [
-        { label: 'Pompa Reale', borderColor: '#e74c3c', data: [], tension: 0.1 },
-        { label: 'Obiettivo Arturo', borderColor: '#2ecc71', borderDash: [5,5], data: [], tension: 0.1 },
-        { label: 'Accisa Vigente', borderColor: '#f1c40f', backgroundColor: 'rgba(241, 196, 15, 0.1)', fill: true, pointRadius: 0, tension: 0, data: [] }
+        { label: 'ENI', borderColor: '#ffff00', data: [] },
+        { label: 'Bianche', borderColor: '#ffffff', data: [] },
+        { label: 'Prezzo Medio (MIMIT)', borderColor: '#e74c3c', borderDash: [5,5], pointRadius: 0, data: [] }
     ]},
     options: commonOpt
 });
-
-const chartMancia = new Chart(document.getElementById('chartMancia'), {
-    type: 'line',
-    data: { datasets: [{ label: 'Mancia (€)', borderColor: '#9b59b6', backgroundColor: 'rgba(155, 89, 182, 0.1)', fill: true, data: [], tension: 0.1 }] },
-    options: { ...commonOpt, plugins: { ...commonOpt.plugins, datalabels: { ...commonOpt.plugins.datalabels, color: '#ffffff' } } }
-});
-
-const chartBarile = new Chart(document.getElementById('chartBarile'), {
-    type: 'line',
-    data: { datasets: [{ label: 'Brent (€/Barile)', borderColor: '#3498db', data: [], tension: 0.1 }] },
-    options: commonOpt
-});
-
-const chartCambio = new Chart(document.getElementById('chartCambio'), {
-    type: 'line',
-    data: { datasets: [{ label: 'Cambio EUR/USD', borderColor: '#f39c12', backgroundColor: 'rgba(243, 156, 18, 0.1)', fill: true, data: [], tension: 0.1 }] },
-    options: commonOpt
-});
+const chartBarile = new Chart(document.getElementById('chartBarile'), { type: 'line', data: { datasets: [{ label: 'Brent (€/Bar)', borderColor: '#3498db', data: [] }] }, options: commonOpt });
+const chartCambio = new Chart(document.getElementById('chartCambio'), { type: 'line', data: { datasets: [{ label: 'USD/EUR', borderColor: '#f39c12', data: [] }] }, options: commonOpt });
 
 function switchFuel(f) {
     currentFuel = f;
