@@ -5,7 +5,7 @@
     "accisa_b": 0.6229
   },
   "meta": {
-    "aggiornamento": "2026-05-11 16:49"
+    "aggiornamento": "2026-05-12 07:46"
   },
   "storico": [
     {
@@ -486,6 +486,43 @@
           "ebitda": 0.0412,
           "iva": 0.3114,
           "prezzo_equo": 1.727
+        }
+      }
+    },
+    {
+      "data": "2026-05-12",
+      "brent": 106.12,
+      "cambio": 1.175,
+      "diesel": {
+        "mimit": 2.003,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.572,
+        "mancia": 0.431,
+        "breakdown": {
+          "materia_prima": 0.568,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.4729,
+          "ebitda": 0.0375,
+          "iva": 0.2835,
+          "prezzo_equo": 1.572
+        }
+      },
+      "benzina": {
+        "mimit": 1.933,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.76,
+        "mancia": 0.173,
+        "breakdown": {
+          "materia_prima": 0.568,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.042,
+          "iva": 0.3174,
+          "prezzo_equo": 1.76
         }
       }
     }
