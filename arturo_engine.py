@@ -1,24 +1,43 @@
 #!/usr/bin/env python3
-import json, os, csv, requests, re, yfinance as yf
+"""
+Arturo Engine v4.0 - Genera data.json per la dashboard statica.
+"""
+import csv
+import json
+import logging
+import re
 from datetime import datetime
+from pathlib import Path
 
-# ================== PATH ==================
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FILE_CSV = os.path.join(BASE_DIR, "registro_can_guru.csv")
-FILE_JSON = os.path.join(BASE_DIR, "database_prezzi.json")
-FILE_HTML = os.path.join(BASE_DIR, "index.html") # <--- Trapiantato
+import requests
+import yfinance as yf
+
+# ---------- CONFIGURAZIONE ----------
+BASE_DIR = Path(__file__).parent.resolve()
+FILE_CSV = BASE_DIR / "registro_can_guru.csv"
+FILE_JSON = BASE_DIR / "data.json"
+MANUAL_CSV = BASE_DIR / "manual_data.csv"
+
+# Parametri fissi di calcolo
+P_RAFF = 0.080
+P_DIST = 0.130
+
+ACCISA_D = 0.4729
+SCADENZA_D = "22/05/2026"
+
+ACCISA_B = 0.6229
+SCADENZA_B = "22/05/2026"
 
 URL_MIMIT = "https://www.mimit.gov.it/images/stories/carburanti/MediaRegionaleStradale.csv"
 
-# ================== CONFIG ==================
-P_RAFF = 0.080
-P_DIST = 0.130
-ACCISA_D = 0.4729
-ACCISA_B = 0.6229
+# ---------- LOGGING ----------
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+logger = logging.getLogger(__name__)
 
-# ================== UTIL ==================
-def calcola_arturo(brent, cambio, accisa):
-    mat = brent / cambio / 159
+# ---------- FUNZIONI DI CALCOLO ----------
+def calcola_arturo(brent_usd, cambio_eurusd, accisa):
+    """Calcola il prezzo equo e il breakdown."""
+    mat = brent_usd / cambio_eurusd / 159  # costo materia prima per litro
     base = mat + P_RAFF + P_DIST + accisa
     ebitda = base * 0.03
     iva = (base + ebitda) * 0.22
@@ -34,150 +53,179 @@ def calcola_arturo(brent, cambio, accisa):
         "prezzo_equo": round(prezzo, 3)
     }
 
-# ================== MERCATI ==================
-def get_last_from_csv():
-    try:
-        with open(FILE_CSV, 'r', encoding='utf-8') as f:
-            rows = list(csv.DictReader(f))
-            if not rows: return None, None
-            last = rows[-1]
-            return float(last["brent_usd"]), float(last["cambio_eurusd"])
-    except: return None, None
-
+# ---------- FETCH DATI ----------
 def get_mercati():
+    """Ottiene Brent e cambio EUR/USD da Yahoo Finance. Fallback all'ultima riga del CSV."""
     try:
         brent = yf.Ticker("BZ=F").history(period="5d")['Close'].dropna().iloc[-1]
         cambio = yf.Ticker("EURUSD=X").history(period="5d")['Close'].dropna().iloc[-1]
+        logger.info(f"Mercati: Brent={brent:.2f}, Cambio={cambio:.4f}")
         return float(brent), float(cambio)
-    except:
-        print("⚠️ Mercati non disponibili → fallback CSV")
-        return get_last_from_csv()
+    except Exception as e:
+        logger.warning(f"Impossibile ottenere dati da Yahoo Finance: {e}")
+        return last_from_csv()
 
-# ================== MIMIT ==================
-def get_mimit():
+def last_from_csv():
+    """Legge l'ultima riga del CSV storico come fallback."""
+    if not FILE_CSV.exists():
+        logger.error("CSV storico non trovato, impossibile fallback.")
+        return None, None
     try:
-        r = requests.get(URL_MIMIT, timeout=20)
-        lines = r.text.splitlines()
+        with open(FILE_CSV, 'r', encoding='utf-8') as f:
+            rows = list(csv.DictReader(f))
+            if not rows:
+                return None, None
+            last = rows[-1]
+            return float(last["brent_usd"]), float(last["cambio_eurusd"])
+    except Exception as e:
+        logger.error(f"Errore nel leggere il CSV di fallback: {e}")
+        return None, None
+
+def get_mimit():
+    """Scarica e calcola i prezzi medi MIMIT per diesel e benzina (self service)."""
+    try:
+        response = requests.get(URL_MIMIT, timeout=30)
+        response.raise_for_status()
+        lines = response.text.splitlines()
+        if len(lines) < 2:
+            raise ValueError("CSV MIMIT troppo corto")
+        # La prima riga è un header estraneo, la seconda è la vera intestazione
         reader = csv.DictReader(lines[1:], delimiter=';')
-        b = g = bc = gc = 0
+        diesel_vals = []
+        benzina_vals = []
         for row in reader:
             try:
-                p = float(row['PREZZO MEDIO'].replace(',', '.'))
+                prezzo = float(row['PREZZO MEDIO'].replace(',', '.'))
                 if 'SELF' in row['EROGAZIONE'].upper():
                     if 'BENZINA' in row['TIPOLOGIA'].upper():
-                        b += p; bc += 1
+                        benzina_vals.append(prezzo)
                     elif 'GASOLIO' in row['TIPOLOGIA'].upper():
-                        g += p; gc += 1
-            except: continue
-        return round(g/gc, 3), round(b/bc, 3)
-    except:
-        print("⚠️ Errore download MIMIT"); return None, None
-
-# ================== AGGIORNAMENTO HTML ==================
-def sync_html(db_data):
-    """Il cuore del trapianto: scrive il JSON dentro index.html"""
-    if not os.path.exists(FILE_HTML):
-        print("⚠️ index.html non trovato, salto sync.")
-        return
-
-    try:
-        with open(FILE_HTML, 'r', encoding='utf-8') as f:
-            content = f.read()
-
-        db_js_string = json.dumps(db_data)
-        # Cerco i tag commentati che avevi inserito nell'HTML
-        pattern = r"// --- DATA START ---.*?// --- DATA END ---"
-        replacement = f"// --- DATA START ---\nconst DATABASE_STORICO = {db_js_string};\n// --- DATA END ---"
-
-        if re.search(pattern, content, re.DOTALL):
-            nuovo_html = re.sub(pattern, replacement, content, flags=re.DOTALL)
-            with open(FILE_HTML, 'w', encoding='utf-8') as f:
-                f.write(nuovo_html)
-            print("✔ Dashboard HTML sincronizzata.")
-        else:
-            print("⚠️ Tag // --- DATA START --- non trovati nell'HTML.")
+                        diesel_vals.append(prezzo)
+            except (KeyError, ValueError):
+                continue
+        if not diesel_vals or not benzina_vals:
+            raise ValueError("Nessun prezzo valido trovato nel CSV MIMIT")
+        d_medio = round(sum(diesel_vals) / len(diesel_vals), 3)
+        b_medio = round(sum(benzina_vals) / len(benzina_vals), 3)
+        logger.info(f"MIMIT: diesel={d_medio}, benzina={b_medio}")
+        return d_medio, b_medio
     except Exception as e:
-        print(f"🛑 Errore Sync HTML: {e}")
+        logger.error(f"Errore download MIMIT: {e}")
+        return None, None
 
-# ================== LOGICA CORE ==================
+# ---------- GESTIONE CSV STORICO ----------
 def init_csv():
-    if not os.path.exists(FILE_CSV):
-        with open(FILE_CSV,'w',newline='',encoding='utf-8') as f:
-            csv.writer(f).writerow(["data","brent_usd","cambio_eurusd","diesel_mimit","benzina_mimit","accisa_d","accisa_b"])
+    """Crea il CSV storico se non esiste."""
+    if not FILE_CSV.exists():
+        with open(FILE_CSV, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(["data", "brent_usd", "cambio_eurusd", "diesel_mimit", "benzina_mimit", "accisa_d", "accisa_b"])
+        logger.info("Creato nuovo CSV storico.")
+
+def today_str():
+    return datetime.now().strftime("%Y-%m-%d")
 
 def append_today():
-    today = datetime.now().strftime("%Y-%m-%d")
-    # Facciamo il check se già fatto
-    if os.path.exists(FILE_CSV):
-        with open(FILE_CSV,'r',encoding='utf-8') as f:
-            if any(today in line for line in f.readlines()):
-                print("✔ Già aggiornato oggi")
+    """Aggiunge la riga di oggi se non già presente."""
+    oggi = today_str()
+    if FILE_CSV.exists():
+        with open(FILE_CSV, 'r', encoding='utf-8') as f:
+            if any(oggi in line for line in f):
+                logger.info("Dati di oggi già presenti nel CSV.")
                 return
 
     brent, cambio = get_mercati()
     diesel, benzina = get_mimit()
 
-    if brent and diesel:
-        with open(FILE_CSV,'a',newline='',encoding='utf-8') as f:
-            csv.writer(f).writerow([today, round(brent,2), round(cambio,4), diesel, benzina, ACCISA_D, ACCISA_B])
-        print("✔ CSV aggiornato")
+    if brent is None or diesel is None:
+        logger.error("Impossibile ottenere dati completi per oggi. CSV non aggiornato.")
+        return
 
-def build_and_sync():
-    # 1. Carica dati manuali in un dizionario per data
+    with open(FILE_CSV, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([oggi, round(brent, 2), round(cambio, 4), diesel, benzina, ACCISA_D, ACCISA_B])
+    logger.info("CSV aggiornato con i dati di oggi.")
+
+# ---------- COSTRUZIONE JSON ----------
+def build_json():
+    """Crea il database JSON completo."""
+    # Carica dati manuali (operatori ENI/IP)
     manual_map = {}
-    if os.path.exists("manual_data.csv"):
-        with open("manual_data.csv", 'r', encoding='utf-8') as f:
-            m_reader = csv.DictReader(f)
-            for row in m_reader:
+    if MANUAL_CSV.exists():
+        with open(MANUAL_CSV, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
                 manual_map[row['data']] = row
 
     db = {
-        "config": {"versione": "3.1", "accisa_d": ACCISA_D, "accisa_b": ACCISA_B},
-        "meta": {"aggiornamento": datetime.now().strftime("%Y-%m-%d %H:%M")},
+        "config": {
+            "versione": "4.0",
+            "accisa_d": ACCISA_D,
+            "scadenza_d": SCADENZA_D,
+            "accisa_b": ACCISA_B,
+            "scadenza_b": SCADENZA_B
+        },
+        "meta": {
+            "aggiornamento": datetime.now().strftime("%Y-%m-%d %H:%M")
+        },
         "storico": []
     }
 
-    with open(FILE_CSV,'r',encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for r in reader:
-            data_corrente = r["data"]
-            b, c = float(r["brent_usd"]), float(r["cambio_eurusd"])
-            art_d = calcola_arturo(b, c, float(r["accisa_d"]))
-            art_b = calcola_arturo(b, c, float(r["accisa_b"]))
+    if not FILE_CSV.exists():
+        logger.error("CSV storico non trovato. Impossibile costruire JSON.")
+        return
 
-            # Recupera dati manuali se esistono
-            m = manual_map.get(data_corrente, {})
+    with open(FILE_CSV, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            data = row["data"]
+            brent = float(row["brent_usd"])
+            cambio = float(row["cambio_eurusd"])
+            accisa_d = float(row["accisa_d"])
+            accisa_b = float(row["accisa_b"])
+
+            art_d = calcola_arturo(brent, cambio, accisa_d)
+            art_b = calcola_arturo(brent, cambio, accisa_b)
+
+            man = manual_map.get(data, {})
+            eni_d = float(man.get("gasolio_eni", 0))
+            bianche_d = float(man.get("gasolio_bianche", 0))
+            eni_b = float(man.get("benzina_eni", 0))
+            bianche_b = float(man.get("benzina_bianche", 0))
 
             db["storico"].append({
-                "data": data_corrente, "brent": b, "cambio": c,
+                "data": data,
+                "brent": brent,
+                "cambio": cambio,
                 "diesel": {
-                    "mimit": float(r["diesel_mimit"]),
-                    "eni": float(m.get("gasolio_eni", 0)), # <--- Aggiunto
-                    "bianche": float(m.get("gasolio_bianche", 0)), # <--- Aggiunto
+                    "mimit": float(row["diesel_mimit"]),
+                    "eni": eni_d,
+                    "bianche": bianche_d,
                     "arturo": art_d["prezzo_equo"],
-                    "mancia": round(float(r["diesel_mimit"]) - art_d["prezzo_equo"], 3),
+                    "mancia": round(float(row["diesel_mimit"]) - art_d["prezzo_equo"], 3),
                     "breakdown": art_d
                 },
                 "benzina": {
-                    "mimit": float(r["benzina_mimit"]),
-                    "eni": float(m.get("benzina_eni", 0)), # <--- Aggiunto
-                    "bianche": float(m.get("benzina_bianche", 0)), # <--- Aggiunto
+                    "mimit": float(row["benzina_mimit"]),
+                    "eni": eni_b,
+                    "bianche": bianche_b,
                     "arturo": art_b["prezzo_equo"],
-                    "mancia": round(float(r["benzina_mimit"]) - art_b["prezzo_equo"], 3),
-                    "breakdown": art_b}
+                    "mancia": round(float(row["benzina_mimit"]) - art_b["prezzo_equo"], 3),
+                    "breakdown": art_b
+                }
             })
 
-    # Scrivi il JSON
-    with open(FILE_JSON,'w',encoding='utf-8') as f:
-        json.dump(db, f, indent=2)
-    print("✔ JSON aggiornato")
+    with open(FILE_JSON, 'w', encoding='utf-8') as f:
+        json.dump(db, f, indent=2, ensure_ascii=False)
+    logger.info(f"JSON generato: {FILE_JSON} ({len(db['storico'])} record)")
 
-    # Esegui il trapianto nell'HTML
-    sync_html(db)
-
-# ================== MAIN ==================
-if __name__ == "__main__":
-    print("=== ARTURO ENGINE v3.1 (Sync Edition) ===")
+# ---------- MAIN ----------
+def main():
+    logger.info("=== ARTURO ENGINE v4.0 ===")
     init_csv()
     append_today()
-    build_and_sync()
+    build_json()
+    logger.info("Operazione completata.")
+
+if __name__ == "__main__":
+    main()
