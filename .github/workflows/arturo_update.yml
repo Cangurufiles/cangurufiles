@@ -2,8 +2,8 @@ name: Arturo Engine Autopilot
 
 on:
   schedule:
-    # QUESTO È L'ORARIO: 06:25 UTC = 08:30 Italiane
-    - cron: '25 6 * * *'
+    # QUESTO È L'ORARIO: 05:55 UTC = 07:55 Italiane
+    - cron: '55 5 * * *'
   workflow_dispatch: # Questo è il tasto per lanciarlo a mano
 
 jobs:
