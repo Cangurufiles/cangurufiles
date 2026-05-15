@@ -57,13 +57,13 @@
 
 <div class="container hidden" id="main-container">
     <div class="header-audit">
-<div class="info-box" style="text-align: center;">
-    <h4 style="color: #00ff00; font-size: 0.8rem; margin: 0 0 2px 0;">VALORE ATTUALE ACCISE</h4>
-    <div id="scadenzaAccisa" style="color:#ff4d4d; font-size: 0.7rem; font-weight: bold; margin-bottom: 5px;">Scadenza: --</div>
-    <div id="displayAccisa" class="valore-evidenziato">--</div>
-    <div id="dataAggiornamento" style="color:#aaa; font-size: 0.7rem; margin-top: 5px;">Aggiornato al: --</div>
-    <div style="margin-top: 12px; font-size: 0.6rem; color: #555;">Versione D1.1</div>
-</div>
+        <div class="info-box" style="text-align: center;">
+            <h4 style="color: #00ff00; font-size: 0.8rem; margin: 0 0 2px 0;">VALORE ATTUALE ACCISE</h4>
+            <div id="scadenzaAccisa" style="color:#ff4d4d; font-size: 0.7rem; font-weight: bold; margin-bottom: 5px;">Scadenza: --</div>
+            <div id="displayAccisa" class="valore-evidenziato">--</div>
+            <div id="dataAggiornamento" style="color:#aaa; font-size: 0.7rem; margin-top: 5px;">Aggiornato al: --</div>
+            <div style="margin-top: 12px; font-size: 0.6rem; color: #555;">Versione D1.2</div>
+        </div>
         <div class="banner-centrale">
             <p><b>Un rendimento del 3% annuo sulle azioni sembra già un buon risultato.</b></p>
             <p>La 'mancia' è quello che gli diamo in più.</p>
@@ -117,7 +117,7 @@
         <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartOperatori"></canvas></div></div>
     </div>
     <div class="chart-section">
-        <h3>5. Mercato Materie Prime: Brent (€/Barile)</h3>
+        <h3>5. Mercato Materie Prime: Brent</h3>
         <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartBarile"></canvas></div></div>
     </div>
     <div class="chart-section">
@@ -260,9 +260,10 @@ class Dashboard {
             }
         });
 
-        // Grafico 5: Barile
+        // Grafico 5: Barile (Brent in € e $)
         this.charts.barile = createChart('chartBarile', [
-            { label: 'Brent (€/Bar)', borderColor: '#3498db', data: [], borderWidth: 2 }
+            { label: 'Brent (€/Bar)', borderColor: '#3498db', data: [], borderWidth: 2 },
+            { label: 'Brent ($/Bar)', borderColor: '#e74c3c', data: [], borderWidth: 2 }
         ]);
 
         // Grafico 6: Cambio
@@ -332,7 +333,11 @@ class Dashboard {
         updateChartData(this.charts.accise, [dAccise]);
         updateChartData(this.charts.mancia, [dMancia]);
         updateChartData(this.charts.operatori, [dEni, dWhite, dMimit]);
-        updateChartData(this.charts.barile, [list.map(d => (d.brent / d.cambio).toFixed(2))]);
+        // Grafico Barile: due array, uno in €/barile e uno in $/barile
+        updateChartData(this.charts.barile, [
+            list.map(d => (d.brent / d.cambio).toFixed(2)),   // Brent in euro
+            list.map(d => d.brent.toFixed(2))                 // Brent in dollari
+        ]);
         updateChartData(this.charts.cambio, [list.map(d => (1 / d.cambio).toFixed(4))]);
 
         // Tabella
