@@ -1,1 +1,423 @@
- 
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Arturo - Audit Verità Petrolifera</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1d; color: #e0e0e0; padding: 20px; margin: 0; overflow-x: hidden; }
+        .container { width: 98vw; margin: auto; display: flex; flex-direction: column; gap: 15px; }
+
+        .header-audit { display: flex; justify-content: space-between; gap: 15px; align-items: stretch; }
+        .info-box { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .info-box h4 { margin: 0 0 10px 0; color: #888; text-transform: uppercase; font-size: 0.7rem; }
+        .banner-centrale { flex: 1.5; background: #4a0000; border: 2px solid #ff4d4d; border-radius: 12px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .banner-centrale p { margin: 5px 0; line-height: 1.3; font-size: 1.5rem; color: #fff; }
+        .valore-evidenziato { color: #00ff00; font-size: 1.8rem; font-weight: bold; font-family: 'JetBrains Mono', monospace; }
+
+        .mancia-row { display: flex; gap: 15px; }
+        .mancia-box { flex: 1; background: #2c2c31; border-radius: 12px; padding: 15px; text-align: center; border-bottom: 5px solid #ffffff; }
+        .mancia-valore { color: #ffffff; font-size: 2rem; font-weight: bold; }
+
+        .nav-bar { text-align: center; margin: 10px 0; }
+        .sel-btn { padding: 10px 25px; border: none; border-radius: 6px; cursor: pointer; background: #3d3d42; color: #888; margin: 0 5px; font-weight: bold; }
+        .sel-btn.active { background: #f1c40f; color: #000; }
+
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; background: #2c2c31; padding: 10px 20px; border-radius: 12px; border: 1px solid #f1c40f33; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
+        .arrow-btn { background: #3d3d42; color: #f1c40f; border: 1px solid #f1c40f; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 6px; }
+        .sdr-btn { background: #1a1a1d; color: #2ecc71; border: 2px solid #2ecc71; padding: 8px 20px; cursor: pointer; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .sdr-btn:hover { background: #2ecc71; color: #1a1a1d; }
+
+        .chart-section { background: #2c2c31; border: 1px solid #444; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .chart-section h3 { color: #f1c40f; font-size: 0.85rem; text-transform: uppercase; margin: 0 0 12px 0; text-align: center; }
+
+        /* Legenda personalizzata centrata */
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #eee;
+        }
+        .chart-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chart-legend .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .chart-legend .legend-text {
+            white-space: nowrap;
+        }
+        .legend-dashed {
+            border-bottom: 2px dashed;
+        }
+
+        .individual-scroll { width: 100%; overflow-x: auto; padding-bottom: 10px; }
+        .individual-scroll::-webkit-scrollbar { height: 14px; }
+        .individual-scroll::-webkit-scrollbar-track { background: #1a1a1d; border-radius: 10px; }
+        .individual-scroll::-webkit-scrollbar-thumb { background: #f1c40f; border-radius: 10px; border: 2px solid #2c2c31; }
+        .individual-scroll::-webkit-scrollbar-thumb:hover { background: #d4ac0d; }
+
+        .chart-wrapper { height: 300px; position: relative; }
+
+        table { width: 100%; border-collapse: collapse; background: #2c2c31; margin-top: 15px; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #3d3d42; font-family: 'JetBrains Mono'; font-size: 0.8rem; }
+        th { background: #3d3d42; color: #f1c40f; text-transform: uppercase; font-size: 0.7rem; }
+        .comp-item { display: flex; justify-content: space-between; border-bottom: 1px solid #3d3d42; padding: 4px 0; font-size: 0.85rem; }
+
+        #loading-message { text-align: center; padding: 30px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div id="loading-message">⏳ Caricamento dati in corso...</div>
+
+<div class="container hidden" id="main-container">
+    <!-- ... parte header invariata ... -->
+    <div class="header-audit">
+        <div class="info-box" style="text-align: center;">
+            <h4 style="color: #00ff00; font-size: 0.8rem; margin: 0 0 2px 0;">VALORE ATTUALE ACCISE</h4>
+            <div id="scadenzaAccisa" style="color:#ff4d4d; font-size: 0.7rem; font-weight: bold; margin-bottom: 5px;">Scadenza: --</div>
+            <div id="displayAccisa" class="valore-evidenziato">--</div>
+            <div id="dataAggiornamento" style="color:#aaa; font-size: 0.7rem; margin-top: 5px;">Aggiornato al: --</div>
+            <div style="margin-top: 12px; font-size: 0.6rem; color: #555;">Versione D1.3</div>
+        </div>
+        <div class="banner-centrale">
+            <p><b>Un rendimento del 4% annuo sulle azioni sembra già un buon risultato.</b></p>
+            <p>La 'mancia' è quello che gli diamo in più.</p>
+            <p>Ecco quanto regaliamo agli azionisti dopo avere pagato il conto.</p>
+        </div>
+        <div class="info-box" style="flex: 1.2;">
+            <h4>Scomposizione Prezzo (€/L)</h4>
+            <div id="composizioneDettaglio"></div>
+        </div>
+    </div>
+
+    <div class="mancia-row">
+        <div class="mancia-box">
+            <h4>Mancia media a pieno (50L)</h4>
+            <div id="manciaPieno" class="mancia-valore">--</div>
+        </div>
+        <div class="mancia-box" style="border-color: #f1c40f;">
+            <h4>Mancia media annua (24 pieni)</h4>
+            <div id="manciaAnno" class="mancia-valore">--</div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <button id="btnGasolio" class="sel-btn active" onclick="dashboard.switchFuel('diesel')">GASOLIO</button>
+        <button id="btnBenzina" class="sel-btn" onclick="dashboard.switchFuel('benzina')">BENZINA</button>
+    </div>
+
+    <div class="nav-controls">
+        <div>
+            <button class="arrow-btn" onclick="dashboard.scrollAllCharts(-400)">◀ STORICO</button>
+            <button class="arrow-btn" onclick="dashboard.scrollAllCharts(400)">AVANTI ▶</button>
+        </div>
+        <a href="bilancio_sdr.html" class="sdr-btn">Vai a conti Eni 2025 📊</a>
+        <button class="arrow-btn" style="background: transparent; border:none;" onclick="dashboard.scrollToToday()">OGGI (VAI AL PRESENTE) ▼</button>
+    </div>
+
+    <!-- Grafici con legenda HTML centrata -->
+    <div class="chart-section">
+        <h3>1. Divario Verità (Media MIMIT vs Arturo)</h3>
+        <div class="chart-legend" id="legend-chartAudit"></div>
+        <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartAudit"></canvas></div></div>
+    </div>
+    <div class="chart-section">
+        <h3>2. Pressione Fiscale (Accise)</h3>
+        <div class="chart-legend" id="legend-chartAccisa"></div>
+        <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartAccisa"></canvas></div></div>
+    </div>
+    <div class="chart-section">
+        <h3>3. Analisi della Mancia (Divergenza in Euro)</h3>
+        <div class="chart-legend" id="legend-chartMancia"></div>
+        <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartMancia"></canvas></div></div>
+    </div>
+    <div class="chart-section">
+        <h3>4. Comparativa Operatori (€ al litro)</h3>
+        <div class="chart-legend" id="legend-chartOperatori"></div>
+        <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartOperatori"></canvas></div></div>
+    </div>
+    <div class="chart-section">
+        <h3>5. Mercato Materie Prime: Brent</h3>
+        <div class="chart-legend" id="legend-chartBarile"></div>
+        <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartBarile"></canvas></div></div>
+    </div>
+    <div class="chart-section">
+        <h3>6. Tasso di Cambio - Costo di 1 Dollaro in Euro</h3>
+        <div class="chart-legend" id="legend-chartCambio"></div>
+        <div class="individual-scroll"><div class="chart-wrapper"><canvas id="chartCambio"></canvas></div></div>
+    </div>
+
+    <table>
+        <thead><tr><th>DATA</th><th>BRENT($)</th><th>CAMBIO</th><th>MIMIT</th><th>ENI</th><th>BIANCHE</th><th>ARTURO</th><th>MANCIA</th></tr></thead>
+        <tbody id="tabellaDati"></tbody>
+    </table>
+</div>
+
+<script>
+if (typeof ChartDataLabels !== 'undefined') {
+    Chart.register(ChartDataLabels);
+    console.log('✅ Plugin datalabels registrato');
+} else {
+    console.warn('⚠️ Plugin datalabels non caricato. Le etichette non verranno mostrate.');
+}
+
+class Dashboard {
+    constructor() {
+        this.data = null;
+        this.currentFuel = 'diesel';
+        this.charts = {};
+        this.init();
+    }
+
+    async init() {
+        try {
+            console.log('🔄 Avvio caricamento data.json...');
+            const response = await fetch('data.json');
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            this.data = await response.json();
+            console.log('✅ Dati caricati:', this.data.meta.aggiornamento, '-', this.data.storico.length, 'record');
+            document.getElementById('loading-message').classList.add('hidden');
+            document.getElementById('main-container').classList.remove('hidden');
+            this.createCharts();
+            this.updateUI();
+            setTimeout(() => this.scrollToToday(), 500);
+            this.bindKeys();
+        } catch (error) {
+            document.getElementById('loading-message').innerHTML =
+                `❌ Errore nel caricamento dei dati: ${error.message}. Verifica che il file data.json sia presente.`;
+            console.error(error);
+        }
+    }
+
+    bindKeys() {
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') this.scrollAllCharts(150);
+            else if (e.key === 'ArrowLeft') this.scrollAllCharts(-150);
+        });
+    }
+
+    // Funzione per generare la legenda HTML centrata
+    buildLegend(legendId, datasets, extraText = '') {
+        const container = document.getElementById(legendId);
+        if (!container) return;
+        let html = '';
+        datasets.forEach(ds => {
+            const color = ds.borderColor || '#fff';
+            const dashed = ds.borderDash ? 'legend-dashed' : '';
+            const label = ds.label || '';
+            html += `
+                <div class="legend-item">
+                    <span class="legend-color" style="background: ${dashed ? 'transparent' : color}; ${dashed ? 'border-bottom: 2px dashed ' + color : ''}"></span>
+                    <span class="legend-text">${label}</span>
+                </div>`;
+        });
+        if (extraText) {
+            html += `<span class="legend-text" style="color:#888; margin-left: 8px;">${extraText}</span>`;
+        }
+        container.innerHTML = html;
+    }
+
+    createCharts() {
+        const stockLength = this.data.storico.length;
+        const showLabels = stockLength <= 30;
+
+        const baseOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { ticks: { color: '#eee', font: { size: 10 } } },
+                y: { grid: { color: '#333' }, ticks: { color: '#888' } }
+            },
+            plugins: {
+                legend: { display: false },  // disabilitiamo la legenda incorporata
+                datalabels: {
+                    display: showLabels,
+                    align: 'top',
+                    color: '#fff',
+                    font: { weight: 'bold', size: 9 },
+                    backgroundColor: 'rgba(0,0,0,0.4)',
+                    borderRadius: 3
+                }
+            }
+        };
+
+        const createChart = (canvasId, datasets, extraOptions = {}) => {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const options = JSON.parse(JSON.stringify(baseOptions));
+            if (extraOptions.plugins) {
+                Object.assign(options.plugins, extraOptions.plugins);
+                delete extraOptions.plugins;
+            }
+            Object.assign(options, extraOptions);
+            return new Chart(ctx, {
+                type: 'line',
+                data: { datasets },
+                options: options
+            });
+        };
+
+        // Datasets definitions
+        const auditDatasets = [
+            { label: 'MIMIT', borderColor: '#e74c3c', data: [], borderWidth: 2 },
+            { label: 'Arturo', borderColor: '#2ecc71', borderDash: [5,5], data: [], borderWidth: 2 }
+        ];
+        const accisaDatasets = [
+            { label: 'Accisa (€)', borderColor: '#f1c40f', backgroundColor: 'rgba(241,196,15,0.1)', fill: true, data: [], borderWidth: 2 }
+        ];
+        const manciaDatasets = [
+            { label: 'Mancia (€)', borderColor: '#9b59b6', backgroundColor: 'rgba(155,89,182,0.1)', fill: true, data: [], borderWidth: 2 }
+        ];
+        const operatoriDatasets = [
+            { label: 'ENI', borderColor: '#ffff00', data: [], borderWidth: 2 },
+            { label: 'Bianche', borderColor: '#ffffff', data: [], borderWidth: 2 },
+            { label: 'MIMIT', borderColor: '#e74c3c', borderDash: [5,5], pointRadius: 0, data: [], borderWidth: 2 }
+        ];
+        const barileDatasets = [
+            { label: 'Brent (€/Bar)', borderColor: '#3498db', data: [], borderWidth: 2 },
+            { label: 'Brent ($/Bar)', borderColor: '#e74c3c', data: [], borderWidth: 2 }
+        ];
+        const cambioDatasets = [
+            { label: 'USD/EUR', borderColor: '#f39c12', data: [], borderWidth: 2 }
+        ];
+
+        // Creazione grafici
+        this.charts.audit = createChart('chartAudit', auditDatasets);
+        this.charts.accise = createChart('chartAccisa', accisaDatasets);
+        this.charts.mancia = createChart('chartMancia', manciaDatasets);
+        this.charts.operatori = createChart('chartOperatori', operatoriDatasets);
+        this.charts.barile = createChart('chartBarile', barileDatasets);
+        this.charts.cambio = createChart('chartCambio', cambioDatasets);
+
+        // Generazione legende HTML
+        this.buildLegend('legend-chartAudit', auditDatasets);
+        this.buildLegend('legend-chartAccisa', accisaDatasets);
+        this.buildLegend('legend-chartMancia', manciaDatasets);
+        this.buildLegend('legend-chartOperatori', operatoriDatasets, '(Fonte prezzi Eni e Pompe bianche: Staffetta Quotidiana)');
+        this.buildLegend('legend-chartBarile', barileDatasets);
+        this.buildLegend('legend-chartCambio', cambioDatasets);
+
+        const pointWidth = 30;
+        const minWidth = Math.max(2000, stockLength * pointWidth);
+        document.querySelectorAll('.chart-wrapper').forEach(el => el.style.minWidth = minWidth + 'px');
+        console.log('📊 Grafici creati con legenda centrata.');
+    }
+
+    // ... resto del codice (updateUI, switchFuel, ecc.) invariato ...
+    // Basta copiare la parte relativa da "updateUI()" fino alla fine del file precedente.
+
+    updateUI() {
+        if (!this.data) return;
+        const list = this.data.storico;
+        if (list.length === 0) return;
+
+        const labels = list.map(d => {
+            const [y, m, day] = d.data.split('-');
+            return `${day}/${m}`;
+        });
+
+        const fuel = this.currentFuel;
+        const dMimit = list.map(d => d[fuel].mimit);
+        const dEquo = list.map(d => d[fuel].arturo);
+        const dMancia = list.map(d => d[fuel].mancia);
+        const dAccise = list.map(d => d[fuel].breakdown.accisa);
+        const dEni = list.map(d => d[fuel].eni === 0 ? null : d[fuel].eni);
+        const dWhite = list.map(d => d[fuel].bianche === 0 ? null : d[fuel].bianche);
+
+        const last = list[list.length - 1];
+        const b = last[fuel].breakdown;
+        const config = this.data.config;
+
+        document.getElementById('displayAccisa').innerText = `€ ${b.accisa.toFixed(4)}`;
+        document.getElementById('dataAggiornamento').innerText =
+            `Aggiornato al: ${last.data.split('-').reverse().join('-')}`;
+        const scadenza = fuel === 'diesel' ? config.scadenza_d : config.scadenza_b;
+        document.getElementById('scadenzaAccisa').innerText = `Scadenza: ${scadenza || '--'}`;
+
+        document.getElementById('composizioneDettaglio').innerHTML = `
+            <div class="comp-item"><span>Materia Prima</span><span>€ ${b.materia_prima.toFixed(4)}</span></div>
+            <div class="comp-item"><span>Raff./Distr.</span><span>€ ${(b.raffinazione + b.distribuzione).toFixed(4)}</span></div>
+            <div class="comp-item"><span>Accise</span><span>€ ${b.accisa.toFixed(4)}</span></div>
+            <div class="comp-item"><span>Equo (4%)</span><span style="color:#00ff00">€ ${b.ebitda.toFixed(4)}</span></div>
+            <div class="comp-item"><span>IVA (22%)</span><span>€ ${b.iva.toFixed(4)}</span></div>
+        `;
+
+        const mediaM = dMancia.reduce((a, v) => a + v, 0) / list.length;
+        document.getElementById('manciaPieno').innerText = `€ ${(mediaM * 50).toFixed(2)}`;
+        document.getElementById('manciaAnno').innerText = `€ ${(mediaM * 1200).toFixed(2)}`;
+
+        const updateChartData = (chart, datasetsData) => {
+            chart.data.labels = labels;
+            chart.data.datasets.forEach((ds, i) => {
+                ds.data = datasetsData[i];
+            });
+            chart.update();
+        };
+
+        updateChartData(this.charts.audit, [dMimit, dEquo]);
+        updateChartData(this.charts.accise, [dAccise]);
+        updateChartData(this.charts.mancia, [dMancia]);
+        updateChartData(this.charts.operatori, [dEni, dWhite, dMimit]);
+        updateChartData(this.charts.barile, [
+            list.map(d => (d.brent / d.cambio).toFixed(2)),
+            list.map(d => d.brent.toFixed(2))
+        ]);
+        updateChartData(this.charts.cambio, [list.map(d => (1 / d.cambio).toFixed(4))]);
+
+        const tbody = document.getElementById('tabellaDati');
+        tbody.innerHTML = list.slice().reverse().map(d => {
+            const f = d[fuel];
+            return `<tr>
+                <td>${d.data.split('-').reverse().join('/')}</td>
+                <td>${d.brent.toFixed(2)}</td>
+                <td>${d.cambio.toFixed(4)}</td>
+                <td>${f.mimit.toFixed(3)}</td>
+                <td>${f.eni > 0 ? f.eni.toFixed(3) : '-'}</td>
+                <td>${f.bianche > 0 ? f.bianche.toFixed(3) : '-'}</td>
+                <td style="color:#00ff00">${f.arturo.toFixed(3)}</td>
+                <td style="color:#9b59b6; font-weight:bold;">${f.mancia.toFixed(3)}</td>
+            </tr>`;
+        }).join('');
+
+        console.log('🔄 UI aggiornata per', fuel);
+    }
+
+    switchFuel(f) {
+        this.currentFuel = f;
+        document.getElementById('btnGasolio').classList.toggle('active', f === 'diesel');
+        document.getElementById('btnBenzina').classList.toggle('active', f === 'benzina');
+        this.updateUI();
+    }
+
+    scrollAllCharts(amount) {
+        document.querySelectorAll('.individual-scroll').forEach(el => {
+            el.scrollBy({ left: amount, behavior: 'smooth' });
+        });
+    }
+
+    scrollToToday() {
+        document.querySelectorAll('.individual-scroll').forEach(el => {
+            el.scrollLeft = el.scrollWidth;
+        });
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    window.dashboard = new Dashboard();
+});
+</script>
+</body>
+</html>

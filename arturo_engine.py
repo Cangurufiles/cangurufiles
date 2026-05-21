@@ -39,7 +39,7 @@ def calcola_arturo(brent_usd, cambio_eurusd, accisa):
     """Calcola il prezzo equo e il breakdown."""
     mat = brent_usd / cambio_eurusd / 159  # costo materia prima per litro
     base = mat + P_RAFF + P_DIST + accisa
-    ebitda = base * 0.03
+    ebitda = base * 0.04
     iva = (base + ebitda) * 0.22
     prezzo = (base + ebitda) * 1.22
 

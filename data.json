@@ -7,7 +7,7 @@
     "scadenza_b": "22/05/2026"
   },
   "meta": {
-    "aggiornamento": "2026-05-21 18:04"
+    "aggiornamento": "2026-05-21 23:51"
   },
   "storico": [
     {
@@ -18,32 +18,32 @@
         "mimit": 2.062,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.558,
-        "mancia": 0.504,
+        "arturo": 1.574,
+        "mancia": 0.488,
         "breakdown": {
           "materia_prima": 0.5573,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0372,
-          "iva": 0.281,
-          "prezzo_equo": 1.558
+          "ebitda": 0.0496,
+          "iva": 0.2838,
+          "prezzo_equo": 1.574
         }
       },
       "benzina": {
         "mimit": 1.745,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.558,
-        "mancia": 0.187,
+        "arturo": 1.574,
+        "mancia": 0.171,
         "breakdown": {
           "materia_prima": 0.5573,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0372,
-          "iva": 0.281,
-          "prezzo_equo": 1.558
+          "ebitda": 0.0496,
+          "iva": 0.2838,
+          "prezzo_equo": 1.574
         }
       }
     },
@@ -55,32 +55,32 @@
         "mimit": 2.061,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.57,
-        "mancia": 0.491,
+        "arturo": 1.585,
+        "mancia": 0.476,
         "breakdown": {
           "materia_prima": 0.5665,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0375,
-          "iva": 0.2831,
-          "prezzo_equo": 1.57
+          "ebitda": 0.05,
+          "iva": 0.2859,
+          "prezzo_equo": 1.585
         }
       },
       "benzina": {
         "mimit": 1.748,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.57,
-        "mancia": 0.178,
+        "arturo": 1.585,
+        "mancia": 0.163,
         "breakdown": {
           "materia_prima": 0.5665,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0375,
-          "iva": 0.2831,
-          "prezzo_equo": 1.57
+          "ebitda": 0.05,
+          "iva": 0.2859,
+          "prezzo_equo": 1.585
         }
       }
     },
@@ -92,32 +92,32 @@
         "mimit": 2.057,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.609,
-        "mancia": 0.448,
+        "arturo": 1.625,
+        "mancia": 0.432,
         "breakdown": {
           "materia_prima": 0.5977,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0384,
-          "iva": 0.2902,
-          "prezzo_equo": 1.609
+          "ebitda": 0.0512,
+          "iva": 0.293,
+          "prezzo_equo": 1.625
         }
       },
       "benzina": {
         "mimit": 1.751,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.609,
-        "mancia": 0.142,
+        "arturo": 1.625,
+        "mancia": 0.126,
         "breakdown": {
           "materia_prima": 0.5977,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0384,
-          "iva": 0.2902,
-          "prezzo_equo": 1.609
+          "ebitda": 0.0512,
+          "iva": 0.293,
+          "prezzo_equo": 1.625
         }
       }
     },
@@ -129,32 +129,32 @@
         "mimit": 2.055,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.606,
-        "mancia": 0.449,
+        "arturo": 1.622,
+        "mancia": 0.433,
         "breakdown": {
           "materia_prima": 0.5952,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0383,
-          "iva": 0.2896,
-          "prezzo_equo": 1.606
+          "ebitda": 0.0511,
+          "iva": 0.2924,
+          "prezzo_equo": 1.622
         }
       },
       "benzina": {
         "mimit": 1.758,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.606,
-        "mancia": 0.152,
+        "arturo": 1.622,
+        "mancia": 0.136,
         "breakdown": {
           "materia_prima": 0.5952,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0383,
-          "iva": 0.2896,
-          "prezzo_equo": 1.606
+          "ebitda": 0.0511,
+          "iva": 0.2924,
+          "prezzo_equo": 1.622
         }
       }
     },
@@ -166,32 +166,32 @@
         "mimit": 2.053,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.587,
-        "mancia": 0.466,
+        "arturo": 1.603,
+        "mancia": 0.45,
         "breakdown": {
           "materia_prima": 0.5803,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0379,
-          "iva": 0.2862,
-          "prezzo_equo": 1.587
+          "ebitda": 0.0505,
+          "iva": 0.289,
+          "prezzo_equo": 1.603
         }
       },
       "benzina": {
         "mimit": 1.817,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.776,
-        "mancia": 0.041,
+        "arturo": 1.793,
+        "mancia": 0.024,
         "breakdown": {
           "materia_prima": 0.5803,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0424,
-          "iva": 0.3202,
-          "prezzo_equo": 1.776
+          "ebitda": 0.0565,
+          "iva": 0.3233,
+          "prezzo_equo": 1.793
         }
       }
     },
@@ -203,32 +203,32 @@
         "mimit": 2.052,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.592,
-        "mancia": 0.46,
+        "arturo": 1.607,
+        "mancia": 0.445,
         "breakdown": {
           "materia_prima": 0.5839,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.038,
-          "iva": 0.2871,
-          "prezzo_equo": 1.592
+          "ebitda": 0.0507,
+          "iva": 0.2898,
+          "prezzo_equo": 1.607
         }
       },
       "benzina": {
         "mimit": 1.902,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.78,
-        "mancia": 0.122,
+        "arturo": 1.798,
+        "mancia": 0.104,
         "breakdown": {
           "materia_prima": 0.5839,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0425,
-          "iva": 0.321,
-          "prezzo_equo": 1.78
+          "ebitda": 0.0567,
+          "iva": 0.3242,
+          "prezzo_equo": 1.798
         }
       }
     },
@@ -240,32 +240,32 @@
         "mimit": 2.049,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.62,
-        "mancia": 0.429,
+        "arturo": 1.636,
+        "mancia": 0.413,
         "breakdown": {
           "materia_prima": 0.6063,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0387,
-          "iva": 0.2921,
-          "prezzo_equo": 1.62
+          "ebitda": 0.0516,
+          "iva": 0.295,
+          "prezzo_equo": 1.636
         }
       },
       "benzina": {
         "mimit": 1.929,
         "eni": 0.0,
         "bianche": 0.0,
-        "arturo": 1.809,
-        "mancia": 0.12,
+        "arturo": 1.826,
+        "mancia": 0.103,
         "breakdown": {
           "materia_prima": 0.6063,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0432,
-          "iva": 0.3261,
-          "prezzo_equo": 1.809
+          "ebitda": 0.0576,
+          "iva": 0.3293,
+          "prezzo_equo": 1.826
         }
       }
     },
@@ -277,32 +277,32 @@
         "mimit": 2.047,
         "eni": 2.047,
         "bianche": 2.034,
-        "arturo": 1.557,
-        "mancia": 0.49,
+        "arturo": 1.572,
+        "mancia": 0.475,
         "breakdown": {
           "materia_prima": 0.5559,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0372,
-          "iva": 0.2807,
-          "prezzo_equo": 1.557
+          "ebitda": 0.0496,
+          "iva": 0.2834,
+          "prezzo_equo": 1.572
         }
       },
       "benzina": {
         "mimit": 1.937,
         "eni": 1.955,
         "bianche": 1.912,
-        "arturo": 1.745,
-        "mancia": 0.192,
+        "arturo": 1.762,
+        "mancia": 0.175,
         "breakdown": {
           "materia_prima": 0.5559,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0417,
-          "iva": 0.3147,
-          "prezzo_equo": 1.745
+          "ebitda": 0.0556,
+          "iva": 0.3178,
+          "prezzo_equo": 1.762
         }
       }
     },
@@ -314,32 +314,32 @@
         "mimit": 2.042,
         "eni": 2.045,
         "bianche": 2.036,
-        "arturo": 1.525,
-        "mancia": 0.517,
+        "arturo": 1.54,
+        "mancia": 0.502,
         "breakdown": {
           "materia_prima": 0.5306,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0364,
-          "iva": 0.275,
-          "prezzo_equo": 1.525
+          "ebitda": 0.0485,
+          "iva": 0.2777,
+          "prezzo_equo": 1.54
         }
       },
       "benzina": {
         "mimit": 1.941,
         "eni": 1.954,
         "bianche": 1.922,
-        "arturo": 1.713,
-        "mancia": 0.228,
+        "arturo": 1.73,
+        "mancia": 0.211,
         "breakdown": {
           "materia_prima": 0.5306,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0409,
-          "iva": 0.309,
-          "prezzo_equo": 1.713
+          "ebitda": 0.0545,
+          "iva": 0.312,
+          "prezzo_equo": 1.73
         }
       }
     },
@@ -351,32 +351,32 @@
         "mimit": 2.031,
         "eni": 2.039,
         "bianche": 2.032,
-        "arturo": 1.536,
-        "mancia": 0.495,
+        "arturo": 1.551,
+        "mancia": 0.48,
         "breakdown": {
           "materia_prima": 0.5394,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0367,
-          "iva": 0.277,
-          "prezzo_equo": 1.536
+          "ebitda": 0.0489,
+          "iva": 0.2797,
+          "prezzo_equo": 1.551
         }
       },
       "benzina": {
         "mimit": 1.938,
         "eni": 1.951,
         "bianche": 1.932,
-        "arturo": 1.724,
-        "mancia": 0.214,
+        "arturo": 1.741,
+        "mancia": 0.197,
         "breakdown": {
           "materia_prima": 0.5394,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0412,
-          "iva": 0.311,
-          "prezzo_equo": 1.724
+          "ebitda": 0.0549,
+          "iva": 0.314,
+          "prezzo_equo": 1.741
         }
       }
     },
@@ -388,32 +388,32 @@
         "mimit": 2.02,
         "eni": 2.039,
         "bianche": 2.032,
-        "arturo": 1.536,
-        "mancia": 0.484,
+        "arturo": 1.551,
+        "mancia": 0.469,
         "breakdown": {
           "materia_prima": 0.5394,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0367,
-          "iva": 0.277,
-          "prezzo_equo": 1.536
+          "ebitda": 0.0489,
+          "iva": 0.2797,
+          "prezzo_equo": 1.551
         }
       },
       "benzina": {
         "mimit": 1.935,
         "eni": 1.951,
         "bianche": 1.929,
-        "arturo": 1.724,
-        "mancia": 0.211,
+        "arturo": 1.741,
+        "mancia": 0.194,
         "breakdown": {
           "materia_prima": 0.5394,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0412,
-          "iva": 0.311,
-          "prezzo_equo": 1.724
+          "ebitda": 0.0549,
+          "iva": 0.314,
+          "prezzo_equo": 1.741
         }
       }
     },
@@ -425,32 +425,32 @@
         "mimit": 2.025,
         "eni": 2.039,
         "bianche": 2.032,
-        "arturo": 1.536,
-        "mancia": 0.489,
+        "arturo": 1.551,
+        "mancia": 0.474,
         "breakdown": {
           "materia_prima": 0.5394,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0367,
-          "iva": 0.277,
-          "prezzo_equo": 1.536
+          "ebitda": 0.0489,
+          "iva": 0.2797,
+          "prezzo_equo": 1.551
         }
       },
       "benzina": {
         "mimit": 1.934,
         "eni": 1.951,
         "bianche": 1.929,
-        "arturo": 1.724,
-        "mancia": 0.21,
+        "arturo": 1.741,
+        "mancia": 0.193,
         "breakdown": {
           "materia_prima": 0.5394,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0412,
-          "iva": 0.311,
-          "prezzo_equo": 1.724
+          "ebitda": 0.0549,
+          "iva": 0.314,
+          "prezzo_equo": 1.741
         }
       }
     },
@@ -462,32 +462,32 @@
         "mimit": 2.014,
         "eni": 1.997,
         "bianche": 2.008,
-        "arturo": 1.538,
-        "mancia": 0.476,
+        "arturo": 1.553,
+        "mancia": 0.461,
         "breakdown": {
           "materia_prima": 0.5414,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0367,
-          "iva": 0.2774,
-          "prezzo_equo": 1.538
+          "ebitda": 0.049,
+          "iva": 0.2801,
+          "prezzo_equo": 1.553
         }
       },
       "benzina": {
         "mimit": 1.934,
         "eni": 1.944,
         "bianche": 1.932,
-        "arturo": 1.727,
-        "mancia": 0.207,
+        "arturo": 1.744,
+        "mancia": 0.19,
         "breakdown": {
           "materia_prima": 0.5414,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0412,
-          "iva": 0.3114,
-          "prezzo_equo": 1.727
+          "ebitda": 0.055,
+          "iva": 0.3144,
+          "prezzo_equo": 1.744
         }
       }
     },
@@ -499,32 +499,32 @@
         "mimit": 2.003,
         "eni": 1.995,
         "bianche": 2.005,
-        "arturo": 1.572,
-        "mancia": 0.431,
+        "arturo": 1.587,
+        "mancia": 0.416,
         "breakdown": {
           "materia_prima": 0.568,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0375,
-          "iva": 0.2835,
-          "prezzo_equo": 1.572
+          "ebitda": 0.05,
+          "iva": 0.2862,
+          "prezzo_equo": 1.587
         }
       },
       "benzina": {
         "mimit": 1.933,
         "eni": 1.994,
         "bianche": 1.927,
-        "arturo": 1.76,
-        "mancia": 0.173,
+        "arturo": 1.777,
+        "mancia": 0.156,
         "breakdown": {
           "materia_prima": 0.568,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.042,
-          "iva": 0.3174,
-          "prezzo_equo": 1.76
+          "ebitda": 0.056,
+          "iva": 0.3205,
+          "prezzo_equo": 1.777
         }
       }
     },
@@ -536,32 +536,32 @@
         "mimit": 1.998,
         "eni": 1.99,
         "bianche": 1.997,
-        "arturo": 1.577,
-        "mancia": 0.421,
+        "arturo": 1.592,
+        "mancia": 0.406,
         "breakdown": {
           "materia_prima": 0.5717,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0376,
-          "iva": 0.2843,
-          "prezzo_equo": 1.577
+          "ebitda": 0.0502,
+          "iva": 0.2871,
+          "prezzo_equo": 1.592
         }
       },
       "benzina": {
         "mimit": 1.935,
         "eni": 1.943,
         "bianche": 1.925,
-        "arturo": 1.765,
-        "mancia": 0.17,
+        "arturo": 1.782,
+        "mancia": 0.153,
         "breakdown": {
           "materia_prima": 0.5717,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0421,
-          "iva": 0.3183,
-          "prezzo_equo": 1.765
+          "ebitda": 0.0562,
+          "iva": 0.3214,
+          "prezzo_equo": 1.782
         }
       }
     },
@@ -573,32 +573,32 @@
         "mimit": 1.993,
         "eni": 1.987,
         "bianche": 1.989,
-        "arturo": 1.574,
-        "mancia": 0.419,
+        "arturo": 1.59,
+        "mancia": 0.403,
         "breakdown": {
           "materia_prima": 0.5699,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0376,
-          "iva": 0.2839,
-          "prezzo_equo": 1.574
+          "ebitda": 0.0501,
+          "iva": 0.2866,
+          "prezzo_equo": 1.59
         }
       },
       "benzina": {
         "mimit": 1.94,
         "eni": 1.943,
         "bianche": 1.926,
-        "arturo": 1.763,
-        "mancia": 0.177,
+        "arturo": 1.78,
+        "mancia": 0.16,
         "breakdown": {
           "materia_prima": 0.5699,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0421,
-          "iva": 0.3179,
-          "prezzo_equo": 1.763
+          "ebitda": 0.0561,
+          "iva": 0.321,
+          "prezzo_equo": 1.78
         }
       }
     },
@@ -610,32 +610,32 @@
         "mimit": 1.989,
         "eni": 1.986,
         "bianche": 1.985,
-        "arturo": 1.6,
-        "mancia": 0.389,
+        "arturo": 1.616,
+        "mancia": 0.373,
         "breakdown": {
           "materia_prima": 0.5907,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0382,
-          "iva": 0.2886,
-          "prezzo_equo": 1.6
+          "ebitda": 0.0509,
+          "iva": 0.2914,
+          "prezzo_equo": 1.616
         }
       },
       "benzina": {
         "mimit": 1.943,
         "eni": 1.948,
         "bianche": 1.929,
-        "arturo": 1.789,
-        "mancia": 0.154,
+        "arturo": 1.806,
+        "mancia": 0.137,
         "breakdown": {
           "materia_prima": 0.5907,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0427,
-          "iva": 0.3226,
-          "prezzo_equo": 1.789
+          "ebitda": 0.0569,
+          "iva": 0.3257,
+          "prezzo_equo": 1.806
         }
       }
     },
@@ -647,32 +647,32 @@
         "mimit": 1.985,
         "eni": 1.986,
         "bianche": 1.985,
-        "arturo": 1.601,
-        "mancia": 0.384,
+        "arturo": 1.616,
+        "mancia": 0.369,
         "breakdown": {
           "materia_prima": 0.5908,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0382,
-          "iva": 0.2886,
-          "prezzo_equo": 1.601
+          "ebitda": 0.0509,
+          "iva": 0.2914,
+          "prezzo_equo": 1.616
         }
       },
       "benzina": {
         "mimit": 1.946,
         "eni": 1.948,
         "bianche": 1.929,
-        "arturo": 1.789,
-        "mancia": 0.157,
+        "arturo": 1.806,
+        "mancia": 0.14,
         "breakdown": {
           "materia_prima": 0.5908,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0427,
-          "iva": 0.3226,
-          "prezzo_equo": 1.789
+          "ebitda": 0.0569,
+          "iva": 0.3257,
+          "prezzo_equo": 1.806
         }
       }
     },
@@ -682,182 +682,182 @@
       "cambio": 1.1631,
       "diesel": {
         "mimit": 1.984,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.601,
-        "mancia": 0.383,
+        "eni": 1.986,
+        "bianche": 1.985,
+        "arturo": 1.616,
+        "mancia": 0.368,
         "breakdown": {
           "materia_prima": 0.5908,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0382,
-          "iva": 0.2886,
-          "prezzo_equo": 1.601
+          "ebitda": 0.0509,
+          "iva": 0.2914,
+          "prezzo_equo": 1.616
         }
       },
       "benzina": {
         "mimit": 1.947,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.789,
-        "mancia": 0.158,
+        "eni": 1.948,
+        "bianche": 1.929,
+        "arturo": 1.806,
+        "mancia": 0.141,
         "breakdown": {
           "materia_prima": 0.5908,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0427,
-          "iva": 0.3226,
-          "prezzo_equo": 1.789
+          "ebitda": 0.0569,
+          "iva": 0.3257,
+          "prezzo_equo": 1.806
         }
       }
     },
     {
       "data": "2026-05-18",
-      "brent": 111.2,
-      "cambio": 1.1655,
+      "brent": 109.13,
+      "cambio": 1.1648,
       "diesel": {
-        "mimit": 1.983,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.612,
-        "mancia": 0.371,
+        "mimit": 1.984,
+        "eni": 1.982,
+        "bianche": 1.979,
+        "arturo": 1.614,
+        "mancia": 0.37,
         "breakdown": {
-          "materia_prima": 0.6001,
+          "materia_prima": 0.5892,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0385,
-          "iva": 0.2907,
-          "prezzo_equo": 1.612
+          "ebitda": 0.0509,
+          "iva": 0.2911,
+          "prezzo_equo": 1.614
         }
       },
       "benzina": {
-        "mimit": 1.947,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.801,
+        "mimit": 1.95,
+        "eni": 1.95,
+        "bianche": 1.934,
+        "arturo": 1.804,
         "mancia": 0.146,
         "breakdown": {
-          "materia_prima": 0.6001,
+          "materia_prima": 0.5892,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.043,
-          "iva": 0.3247,
-          "prezzo_equo": 1.801
+          "ebitda": 0.0569,
+          "iva": 0.3254,
+          "prezzo_equo": 1.804
         }
       }
     },
     {
       "data": "2026-05-19",
-      "brent": 110.95,
-      "cambio": 1.1612,
+      "brent": 111.3,
+      "cambio": 1.161,
       "diesel": {
         "mimit": 1.984,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.613,
-        "mancia": 0.371,
+        "eni": 1.978,
+        "bianche": 1.973,
+        "arturo": 1.631,
+        "mancia": 0.353,
         "breakdown": {
-          "materia_prima": 0.6009,
+          "materia_prima": 0.6029,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0385,
-          "iva": 0.2909,
-          "prezzo_equo": 1.613
+          "ebitda": 0.0514,
+          "iva": 0.2942,
+          "prezzo_equo": 1.631
         }
       },
       "benzina": {
         "mimit": 1.955,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.802,
-        "mancia": 0.153,
+        "eni": 1.954,
+        "bianche": 1.939,
+        "arturo": 1.822,
+        "mancia": 0.133,
         "breakdown": {
-          "materia_prima": 0.6009,
+          "materia_prima": 0.6029,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.043,
-          "iva": 0.3249,
-          "prezzo_equo": 1.802
+          "ebitda": 0.0574,
+          "iva": 0.3285,
+          "prezzo_equo": 1.822
         }
       }
     },
     {
       "data": "2026-05-20",
-      "brent": 105.77,
-      "cambio": 1.1627,
+      "brent": 105.03,
+      "cambio": 1.1631,
       "diesel": {
         "mimit": 1.986,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.577,
-        "mancia": 0.409,
+        "eni": 1.987,
+        "bianche": 1.971,
+        "arturo": 1.587,
+        "mancia": 0.399,
         "breakdown": {
-          "materia_prima": 0.5721,
+          "materia_prima": 0.5679,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0377,
-          "iva": 0.2844,
-          "prezzo_equo": 1.577
+          "ebitda": 0.05,
+          "iva": 0.2862,
+          "prezzo_equo": 1.587
         }
       },
       "benzina": {
         "mimit": 1.965,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.766,
-        "mancia": 0.199,
+        "eni": 1.965,
+        "bianche": 1.943,
+        "arturo": 1.777,
+        "mancia": 0.188,
         "breakdown": {
-          "materia_prima": 0.5721,
+          "materia_prima": 0.5679,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0422,
-          "iva": 0.3184,
-          "prezzo_equo": 1.766
+          "ebitda": 0.056,
+          "iva": 0.3205,
+          "prezzo_equo": 1.777
         }
       }
     },
     {
       "data": "2026-05-21",
-      "brent": 106.89,
-      "cambio": 1.1597,
+      "brent": 104.88,
+      "cambio": 1.1627,
       "diesel": {
         "mimit": 1.985,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.587,
-        "mancia": 0.398,
+        "eni": 1.993,
+        "bianche": 1.971,
+        "arturo": 1.586,
+        "mancia": 0.399,
         "breakdown": {
-          "materia_prima": 0.5797,
+          "materia_prima": 0.5673,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.4729,
-          "ebitda": 0.0379,
+          "ebitda": 0.05,
           "iva": 0.2861,
-          "prezzo_equo": 1.587
+          "prezzo_equo": 1.586
         }
       },
       "benzina": {
         "mimit": 1.97,
-        "eni": 0.0,
-        "bianche": 0.0,
-        "arturo": 1.775,
-        "mancia": 0.195,
+        "eni": 1.985,
+        "bianche": 1.949,
+        "arturo": 1.777,
+        "mancia": 0.193,
         "breakdown": {
-          "materia_prima": 0.5797,
+          "materia_prima": 0.5673,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.6229,
-          "ebitda": 0.0424,
-          "iva": 0.3201,
-          "prezzo_equo": 1.775
+          "ebitda": 0.056,
+          "iva": 0.3204,
+          "prezzo_equo": 1.777
         }
       }
     }
