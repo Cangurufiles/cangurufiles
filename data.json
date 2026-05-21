@@ -7,7 +7,7 @@
     "scadenza_b": "22/05/2026"
   },
   "meta": {
-    "aggiornamento": "2026-05-20 16:42"
+    "aggiornamento": "2026-05-21 16:29"
   },
   "storico": [
     {
@@ -821,6 +821,43 @@
           "ebitda": 0.0422,
           "iva": 0.3184,
           "prezzo_equo": 1.766
+        }
+      }
+    },
+    {
+      "data": "2026-05-21",
+      "brent": 106.89,
+      "cambio": 1.1597,
+      "diesel": {
+        "mimit": 1.985,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.587,
+        "mancia": 0.398,
+        "breakdown": {
+          "materia_prima": 0.5797,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.4729,
+          "ebitda": 0.0379,
+          "iva": 0.2861,
+          "prezzo_equo": 1.587
+        }
+      },
+      "benzina": {
+        "mimit": 1.97,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.775,
+        "mancia": 0.195,
+        "breakdown": {
+          "materia_prima": 0.5797,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0424,
+          "iva": 0.3201,
+          "prezzo_equo": 1.775
         }
       }
     }
