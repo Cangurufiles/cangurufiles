@@ -1,13 +1,13 @@
 {
   "config": {
     "versione": "4.0",
-    "accisa_d": 0.4729,
-    "scadenza_d": "22/05/2026",
+    "accisa_d": 0.5729,
+    "scadenza_d": "06/06/2026",
     "accisa_b": 0.6229,
-    "scadenza_b": "22/05/2026"
+    "scadenza_b": "06/06/2026"
   },
   "meta": {
-    "aggiornamento": "2026-05-23 10:59"
+    "aggiornamento": "2026-05-23 19:55"
   },
   "storico": [
     {
@@ -904,8 +904,8 @@
       "cambio": 1.1605,
       "diesel": {
         "mimit": 1.985,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.995,
+        "bianche": 1.975,
         "arturo": 1.578,
         "mancia": 0.407,
         "breakdown": {
@@ -920,8 +920,8 @@
       },
       "benzina": {
         "mimit": 1.973,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.995,
+        "bianche": 1.97,
         "arturo": 1.769,
         "mancia": 0.204,
         "breakdown": {
