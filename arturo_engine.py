@@ -22,11 +22,11 @@ MANUAL_CSV = BASE_DIR / "manual_data.csv"
 P_RAFF = 0.080
 P_DIST = 0.130
 
-ACCISA_D = 0.4729
-SCADENZA_D = "22/05/2026"
+ACCISA_D = 0.5729
+SCADENZA_D = "06/06/2026"
 
 ACCISA_B = 0.6229
-SCADENZA_B = "22/05/2026"
+SCADENZA_B = "06/06/2026"
 
 URL_MIMIT = "https://www.mimit.gov.it/images/stories/carburanti/MediaRegionaleStradale.csv"
 
