@@ -7,7 +7,7 @@
     "scadenza_b": "03/07/2026"
   },
   "meta": {
-    "aggiornamento": "2026-06-18 09:59"
+    "aggiornamento": "2026-06-19 10:06"
   },
   "storico": [
     {
@@ -1755,8 +1755,8 @@
       "cambio": 1.1605,
       "diesel": {
         "mimit": 1.981,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.98,
+        "bianche": 1.978,
         "arturo": 1.602,
         "mancia": 0.379,
         "breakdown": {
@@ -1771,8 +1771,8 @@
       },
       "benzina": {
         "mimit": 1.879,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.872,
+        "bianche": 1.887,
         "arturo": 1.602,
         "mancia": 0.277,
         "breakdown": {
@@ -1792,8 +1792,8 @@
       "cambio": 1.1481,
       "diesel": {
         "mimit": 1.97,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.974,
+        "bianche": 1.975,
         "arturo": 1.599,
         "mancia": 0.371,
         "breakdown": {
@@ -1808,8 +1808,8 @@
       },
       "benzina": {
         "mimit": 1.87,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.865,
+        "bianche": 1.879,
         "arturo": 1.599,
         "mancia": 0.271,
         "breakdown": {
@@ -1820,6 +1820,43 @@
           "ebitda": 0.0504,
           "iva": 0.2883,
           "prezzo_equo": 1.599
+        }
+      }
+    },
+    {
+      "data": "2026-06-19",
+      "brent": 79.14,
+      "cambio": 1.1465,
+      "diesel": {
+        "mimit": 1.957,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.608,
+        "mancia": 0.349,
+        "breakdown": {
+          "materia_prima": 0.4341,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0507,
+          "iva": 0.2899,
+          "prezzo_equo": 1.608
+        }
+      },
+      "benzina": {
+        "mimit": 1.859,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.608,
+        "mancia": 0.251,
+        "breakdown": {
+          "materia_prima": 0.4341,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0507,
+          "iva": 0.2899,
+          "prezzo_equo": 1.608
         }
       }
     }
