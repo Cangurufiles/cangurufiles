@@ -7,7 +7,7 @@
     "scadenza_b": "03/07/2026"
   },
   "meta": {
-    "aggiornamento": "2026-06-22 11:25"
+    "aggiornamento": "2026-06-23 08:51"
   },
   "storico": [
     {
@@ -1866,8 +1866,8 @@
       "cambio": 1.1469,
       "diesel": {
         "mimit": 1.944,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.952,
+        "bianche": 1.95,
         "arturo": 1.618,
         "mancia": 0.326,
         "breakdown": {
@@ -1882,8 +1882,8 @@
       },
       "benzina": {
         "mimit": 1.849,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.845,
+        "bianche": 1.853,
         "arturo": 1.618,
         "mancia": 0.231,
         "breakdown": {
@@ -1903,8 +1903,8 @@
       "cambio": 1.1469,
       "diesel": {
         "mimit": 1.94,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.94,
+        "bianche": 1.938,
         "arturo": 1.618,
         "mancia": 0.322,
         "breakdown": {
@@ -1919,8 +1919,8 @@
       },
       "benzina": {
         "mimit": 1.846,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.839,
+        "bianche": 1.847,
         "arturo": 1.618,
         "mancia": 0.228,
         "breakdown": {
@@ -1940,8 +1940,8 @@
       "cambio": 1.1455,
       "diesel": {
         "mimit": 1.937,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.932,
+        "bianche": 1.934,
         "arturo": 1.608,
         "mancia": 0.329,
         "breakdown": {
@@ -1956,8 +1956,8 @@
       },
       "benzina": {
         "mimit": 1.843,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.835,
+        "bianche": 1.841,
         "arturo": 1.608,
         "mancia": 0.235,
         "breakdown": {
@@ -1968,6 +1968,43 @@
           "ebitda": 0.0507,
           "iva": 0.29,
           "prezzo_equo": 1.608
+        }
+      }
+    },
+    {
+      "data": "2026-06-23",
+      "brent": 77.56,
+      "cambio": 1.141,
+      "diesel": {
+        "mimit": 1.928,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.599,
+        "mancia": 0.329,
+        "breakdown": {
+          "materia_prima": 0.4275,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0504,
+          "iva": 0.2884,
+          "prezzo_equo": 1.599
+        }
+      },
+      "benzina": {
+        "mimit": 1.836,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.599,
+        "mancia": 0.237,
+        "breakdown": {
+          "materia_prima": 0.4275,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0504,
+          "iva": 0.2884,
+          "prezzo_equo": 1.599
         }
       }
     }
