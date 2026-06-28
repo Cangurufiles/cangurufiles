@@ -7,7 +7,7 @@
     "scadenza_b": "03/07/2026"
   },
   "meta": {
-    "aggiornamento": "2026-06-27 08:19"
+    "aggiornamento": "2026-06-28 08:35"
   },
   "storico": [
     {
@@ -2088,8 +2088,8 @@
       "cambio": 1.1404,
       "diesel": {
         "mimit": 1.908,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.911,
+        "bianche": 1.908,
         "arturo": 1.567,
         "mancia": 0.341,
         "breakdown": {
@@ -2104,8 +2104,8 @@
       },
       "benzina": {
         "mimit": 1.822,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.823,
+        "bianche": 1.821,
         "arturo": 1.567,
         "mancia": 0.255,
         "breakdown": {
@@ -2125,8 +2125,8 @@
       "cambio": 1.139,
       "diesel": {
         "mimit": 1.902,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.911,
+        "bianche": 1.908,
         "arturo": 1.561,
         "mancia": 0.341,
         "breakdown": {
@@ -2141,8 +2141,8 @@
       },
       "benzina": {
         "mimit": 1.818,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.823,
+        "bianche": 1.821,
         "arturo": 1.561,
         "mancia": 0.257,
         "breakdown": {
@@ -2153,6 +2153,43 @@
           "ebitda": 0.0492,
           "iva": 0.2815,
           "prezzo_equo": 1.561
+        }
+      }
+    },
+    {
+      "data": "2026-06-28",
+      "brent": 72.6,
+      "cambio": 1.139,
+      "diesel": {
+        "mimit": 1.9,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.565,
+        "mancia": 0.335,
+        "breakdown": {
+          "materia_prima": 0.4009,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0494,
+          "iva": 0.2823,
+          "prezzo_equo": 1.565
+        }
+      },
+      "benzina": {
+        "mimit": 1.817,
+        "eni": 0.0,
+        "bianche": 0.0,
+        "arturo": 1.565,
+        "mancia": 0.252,
+        "breakdown": {
+          "materia_prima": 0.4009,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6229,
+          "ebitda": 0.0494,
+          "iva": 0.2823,
+          "prezzo_equo": 1.565
         }
       }
     }
