@@ -1,13 +1,19 @@
 {
   "config": {
     "versione": "4.0",
-    "accisa_d": 0.6229,
-    "scadenza_d": "03/07/2026",
-    "accisa_b": 0.6229,
-    "scadenza_b": "03/07/2026"
+    "accisa_d": [
+      0,
+      67290
+    ],
+    "scadenza_d": "Nessuna",
+    "accisa_b": [
+      0,
+      67290
+    ],
+    "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-07-05 08:33"
+    "aggiornamento": "2026-07-05 12:36"
   },
   "storico": [
     {
@@ -2392,7 +2398,7 @@
           "materia_prima": 0.3965,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0,67290,
+          "accisa": 0.6229,
           "ebitda": 0.0492,
           "iva": 0.2813,
           "prezzo_equo": 1.56
@@ -2408,7 +2414,7 @@
           "materia_prima": 0.3965,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0,67290,
+          "accisa": 0.6229,
           "ebitda": 0.0492,
           "iva": 0.2813,
           "prezzo_equo": 1.56
@@ -2429,7 +2435,7 @@
           "materia_prima": 0.3965,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0,67290,
+          "accisa": 0.6229,
           "ebitda": 0.0492,
           "iva": 0.2813,
           "prezzo_equo": 1.56
@@ -2445,7 +2451,7 @@
           "materia_prima": 0.3965,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0,67290,
+          "accisa": 0.6229,
           "ebitda": 0.0492,
           "iva": 0.2813,
           "prezzo_equo": 1.56
