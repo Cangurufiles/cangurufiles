@@ -1,19 +1,13 @@
 {
   "config": {
     "versione": "4.0",
-    "accisa_d": [
-      0,
-      67290
-    ],
+    "accisa_d": 0.6729,
     "scadenza_d": "Nessuna",
-    "accisa_b": [
-      0,
-      67290
-    ],
+    "accisa_b": 0.6729,
     "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-07-05 12:36"
+    "aggiornamento": "2026-07-05 12:47"
   },
   "storico": [
     {
