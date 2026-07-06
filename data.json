@@ -7,7 +7,7 @@
     "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-07-06 09:46"
+    "aggiornamento": "2026-07-06 19:31"
   },
   "storico": [
     {
@@ -2384,8 +2384,8 @@
       "cambio": 1.144,
       "diesel": {
         "mimit": 1.905,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.895,
+        "bianche": 1.893,
         "arturo": 1.56,
         "mancia": 0.345,
         "breakdown": {
@@ -2400,8 +2400,8 @@
       },
       "benzina": {
         "mimit": 1.826,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.824,
+        "bianche": 1.81,
         "arturo": 1.56,
         "mancia": 0.266,
         "breakdown": {
@@ -2421,8 +2421,8 @@
       "cambio": 1.144,
       "diesel": {
         "mimit": 1.927,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.915,
+        "bianche": 1.901,
         "arturo": 1.56,
         "mancia": 0.367,
         "breakdown": {
@@ -2437,8 +2437,8 @@
       },
       "benzina": {
         "mimit": 1.847,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.834,
+        "bianche": 1.821,
         "arturo": 1.56,
         "mancia": 0.287,
         "breakdown": {
