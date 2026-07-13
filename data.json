@@ -7,7 +7,7 @@
     "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-07-13 08:37"
+    "aggiornamento": "2026-07-13 18:48"
   },
   "storico": [
     {
@@ -2606,8 +2606,8 @@
       "cambio": 1.1419,
       "diesel": {
         "mimit": 1.989,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.97,
+        "bianche": 1.949,
         "arturo": 1.651,
         "mancia": 0.338,
         "breakdown": {
@@ -2622,8 +2622,8 @@
       },
       "benzina": {
         "mimit": 1.883,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.872,
+        "bianche": 1.865,
         "arturo": 1.651,
         "mancia": 0.232,
         "breakdown": {
@@ -2643,8 +2643,8 @@
       "cambio": 1.1419,
       "diesel": {
         "mimit": 1.992,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.978,
+        "bianche": 1.96,
         "arturo": 1.651,
         "mancia": 0.341,
         "breakdown": {
@@ -2659,8 +2659,8 @@
       },
       "benzina": {
         "mimit": 1.885,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.876,
+        "bianche": 1.869,
         "arturo": 1.651,
         "mancia": 0.234,
         "breakdown": {
@@ -2680,8 +2680,8 @@
       "cambio": 1.144,
       "diesel": {
         "mimit": 1.993,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.983,
+        "bianche": 1.982,
         "arturo": 1.666,
         "mancia": 0.327,
         "breakdown": {
@@ -2696,8 +2696,8 @@
       },
       "benzina": {
         "mimit": 1.885,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.881,
+        "bianche": 1.873,
         "arturo": 1.666,
         "mancia": 0.219,
         "breakdown": {
