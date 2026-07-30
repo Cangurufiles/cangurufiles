@@ -3169,7 +3169,7 @@
           "materia_prima": 0.4743,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0.6729,
+          "accisa": 0.5329,
           "ebitda": 0.0543,
           "iva": 0.3105,
           "prezzo_equo": 1.722
@@ -3206,7 +3206,7 @@
           "materia_prima": 0.4816,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0.6729,
+          "accisa": 0.5329,
           "ebitda": 0.0546,
           "iva": 0.3122,
           "prezzo_equo": 1.731
@@ -3243,7 +3243,7 @@
           "materia_prima": 0.5063,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
-          "accisa": 0.6729,
+          "accisa": 0.5329,
           "ebitda": 0.0556,
           "iva": 0.3178,
           "prezzo_equo": 1.763
