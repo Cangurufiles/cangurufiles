@@ -1,13 +1,13 @@
 {
   "config": {
     "versione": "4.0",
-    "accisa_d": 0.6729,
-    "scadenza_d": "Nessuna",
+    "accisa_d": 0.5329,
+    "scadenza_d": "06/08/2026",
     "accisa_b": 0.6729,
     "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-07-30 17:13"
+    "aggiornamento": "2026-07-30 19:35"
   },
   "storico": [
     {
@@ -3163,16 +3163,16 @@
         "mimit": 2.183,
         "eni": 2.158,
         "bianche": 2.187,
-        "arturo": 1.722,
-        "mancia": 0.461,
+        "arturo": 1.544,
+        "mancia": 0.639,
         "breakdown": {
           "materia_prima": 0.4743,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.5329,
-          "ebitda": 0.0543,
-          "iva": 0.3105,
-          "prezzo_equo": 1.722
+          "ebitda": 0.0487,
+          "iva": 0.2785,
+          "prezzo_equo": 1.544
         }
       },
       "benzina": {
@@ -3200,16 +3200,16 @@
         "mimit": 2.076,
         "eni": 2.112,
         "bianche": 2.192,
-        "arturo": 1.731,
-        "mancia": 0.345,
+        "arturo": 1.554,
+        "mancia": 0.522,
         "breakdown": {
           "materia_prima": 0.4816,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.5329,
-          "ebitda": 0.0546,
-          "iva": 0.3122,
-          "prezzo_equo": 1.731
+          "ebitda": 0.049,
+          "iva": 0.2802,
+          "prezzo_equo": 1.554
         }
       },
       "benzina": {
@@ -3237,16 +3237,16 @@
         "mimit": 2.068,
         "eni": 2.025,
         "bianche": 2.104,
-        "arturo": 1.763,
-        "mancia": 0.305,
+        "arturo": 1.585,
+        "mancia": 0.483,
         "breakdown": {
           "materia_prima": 0.5063,
           "raffinazione": 0.08,
           "distribuzione": 0.13,
           "accisa": 0.5329,
-          "ebitda": 0.0556,
-          "iva": 0.3178,
-          "prezzo_equo": 1.763
+          "ebitda": 0.05,
+          "iva": 0.2858,
+          "prezzo_equo": 1.585
         }
       },
       "benzina": {
