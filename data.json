@@ -7,7 +7,7 @@
     "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-08-07 06:54"
+    "aggiornamento": "2026-08-07 08:20"
   },
   "storico": [
     {
@@ -3531,8 +3531,8 @@
       "cambio": 1.1527,
       "diesel": {
         "mimit": 2.089,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 2.076,
+        "bianche": 2.097,
         "arturo": 1.522,
         "mancia": 0.567,
         "breakdown": {
@@ -3547,8 +3547,8 @@
       },
       "benzina": {
         "mimit": 1.996,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 1.999,
+        "bianche": 1.987,
         "arturo": 1.699,
         "mancia": 0.297,
         "breakdown": {
