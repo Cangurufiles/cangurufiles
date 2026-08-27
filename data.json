@@ -2,12 +2,12 @@
   "config": {
     "versione": "4.0",
     "accisa_d": 0.5329,
-    "scadenza_d": "25/08/2026",
+    "scadenza_d": "05/09/2026",
     "accisa_b": 0.6729,
     "scadenza_b": "Nessuna"
   },
   "meta": {
-    "aggiornamento": "2026-08-26 06:22"
+    "aggiornamento": "2026-08-27 09:47"
   },
   "storico": [
     {
@@ -4197,8 +4197,8 @@
       "cambio": 1.166,
       "diesel": {
         "mimit": 2.137,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 2.133,
+        "bianche": 2.125,
         "arturo": 1.568,
         "mancia": 0.569,
         "breakdown": {
@@ -4213,8 +4213,8 @@
       },
       "benzina": {
         "mimit": 2.016,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 2.02,
+        "bianche": 2.005,
         "arturo": 1.745,
         "mancia": 0.271,
         "breakdown": {
@@ -4234,8 +4234,8 @@
       "cambio": 1.1666,
       "diesel": {
         "mimit": 2.142,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 2.138,
+        "bianche": 2.128,
         "arturo": 1.53,
         "mancia": 0.612,
         "breakdown": {
@@ -4250,8 +4250,8 @@
       },
       "benzina": {
         "mimit": 2.021,
-        "eni": 0.0,
-        "bianche": 0.0,
+        "eni": 2.024,
+        "bianche": 2.007,
         "arturo": 1.707,
         "mancia": 0.314,
         "breakdown": {
@@ -4262,6 +4262,43 @@
           "ebitda": 0.0538,
           "iva": 0.3079,
           "prezzo_equo": 1.707
+        }
+      }
+    },
+    {
+      "data": "2026-08-27",
+      "brent": 86.92,
+      "cambio": 1.1646,
+      "diesel": {
+        "mimit": 2.14,
+        "eni": 2.14,
+        "bianche": 2.13,
+        "arturo": 1.538,
+        "mancia": 0.602,
+        "breakdown": {
+          "materia_prima": 0.4694,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.5329,
+          "ebitda": 0.0485,
+          "iva": 0.2774,
+          "prezzo_equo": 1.538
+        }
+      },
+      "benzina": {
+        "mimit": 2.022,
+        "eni": 2.027,
+        "bianche": 2.009,
+        "arturo": 1.716,
+        "mancia": 0.306,
+        "breakdown": {
+          "materia_prima": 0.4694,
+          "raffinazione": 0.08,
+          "distribuzione": 0.13,
+          "accisa": 0.6729,
+          "ebitda": 0.0541,
+          "iva": 0.3094,
+          "prezzo_equo": 1.716
         }
       }
     }
